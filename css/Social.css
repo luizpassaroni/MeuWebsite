@@ -135,22 +135,35 @@ li {
 
 
 @media screen and (max-width: 768px) {
-    .menu li {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    .links {
-        position: static;
-        margin-top: 20px;
-    }
-
-    .contato {
-        display: flex;
+    .header, .menu, .forms {
         flex-direction: column;
-        justify-content: center;
+        width: 100%;
         align-items: center;
+    }
+
+    .Minha-logo {
+        height: 100px; 
+    }
+
+    .menu li a {
+        width: auto; 
+    }
+
+    form {
+        width: 90%; 
+    }
+
+    input[type="submit"], input[type="text"], textarea, a {
+        font-size: 1em; 
     }
 }
 
+@media screen and (max-width: 480px) {
+    .menu li {
+        padding: 5px; 
+    }
 
+    .Minha-logo {
+        height: 80px;
+    }
+}
