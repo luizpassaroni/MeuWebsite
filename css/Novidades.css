@@ -1,0 +1,94 @@
+body {
+  font-family: Arial;
+  background-color: rgb(45, 64, 89);
+  color: rgb(255, 255, 255);
+  text-align: center;
+  margin: 0;
+}
+
+
+a {
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+a:visited {
+  color: #ccc;
+}
+
+
+
+.Novidades ul {
+  border: 2px solid rgb(50, 130, 184);
+  background-color: rgb(15, 76, 117);
+  border-radius: 30px;
+  padding: 10px;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  list-style-type: none;
+  text-align: left; 
+  margin-left: auto; 
+  margin-right: auto; 
+  padding-left: 0; 
+  width: 500px;
+}
+
+.Novidades li{
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.Minha-logo {
+  height: 200px;
+  border-radius: 100px;
+}
+
+.menu {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+}
+
+.menu li {
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .menu {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .menu li {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .Novidades ul {
+    width: 300px;
+
+  }
+}
