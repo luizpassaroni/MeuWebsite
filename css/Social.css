@@ -12,7 +12,7 @@ h2 {
 .Minha-logo {
     height: 200px;
     border-radius: 100px;
-}
+  }
 
 .container {
     display: flex; 
@@ -163,7 +163,5 @@ li {
         padding: 5px; 
     }
 
-    .Minha-logo {
-        height: 80px;
-    }
+   
 }
