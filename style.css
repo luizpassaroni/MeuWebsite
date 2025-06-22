@@ -684,3 +684,11 @@ body {
     flex-shrink: 0
 }
 
+
+#resume-name + p {
+    text-align: justify;
+}
+
+#about-section + div {
+    text-align: justify;
+}
