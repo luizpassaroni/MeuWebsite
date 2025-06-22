@@ -692,3 +692,9 @@ body {
 #about-section + div {
     text-align: justify;
 }
+.noselect {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
