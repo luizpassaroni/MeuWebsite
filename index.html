@@ -23,36 +23,35 @@
 </head>
 <body class="min-h-screen flex flex-col">
     <style>
-    /* 1. CONFIGURAÇÕES GERAIS */
-    * { box-sizing: border-box; }
-    body { margin: 0; padding: 0; }
-
+    /* 1. CONFIGURAÇÕES VISUAIS DA FILA */
     #fila-overlay {
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        background-color: rgba(240, 242, 245, 1);
-        z-index: 999999;
+        background-color: rgba(240, 242, 245, 1); /* Fundo cinza executivo */
+        z-index: 999999; /* Garante que fique em cima de tudo */
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 20px;
+        box-sizing: border-box;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     .fila-card {
         background: #fff;
         width: 100%;
-        max-width: 420px; /* Um pouco mais largo pra caber a barra */
+        max-width: 420px;
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         padding: 40px 30px;
         text-align: center;
-        border-top: 5px solid #2c3e50;
+        border-top: 5px solid #2c3e50; /* Azul Midnight */
     }
 
-    h2 { font-size: 20px; color: #1a1a1a; margin: 0 0 10px 0; font-weight: 600; }
-    p.descricao { font-size: 14px; color: #666; margin-bottom: 25px; line-height: 1.5; }
+    /* Títulos e Textos */
+    .fila-card h2 { font-size: 20px; color: #1a1a1a; margin: 0 0 10px 0; font-weight: 600; }
+    .fila-card p.descricao { font-size: 14px; color: #666; margin-bottom: 25px; line-height: 1.5; }
 
     /* 2. BARRA DE PROGRESSO E BONEQUINHO */
     .trilho-barra {
@@ -60,25 +59,25 @@
         height: 8px;
         background-color: #e9ecef;
         border-radius: 10px;
-        margin: 40px 0 10px 0; /* Espaço para o boneco andar em cima */
+        margin: 40px 0 10px 0;
         position: relative;
     }
 
     .barra-preenchimento {
         height: 100%;
-        background-color: #2c3e50; /* Cor da barra */
+        background-color: #2c3e50;
         border-radius: 10px;
-        width: 0%; /* Começa zerada */
-        transition: width 0.5s ease; /* Animação suave */
+        width: 0%;
+        transition: width 0.5s ease;
         position: relative;
     }
 
     .bonequinho-walker {
         position: absolute;
-        right: -10px; /* Fica na ponta da barra */
-        top: -32px;   /* Fica em cima da barra */
+        right: -10px;
+        top: -32px;
         font-size: 28px;
-        animation: andar 0.6s infinite ease-in-out; /* O pulinho do andar */
+        animation: andar 0.6s infinite ease-in-out; 
     }
 
     /* 3. NÚMEROS E DADOS */
@@ -101,15 +100,15 @@
     }
     
     .legenda { font-size: 11px; text-transform: uppercase; color: #999; font-weight: 700; }
-    
     .rodape-seguro { margin-top: 25px; font-size: 11px; color: #999; }
 
-    /* ANIMAÇÃO DO BONECO ANDANDO (PULINHO) */
+    /* ANIMAÇÃO: Apenas o pulinho (sem inverter o lado) */
     @keyframes andar {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-5px); }
     }
 
+    /* Responsividade */
     @media (max-width: 350px) {
         .fila-card { padding: 20px 15px; }
         .numero-destaque { font-size: 20px; }
@@ -118,13 +117,12 @@
 
 <div id="fila-overlay">
     <div class="fila-card">
-        
         <h2>Sala de Espera Virtual</h2>
         <p class="descricao">Aguarde sua vez. Você será redirecionado automaticamente.</p>
         
         <div class="trilho-barra">
             <div class="barra-preenchimento" id="barra-progresso">
-                <div class="bonequinho-walker">🚶</div> 
+                <div class="bonequinho-walker">🚶‍➡️</div> 
             </div>
         </div>
 
@@ -146,25 +144,28 @@
 </div>
 
 <script>
-    // === LÓGICA COM BARRA DE PROGRESSO ===
+    // === LÓGICA DA FILA (Sem memória = Reseta no F5) ===
     
-    let pessoasInicial = Math.floor(Math.random() * 150) + 100; // Guarda o total inicial para calcular a %
-    let pessoasAtual = pessoasInicial; // Começa igual
+    // Inicia aleatoriamente entre 100 e 250 pessoas
+    let pessoasInicial = Math.floor(Math.random() * 150) + 100;
+    let pessoasAtual = pessoasInicial;
     
     const elPessoas = document.getElementById('qtd-pessoas');
     const elTempo = document.getElementById('tempo-restante');
     const elBarra = document.getElementById('barra-progresso');
     const elOverlay = document.getElementById('fila-overlay');
 
+    // Inicia imediatamente
     processarFila();
 
     function processarFila() {
         if (pessoasAtual <= 0) {
-            // Acabou a fila
+            // Fim da fila
             elPessoas.innerText = "0";
             elTempo.innerText = "Agora!";
-            elBarra.style.width = "100%"; // Barra cheia
+            elBarra.style.width = "100%";
             
+            // Some com a tela
             setTimeout(() => {
                 elOverlay.style.opacity = '0';
                 elOverlay.style.transition = 'opacity 0.6s ease';
@@ -184,13 +185,11 @@
         let textoSeg = s < 10 ? "0" + s : s;
         elTempo.innerText = `${textoMin}:${textoSeg}`;
 
-        // 3. ATUALIZA A BARRA E O BONECO
-        // A lógica é: (Pessoas que já saíram / Total Inicial) * 100
+        // 3. Atualiza Barra e Boneco
         let pessoasQueSairam = pessoasInicial - pessoasAtual;
         let porcentagem = (pessoasQueSairam / pessoasInicial) * 100;
         
-        // Garante que a barra nunca fique menor que 5% pro boneco não sumir na esquerda
-        if (porcentagem < 5) porcentagem = 5; 
+        if (porcentagem < 5) porcentagem = 5; // Mínimo pra aparecer o boneco
         elBarra.style.width = `${porcentagem}%`;
 
         // 4. Próximo passo
