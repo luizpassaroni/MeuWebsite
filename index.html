@@ -8,45 +8,7 @@
     <title>Dev Passaroni</title>
     <meta name="description" content="Atualmente, curso Ciência da Computação e tenho grande interesse em desenvolvimento de software, especialmente para plataformas mobile. Estou sempre buscando aprimorar minhas habilidades e explorar novas tecnologias. Tenho experiência com projetos acadêmicos e desafios práticos, desenvolvendo aplicações interativas e explorando diferentes frameworks. Aberto a oportunidades de estágio na área de tecnologia!">
     <meta name="google-adsense-account" content="ca-pub-2699637004091628">
-
-   
 </head>
-    <script>
-    // Mapeia o texto original da skill para a versão "zueira"
-    const skillPranks = {
-        "Swift": "Zerar tutoriais do YouTube",
-        "Trabalho em equipe": "Mergear sem conflito (mentira)",
-        "Capacidade de adaptação": "Programar chorando",
-        "Monitoramento proativo": "F5 no LinkedIn a cada 5min",
-        "Pacote office": "Reiniciar o roteador"
-    };
-
-    // Pega todas as tags de skill
-    const skillTags = document.querySelectorAll('#skills-section + ul li div');
-
-    function prankSkill() {
-        // Escolhe uma tag aleatória
-        const randomTag = skillTags[Math.floor(Math.random() * skillTags.length)];
-        const originalText = randomTag.innerText;
-
-        // Verifica se temos uma piada para essa skill
-        if (skillPranks[originalText]) {
-            // Muda para a piada
-            randomTag.innerText = skillPranks[originalText];
-            // Muda a cor para vermelho para destacar (opcional, usando classes do Tailwind)
-            randomTag.classList.replace('bg-primary/80', 'bg-red-500');
-
-            // Espera 2 segundos e volta ao normal
-            setTimeout(() => {
-                randomTag.innerText = originalText;
-                 randomTag.classList.replace('bg-red-500', 'bg-primary/80');
-            }, 2000);
-        }
-    }
-
-    // Executa a pegadinha a cada 10 segundos (para não ficar chato)
-    setInterval(prankSkill, 10000);
-</script>
 <body class="min-h-screen flex flex-col">
     <main class="flex-1 flex flex-col">
         <section class="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4 my-8 px-4" aria-label="Resume Content">
@@ -70,9 +32,9 @@
                                 <path d="M9 18c-4.51 2-5-2-7-2"></path>
                             </svg>
                         </a>
-                      <a href="https://x.com/luizpassaroni" aria-label="X" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground size-8 noselect" style="font-family: 'Arial Black', Arial, sans-serif; font-size: 24px; line-height: 1; display: flex; align-items: center; justify-content: center;">
-  𝕏
-</a>
+                        <a href="https://x.com/luizpassaroni" aria-label="X" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground size-8 noselect" style="font-family: 'Arial Black', Arial, sans-serif; font-size: 24px; line-height: 1; display: flex; align-items: center; justify-content: center;">
+                            𝕏
+                        </a>
                         <a href="https://linkedin.com/in/luizpassaroni" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground size-8">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin size-4" aria-hidden="true">
                                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
@@ -84,7 +46,8 @@
                 </div>
                 <span class="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-28" aria-hidden="true">
                     <img class="aspect-square h-full w-full" alt="Foto de perfil de Luiz Felipe Passaroni" src="perfil.jpeg">
-            </span></header>
+                </span>
+            </header>
             <div class="flex flex-col gap-6">
                 
                 <section class="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
@@ -208,5 +171,55 @@
             </div>
         </section>
     </main>
+
+    <script>
+        // Mapeamento das Skills Originais -> Versão "Sincera"
+        const skillPranks = {
+            "Swift": "Copiar do Stack Overflow",
+            "Trabalho em equipe": "Mergear sem conflito (mentira)",
+            "Capacidade de adaptação": "Programar chorando",
+            "Monitoramento proativo": "F5 no LinkedIn a cada 5min",
+            "Pacote office": "Reiniciar o roteador",
+            "Desenvolvimento mobile": "Rodar no meu celular funcionou",
+            "Projetos acadêmicos": "Feito na noite anterior",
+            "Desenvolvimento de sistemas": "Consertar impressora da família"
+        };
+
+        // Seleciona todas as tags de skills usando o seletor específico da sua estrutura
+        // Procuramos divs dentro de LIs dentro da UL com aria-label="List of skills"
+        const skillTags = document.querySelectorAll('ul[aria-label="List of skills"] li div');
+
+        function prankSkill() {
+            if(skillTags.length === 0) return;
+
+            // Escolhe uma tag aleatória da lista
+            const randomTag = skillTags[Math.floor(Math.random() * skillTags.length)];
+            const originalText = randomTag.innerText;
+
+            // Verifica se existe uma piada para o texto atual
+            if (skillPranks[originalText]) {
+                
+                // Salva a cor original (classes do Tailwind)
+                const originalClasses = "inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none";
+                
+                // Troca o texto
+                randomTag.innerText = skillPranks[originalText];
+                
+                // Muda a cor para vermelho para chamar atenção (alterando classes do Tailwind inline)
+                // Removemos bg-primary/80 e colocamos bg-red-600
+                randomTag.className = originalClasses.replace("bg-primary/80", "bg-red-600").replace("hover:bg-primary/60", "hover:bg-red-500");
+
+                // Espera 3 segundos e volta ao normal
+                setTimeout(() => {
+                    randomTag.innerText = originalText;
+                    randomTag.className = originalClasses;
+                }, 3000);
+            }
+        }
+
+        // Executa a função a cada 6 segundos (6000 milissegundos)
+        // Você pode diminuir esse número para acontecer mais rápido
+        setInterval(prankSkill, 6000);
+    </script>
 </body>
 </html>
