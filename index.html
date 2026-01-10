@@ -11,6 +11,42 @@
 
    
 </head>
+    <script>
+    // Mapeia o texto original da skill para a versão "zueira"
+    const skillPranks = {
+        "Swift": "Zerar tutoriais do YouTube",
+        "Trabalho em equipe": "Mergear sem conflito (mentira)",
+        "Capacidade de adaptação": "Programar chorando",
+        "Monitoramento proativo": "F5 no LinkedIn a cada 5min",
+        "Pacote office": "Reiniciar o roteador"
+    };
+
+    // Pega todas as tags de skill
+    const skillTags = document.querySelectorAll('#skills-section + ul li div');
+
+    function prankSkill() {
+        // Escolhe uma tag aleatória
+        const randomTag = skillTags[Math.floor(Math.random() * skillTags.length)];
+        const originalText = randomTag.innerText;
+
+        // Verifica se temos uma piada para essa skill
+        if (skillPranks[originalText]) {
+            // Muda para a piada
+            randomTag.innerText = skillPranks[originalText];
+            // Muda a cor para vermelho para destacar (opcional, usando classes do Tailwind)
+            randomTag.classList.replace('bg-primary/80', 'bg-red-500');
+
+            // Espera 2 segundos e volta ao normal
+            setTimeout(() => {
+                randomTag.innerText = originalText;
+                 randomTag.classList.replace('bg-red-500', 'bg-primary/80');
+            }, 2000);
+        }
+    }
+
+    // Executa a pegadinha a cada 10 segundos (para não ficar chato)
+    setInterval(prankSkill, 10000);
+</script>
 <body class="min-h-screen flex flex-col">
     <main class="flex-1 flex flex-col">
         <section class="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4 my-8 px-4" aria-label="Resume Content">
