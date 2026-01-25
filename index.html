@@ -2,89 +2,102 @@
 <html lang="pt" style="display: none !important; opacity: 0 !important;">
 
 <head>
-  <style id="security-curtain">
+  <style id="security-styles">
+    /* A. Cortina Inicial (Anti-Archive) */
     html, body {
       display: none !important;
       opacity: 0 !important;
       height: 100%;
       margin: 0;
       background-color: #ffffff;
+      transition: filter 0.3s ease, opacity 0.3s ease; /* Transição suave */
+    }
+
+    /* B. Classe de Privacidade (Efeito Snapchat) */
+    /* Ativada quando sai da janela ou tenta printar */
+    .privacy-blur {
+      filter: blur(15px) !important;
+      opacity: 0.3 !important;
+      pointer-events: none; /* Impede cliques enquanto borrado */
+      user-select: none; /* Impede seleção enquanto borrado (opcional) */
+    }
+
+    /* C. Bloqueio de Impressão (Ctrl+P ou Salvar PDF) */
+    @media print {
+      html, body { display: none !important; }
     }
   </style>
 
   <script>
     (function() {
-      // Configuração
+      // --- CONFIGURAÇÃO ---
       var officialDomain = 'luizpassaroni.com';
       var allowedHosts = [officialDomain, 'localhost', '127.0.0.1'];
       var currentHost = window.location.hostname;
       var isAllowed = false;
 
-      // Validação do Domínio
+      // --- PARTE A: ANTI-ARQUIVAMENTO (Wayback/Archive.today) ---
       for (var i = 0; i < allowedHosts.length; i++) {
         if (currentHost.includes(allowedHosts[i])) {
           isAllowed = true;
           break;
         }
       }
+      var isArchive = window.__wm || currentHost.includes('archive') || currentHost.includes('wayback') || currentHost.includes('googleusercontent');
 
-      // Detecção de Arquivadores
-      var isArchive = window.__wm || 
-                      currentHost.includes('archive') || 
-                      currentHost.includes('wayback') || 
-                      currentHost.includes('googleusercontent');
-
-      // --- AÇÃO ---
       if (isAllowed && !isArchive) {
-        // ✅ É VOCÊ: Remove todas as travas e mostra o site
+        // ✅ É VOCÊ: Libera o site
         document.addEventListener('DOMContentLoaded', function() {
-          // Remove a invisibilidade da raiz
           document.documentElement.style.removeProperty('display');
           document.documentElement.style.removeProperty('opacity');
-          
-          // Remove a cortina de estilo
-          var curtain = document.getElementById('security-curtain');
-          if (curtain) curtain.remove();
+          document.body.style.display = 'block'; // Garante display
+          document.body.style.opacity = '1';
         });
       } else {
-        // ⛔ É ROBÔ: O site continua invisível (display: none no HTML)
-        // Tentamos mostrar o aviso visual caso o JS rode
+        // ⛔ É ROBÔ: Mostra Bloqueio
         try { window.stop(); } catch (e) {}
-        
-        var blockedPageHTML = `
-          <div style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #ffffff;
-            color: #1d1d1f;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-          ">
-            <div style="max-width: 500px; padding: 40px;">
-              <div style="font-size: 64px; margin-bottom: 24px;">🚫</div>
-              <h1 style="margin: 0 0 16px 0; font-size: 32px; font-weight: 700; color: #1d1d1f; letter-spacing: -0.5px;">
-                Archiving Not Permitted
-              </h1>
-              <p style="font-size: 19px; line-height: 1.5; color: #86868b; font-weight: 400;">
-                The owner of this website does not authorize archiving or caching.
-              </p>
-              <p style="margin-top: 30px; font-size: 14px; color: #d2d2d7; font-family: monospace;">
-                ERR_ACCESS_DENIED
-              </p>
-            </div>
-          </div>
-        `;
-        
-        // Força a exibição do aviso substituindo o HTML invisível
-        document.documentElement.innerHTML = blockedPageHTML;
+        document.documentElement.innerHTML = 
+          '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:-apple-system,sans-serif;text-align:center;color:#333;">' +
+          '<h1>🚫 Archiving Not Permitted</h1>' +
+          '<p>The owner of this website does not authorize archiving.</p>' +
+          '</div>';
         document.documentElement.style.display = 'block';
         document.documentElement.style.opacity = '1';
+        return; // Para o resto do script
       }
+
+      // --- PARTE B: ANTI-PRINT (EFEITO SNAPCHAT) ---
+      
+      // 1. Tecla PrintScreen (Detecta o aperto físico)
+      document.addEventListener('keyup', function(e) {
+        if (e.key === 'PrintScreen') {
+          // Pisca a tela para estragar o print
+          document.body.style.display = 'none';
+          alert('Screenshots are disabled for privacy.'); // Opcional: trava a tela com alerta
+          setTimeout(function() { document.body.style.display = 'block'; }, 100);
+        }
+      });
+
+      // 2. Proteção de Foco (Detecta Snipping Tool/Troca de Aba)
+      // Se o usuário clicar fora (para abrir o recortar), o site borra.
+      window.addEventListener('blur', function() {
+        document.body.classList.add('privacy-blur');
+        document.title = '🔒 Protegido'; // Muda o nome da aba
+      });
+
+      window.addEventListener('focus', function() {
+        document.body.classList.remove('privacy-blur');
+        document.title = 'Dev Passaroni'; // Volta o nome normal
+      });
+
+      // 3. Bloqueio de Atalhos de Impressão (Ctrl+P / Cmd+P)
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+      });
+
     })();
   </script>
 
@@ -371,38 +384,4 @@
 
             <li>
 
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Desenvolvimento mobile">Desenvolvimento mobile</div>
-
-            </li>
-
-            <li>
-
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Desenvolvimento de sistemas">Desenvolvimento de sistemas</div>
-
-            </li>
-
-            <li>
-
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Projetos acadêmicos">Projetos acadêmicos</div>
-
-            </li>
-
-            <li>
-
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Pacote office">Pacote office</div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-      </div>
-
-    </section>
-
-  </main>
-
-</body>
-
-</html>
+              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill
