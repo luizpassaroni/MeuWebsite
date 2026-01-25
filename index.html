@@ -1,5 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt"> <head>
+<html lang="pt">
+
+<head>
+  <style>
+    /* Classe para o efeito "Snapchat" (Blur de privacidade) */
+    .privacy-blur {
+      filter: blur(20px) !important;
+      opacity: 0.1 !important;
+      background: #000 !important;
+      pointer-events: none;
+      user-select: none;
+      overflow: hidden;
+    }
+    
+    /* Esconde na impressão (Ctrl+P ou Salvar como PDF) */
+    @media print { 
+      html, body { display: none !important; } 
+    }
+  </style>
+
   <style id="security-curtain">
     html, body {
       display: none !important; /* Começa invisível */
@@ -7,29 +26,17 @@
       height: 100%;
       margin: 0;
       background-color: #ffffff;
-      transition: filter 0.3s ease, opacity 0.3s ease;
     }
-
-    /* Classe para o efeito "Snapchat" (Blur de privacidade) */
-    .privacy-blur {
-      filter: blur(12px) !important;
-      opacity: 0.4 !important;
-      pointer-events: none;
-    }
-    
-    /* Esconde na impressão (Ctrl+P) */
-    @media print { html, body { display: none !important; } }
   </style>
 
   <script>
     (function() {
       // --- CONFIGURAÇÃO ---
-      // Adicionei o github.io para você conseguir testar antes do domínio final propagar
       var allowedHosts = ['luizpassaroni.com', 'luizpassaroni.github.io', 'localhost', '127.0.0.1'];
       var currentHost = window.location.hostname;
       var isAllowed = false;
 
-      // 1. Verifica se o domínio atual está na lista
+      // 1. Verifica Domínio
       for (var i = 0; i < allowedHosts.length; i++) {
         if (currentHost.includes(allowedHosts[i])) {
           isAllowed = true;
@@ -37,29 +44,25 @@
         }
       }
 
-      // 2. Verifica se é um arquivador conhecido
+      // 2. Verifica Arquivador
       var isArchive = window.__wm || 
                       currentHost.includes('archive') || 
                       currentHost.includes('wayback') || 
                       currentHost.includes('googleusercontent');
 
-      // --- AÇÃO ---
+      // --- AÇÃO INICIAL ---
       if (isAllowed && !isArchive) {
-        // ✅ É VOCÊ: Libera o site imediatamente
+        // ✅ É VOCÊ: Libera o site
         document.addEventListener('DOMContentLoaded', function() {
-          // Remove a cortina
           var curtain = document.getElementById('security-curtain');
-          if (curtain) curtain.remove();
+          if (curtain) curtain.remove(); // Remove só a cortina, mantém o CSS de proteção
           
-          // Garante que o corpo apareça
           document.body.style.display = 'block';
           document.body.style.opacity = '1';
         });
       } else {
-        // ⛔ BLOQUEADO: Mostra o motivo (não deixa tela branca)
+        // ⛔ BLOQUEADO (Lógica Anti-Wayback)
         try { window.stop(); } catch (e) {}
-        
-        // Remove a cortina antiga para mostrar a mensagem de erro
         window.addEventListener('load', function(){
             var curtain = document.getElementById('security-curtain');
             if (curtain) curtain.remove();
@@ -67,42 +70,43 @@
             document.body.innerHTML = 
               '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;text-align:center;color:#333;padding:20px;">' +
               '<div style="font-size:40px;">🚫</div>' +
-              '<h1>Acesso Negado / Access Denied</h1>' +
-              '<p>Este domínio não está autorizado a exibir este conteúdo.</p>' +
-              '<p style="background:#f0f0f0;padding:10px;border-radius:5px;font-family:monospace;">Domínio detectado: <strong>' + currentHost + '</strong></p>' +
+              '<h1>Access Denied</h1>' +
+              '<p>Archiving not permitted.</p>' +
               '</div>';
             document.body.style.display = 'block';
             document.body.style.opacity = '1';
         });
-        return; // Para o resto do script aqui
+        return; 
       }
 
-      // --- EFEITOS VISUAIS (ANTI-PRINT / SNAPCHAT) ---
+      // --- PROTEÇÃO CONTRA PRINTS (AGORA FUNCIONA) ---
       
-      // A. Tecla PrintScreen (Pisca a tela)
-      document.addEventListener('keyup', function(e) {
-        if (e.key === 'PrintScreen') {
-          document.body.style.display = 'none';
-          alert('Screenshots desativados por privacidade.'); 
-          setTimeout(function() { document.body.style.display = 'block'; }, 100);
-        }
-      });
-
-      // B. Saiu da aba/janela? Borra a tela
+      // A. Saiu da aba/janela? (Snipping Tool / Alt-Tab) -> Fica PRETO e BORRADO
       window.addEventListener('blur', function() {
         document.body.classList.add('privacy-blur');
         document.title = '🔒 Protegido';
       });
 
+      // B. Voltou? -> Restaura
       window.addEventListener('focus', function() {
         document.body.classList.remove('privacy-blur');
         document.title = 'Dev Passaroni';
       });
 
-      // C. Bloqueio Ctrl+P
+      // C. Tecla PrintScreen (Tenta piscar)
+      document.addEventListener('keyup', function(e) {
+        if (e.key === 'PrintScreen') {
+          document.body.style.opacity = '0';
+          setTimeout(function() { document.body.style.opacity = '1'; }, 300);
+          alert('Screenshots bloqueados.'); 
+        }
+      });
+
+      // D. Bloqueio Ctrl+P (Impressão)
       document.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
           e.preventDefault();
+          e.stopImmediatePropagation();
         }
       });
 
