@@ -3,26 +3,16 @@
 <html lang="pt">
 
 <head>
-  <style id="security-curtain">
-    html, body {
-      display: none !important;
-      opacity: 0 !important;
-      height: 100%;
-      margin: 0;
-      background-color: #000;
-    }
-  </style>
-
   <script>
     (function() {
-      // Configuration
+      // Configuração dos domínios permitidos
       var officialDomain = 'luizpassaroni.com';
       var allowedHosts = [officialDomain, 'localhost', '127.0.0.1'];
       
       var currentHost = window.location.hostname;
       var isAllowed = false;
 
-      // Check if current host is allowed
+      // Verifica se está no domínio correto
       for (var i = 0; i < allowedHosts.length; i++) {
         if (currentHost.includes(allowedHosts[i])) {
           isAllowed = true;
@@ -30,16 +20,16 @@
         }
       }
 
-      // Check for known archivers
+      // Verifica se é um arquivador
       var isArchive = window.__wm || 
                       currentHost.includes('archive.org') || 
                       currentHost.includes('wayback') ||
                       currentHost.includes('googleusercontent') ||
                       currentHost.includes('archive.ph');
 
-      // --- DECISION LOGIC ---
+      // --- LÓGICA DE DECISÃO ---
       if (isAllowed && !isArchive) {
-        // ✅ Access Granted: Reveal site
+        // ✅ Acesso Permitido: Libera o site
         document.addEventListener('DOMContentLoaded', function() {
           var curtain = document.getElementById('security-curtain');
           if (curtain) curtain.remove();
@@ -47,7 +37,7 @@
           document.body.style.opacity = '1';
         });
       } else {
-        // ⛔ Access Denied: Show English Block Screen
+        // ⛔ Acesso Negado: Mostra aviso simplificado
         try { window.stop(); } catch (e) {} 
         
         var blockedPageHTML = `
@@ -57,42 +47,27 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background: linear-gradient(135deg, #1c1c1e 0%, #000000 100%);
-            color: #f2f2f7;
+            background-color: #ffffff;
+            color: #1d1d1f;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
           ">
             <div style="
-              background: rgba(255, 255, 255, 0.1);
+              max-width: 500px;
               padding: 40px;
-              border-radius: 20px;
-              backdrop-filter: blur(10px);
-              -webkit-backdrop-filter: blur(10px);
-              border: 1px solid rgba(255, 255, 255, 0.1);
-              max-width: 480px;
-              box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
             ">
-              <div style="font-size: 64px; margin-bottom: 20px;">🔒</div>
-              <h1 style="margin: 0 0 10px 0; font-size: 24px; font-weight: 600;">Content Protected</h1>
-              <p style="font-size: 16px; line-height: 1.5; color: #aeaeb2; margin-bottom: 30px;">
-                This archived version of the portfolio is not authorized.<br>
-                Please visit the official domain to view the latest projects.
+              <div style="font-size: 64px; margin-bottom: 24px;">🚫</div>
+              <h1 style="margin: 0 0 16px 0; font-size: 32px; font-weight: 700; color: #1d1d1f; letter-spacing: -0.5px;">
+                Archiving Not Permitted
+              </h1>
+              <p style="font-size: 19px; line-height: 1.5; color: #86868b; font-weight: 400;">
+                The owner of this website does not authorize archiving or caching.
               </p>
-              <a href="https://${officialDomain}" style="
-                display: inline-block;
-                background-color: #007aff;
-                color: white;
-                text-decoration: none;
-                padding: 12px 24px;
-                border-radius: 12px;
-                font-weight: 600;
-                font-size: 16px;
-                transition: background-color 0.2s;
-              ">
-                Visit luizpassaroni.com
-              </a>
+              <p style="margin-top: 30px; font-size: 14px; color: #d2d2d7; font-family: monospace;">
+                ERR_ACCESS_DENIED
+              </p>
             </div>
           </div>
         `;
