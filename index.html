@@ -3,6 +3,16 @@
 <html lang="pt">
 
 <head>
+  <style id="security-curtain">
+    html, body {
+      display: none !important;
+      opacity: 0 !important;
+      height: 100%;
+      margin: 0;
+      background-color: #ffffff;
+    }
+  </style>
+
   <script>
     (function() {
       // Configuração dos domínios permitidos
@@ -32,12 +42,12 @@
         // ✅ Acesso Permitido: Libera o site
         document.addEventListener('DOMContentLoaded', function() {
           var curtain = document.getElementById('security-curtain');
-          if (curtain) curtain.remove();
+          if (curtain) curtain.remove(); // Remove a cortina que adicionamos acima
           document.body.style.display = 'block';
           document.body.style.opacity = '1';
         });
       } else {
-        // ⛔ Acesso Negado: Mostra aviso simplificado
+        // ⛔ Acesso Negado: Mostra aviso
         try { window.stop(); } catch (e) {} 
         
         var blockedPageHTML = `
@@ -76,24 +86,14 @@
       }
     })();
   </script>
-    <link rel="icon" href="/favicon.png" type="image/png" />
 
-    <meta charset="utf-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="style.css">
-
-    <title>Dev Passaroni</title>
-
-    <meta name="description" content="Atualmente, curso Ciência da Computação e tenho grande interesse em desenvolvimento de software, especialmente para plataformas mobile. Estou sempre buscando aprimorar minhas habilidades e explorar novas tecnologias. Tenho experiência com projetos acadêmicos e desafios práticos, desenvolvendo aplicações interativas e explorando diferentes frameworks. Aberto a oportunidades de estágio na área de tecnologia!">
-
-    <meta name="google-adsense-account" content="ca-pub-2699637004091628">
-
-
-
-   
-
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <title>Dev Passaroni</title>
+  <meta name="description" content="Atualmente, curso Ciência da Computação e tenho grande interesse em desenvolvimento de software, especialmente para plataformas mobile. Estou sempre buscando aprimorar minhas habilidades e explorar novas tecnologias. Tenho experiência com projetos acadêmicos e desafios práticos, desenvolvendo aplicações interativas e explorando diferentes frameworks. Aberto a oportunidades de estágio na área de tecnologia!">
+  <meta name="google-adsense-account" content="ca-pub-2699637004091628">
 </head>
 
 <body class="min-h-screen flex flex-col">
