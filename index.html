@@ -2,26 +2,9 @@
 <html lang="pt">
 
 <head>
-  <style>
-    /* Classe para o efeito "Snapchat" (Blur de privacidade) */
-    .privacy-blur {
-      filter: blur(20px) !important;
-      opacity: 0.1 !important;
-      background: #000 !important;
-      pointer-events: none;
-      user-select: none;
-      overflow: hidden;
-    }
-    
-    /* Esconde na impressão (Ctrl+P ou Salvar como PDF) */
-    @media print { 
-      html, body { display: none !important; } 
-    }
-  </style>
-
   <style id="security-curtain">
     html, body {
-      display: none !important; /* Começa invisível */
+      display: none !important;
       opacity: 0 !important;
       height: 100%;
       margin: 0;
@@ -36,7 +19,7 @@
       var currentHost = window.location.hostname;
       var isAllowed = false;
 
-      // 1. Verifica Domínio
+      // 1. Verifica se o domínio é o seu
       for (var i = 0; i < allowedHosts.length; i++) {
         if (currentHost.includes(allowedHosts[i])) {
           isAllowed = true;
@@ -44,72 +27,41 @@
         }
       }
 
-      // 2. Verifica Arquivador
+      // 2. Verifica se é um arquivador (Wayback, Archive.today, Google Cache)
       var isArchive = window.__wm || 
                       currentHost.includes('archive') || 
                       currentHost.includes('wayback') || 
                       currentHost.includes('googleusercontent');
 
-      // --- AÇÃO INICIAL ---
+      // --- LÓGICA FINAL ---
       if (isAllowed && !isArchive) {
         // ✅ É VOCÊ: Libera o site
         document.addEventListener('DOMContentLoaded', function() {
           var curtain = document.getElementById('security-curtain');
-          if (curtain) curtain.remove(); // Remove só a cortina, mantém o CSS de proteção
+          if (curtain) curtain.remove();
           
           document.body.style.display = 'block';
           document.body.style.opacity = '1';
         });
       } else {
-        // ⛔ BLOQUEADO (Lógica Anti-Wayback)
+        // ⛔ É ARQUIVO: Mostra a tela de bloqueio
         try { window.stop(); } catch (e) {}
+        
         window.addEventListener('load', function(){
             var curtain = document.getElementById('security-curtain');
             if (curtain) curtain.remove();
             
             document.body.innerHTML = 
-              '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;text-align:center;color:#333;padding:20px;">' +
-              '<div style="font-size:40px;">🚫</div>' +
-              '<h1>Access Denied</h1>' +
-              '<p>Archiving not permitted.</p>' +
+              '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:-apple-system,sans-serif;text-align:center;color:#333;padding:20px;">' +
+              '<div style="font-size:60px;margin-bottom:20px;">🚫</div>' +
+              '<h1 style="margin:0;font-size:32px;font-weight:700;">Archiving Not Permitted</h1>' +
+              '<p style="font-size:18px;color:#666;margin-top:10px;">The owner of this website does not authorize archiving.</p>' +
+              '<p style="margin-top:30px;font-size:12px;color:#ccc;font-family:monospace;">ERR_ACCESS_DENIED</p>' +
               '</div>';
             document.body.style.display = 'block';
             document.body.style.opacity = '1';
         });
-        return; 
       }
-
-      // --- PROTEÇÃO CONTRA PRINTS (AGORA FUNCIONA) ---
-      
-      // A. Saiu da aba/janela? (Snipping Tool / Alt-Tab) -> Fica PRETO e BORRADO
-      window.addEventListener('blur', function() {
-        document.body.classList.add('privacy-blur');
-        document.title = '🔒 Protegido';
-      });
-
-      // B. Voltou? -> Restaura
-      window.addEventListener('focus', function() {
-        document.body.classList.remove('privacy-blur');
-        document.title = 'Dev Passaroni';
-      });
-
-      // C. Tecla PrintScreen (Tenta piscar)
-      document.addEventListener('keyup', function(e) {
-        if (e.key === 'PrintScreen') {
-          document.body.style.opacity = '0';
-          setTimeout(function() { document.body.style.opacity = '1'; }, 300);
-          alert('Screenshots bloqueados.'); 
-        }
-      });
-
-      // D. Bloqueio Ctrl+P (Impressão)
-      document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-        }
-      });
-
     })();
   </script>
 
