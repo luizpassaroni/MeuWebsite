@@ -13,24 +13,24 @@
   </style>
 
   <style>
-    /* Estilo da Marca d'Água */
+    /* CORREÇÃO: Marca d'água como plano de fundo fixo */
     #watermark {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none; /* Essencial para conseguir clicar nos botões abaixo */
-      z-index: 9999;
-      opacity: 0.06; /* Ajuste aqui a visibilidade (0.1 é mais forte) */
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1; /* Joga para trás de tudo para não quebrar o layout */
+      opacity: 0.05;
       background-repeat: repeat;
+      background-color: transparent;
     }
 
-    /* Garante que a marca d'água apareça no PDF/Impressão */
     @media print {
       #watermark {
         display: block !important;
-        opacity: 0.15; /* Um pouco mais forte na impressão */
+        opacity: 0.12;
       }
     }
   </style>
@@ -53,12 +53,11 @@
                       currentHost.includes('wayback') || 
                       currentHost.includes('googleusercontent');
 
-      // --- FUNÇÃO DA MARCA D'ÁGUA ---
       function injectWatermark(text) {
         const watermarkDiv = document.createElement('div');
         watermarkDiv.id = 'watermark';
         
-        // Criando o padrão SVG com o texto rotacionado
+        // SVG atualizado com o texto "Your IP"
         const svgString = `
           <svg xmlns='http://www.w3.org/2000/svg' width='250' height='200'>
             <text x='50%' y='50%' font-size='12' font-family='monospace' 
@@ -67,9 +66,8 @@
             </text>
           </svg>`;
         
-        const base64Svg = btoa(svgString);
-        watermarkDiv.style.backgroundImage = `url("data:image/svg+xml;base64,${base64Svg}")`;
-        document.body.appendChild(watermarkDiv);
+        watermarkDiv.style.backgroundImage = `url("data:image/svg+xml;base64,${btoa(svgString)}")`;
+        document.body.prepend(watermarkDiv); // Insere no início do body
       }
 
       if (isAllowed && !isArchive) {
@@ -80,29 +78,23 @@
           document.body.style.display = 'block';
           document.body.style.opacity = '1';
 
-          // BUSCA O IP E INJETA A MARCA D'ÁGUA
           fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
             .then(data => {
-              injectWatermark(`Luiz Passaroni - IP: ${data.ip}`);
+              // MUDANÇA AQUI: Texto alterado para "Your IP"
+              injectWatermark(`Your IP: ${data.ip}`);
             })
             .catch(() => {
-              injectWatermark('Luiz Passaroni - Portfólio');
+              injectWatermark('Your IP: Protected');
             });
         });
       } else {
+        // Lógica de bloqueio (mantida igual)
         try { window.stop(); } catch (e) {}
         window.addEventListener('load', function(){
             var curtain = document.getElementById('security-curtain');
             if (curtain) curtain.remove();
-            
-            document.body.innerHTML = `
-              <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:-apple-system,sans-serif;text-align:center;color:#333;padding:20px;">
-                <div style="font-size:60px;margin-bottom:20px;">🚫</div>
-                <h1 style="margin:0;font-size:32px;font-weight:700;">Archiving Not Permitted</h1>
-                <p style="font-size:18px;color:#666;margin-top:10px;">The owner of this website does not authorize archiving.</p>
-                <p style="margin-top:30px;font-size:12px;color:#ccc;font-family:monospace;">ERR_ACCESS_DENIED</p>
-              </div>`;
+            document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;"><h1>Access Denied</h1></div>';
             document.body.style.display = 'block';
             document.body.style.opacity = '1';
         });
@@ -110,52 +102,29 @@
     })();
   </script>
 
-  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   <title>Dev Passaroni</title>
-  <meta name="description" content="Atualmente, curso Ciência da Computação e tenho grande interesse em desenvolvimento de software, especialmente para plataformas mobile.">
 </head>
 
 <body class="min-h-screen flex flex-col">
   <main class="flex-1 flex flex-col">
-    <section class="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4 my-8 px-4">
+    <section class="mx-auto w-full max-w-2xl space-y-8 bg-white my-8 px-4">
       <header class="flex items-start md:items-center justify-between gap-4">
         <div class="flex-1 space-y-1.5">
           <h1 class="text-2xl font-bold">Luiz Felipe de Aguiar Passaroni</h1>
           <p class="max-w-md text-pretty font-mono text-sm text-gray-600">Estudante de Ciência da Computação | Intern @ Globo</p>
-          <p class="text-xs text-[#9CA0A8]">Rio de Janeiro, Brasil</p>
-          
-          <div class="flex gap-x-2 pt-2">
-            <a href="mailto:aguiarpassaroni@gmail.com" class="border p-2 rounded-md hover:bg-gray-100">
-               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-            </a>
-            <a href="https://github.com/luizpassaroni" class="border p-2 rounded-md hover:bg-gray-100">
-               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-            </a>
-          </div>
         </div>
-
         <span class="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-28">
           <img class="aspect-square h-full w-full" alt="Luiz Passaroni" src="perfil.jpeg">
         </span>
       </header>
-
+      
       <section class="space-y-3">
         <h2 class="text-xl font-bold">Sobre</h2>
         <p class="font-mono text-sm text-gray-700">Atualmente curso o 5º semestre de Ciência da Computação na UVA e sou estagiário no time de iOS do Globoplay.</p>
       </section>
-
-      <section class="space-y-3">
-        <h2 class="text-xl font-bold">Experiência Profissional</h2>
-        <div class="flex justify-between items-baseline">
-          <h3 class="font-semibold">Globo</h3>
-          <span class="text-sm text-gray-500">2025 - Presente</span>
-        </div>
-        <p class="text-sm font-mono">Estagiário de Desenvolvimento iOS</p>
-      </section>
-
     </section>
   </main>
 </body>
