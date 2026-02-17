@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -13,30 +14,32 @@
   </style>
 
   <style>
-    /* CORREÇÃO: Marca d'água como plano de fundo fixo */
-    #watermark {
+    /* SOLUÇÃO DEFINITIVA: Usando pseudo-elemento para não deslocar nada */
+    body::before {
+      content: "";
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
-      z-index: -1; /* Joga para trás de tudo para não quebrar o layout */
-      opacity: 0.05;
+      /* O segredo está em usar a variável que o JS vai preencher */
+      background-image: var(--wm-img); 
       background-repeat: repeat;
-      background-color: transparent;
+      pointer-events: none;
+      z-index: 9999; /* Fica por cima, mas pointer-events: none permite clicar */
+      opacity: 0.06; /* Bem sutil */
     }
 
     @media print {
-      #watermark {
-        display: block !important;
-        opacity: 0.12;
+      body::before {
+        opacity: 0.15;
       }
     }
   </style>
 
   <script>
     (function() {
+      // Configurações de domínio
       var allowedHosts = ['luizpassaroni.com', 'luizpassaroni.github.io', 'localhost', '127.0.0.1'];
       var currentHost = window.location.hostname;
       var isAllowed = false;
@@ -48,54 +51,36 @@
         }
       }
 
-      var isArchive = window.__wm || 
-                      currentHost.includes('archive') || 
-                      currentHost.includes('wayback') || 
-                      currentHost.includes('googleusercontent');
-
-      function injectWatermark(text) {
-        const watermarkDiv = document.createElement('div');
-        watermarkDiv.id = 'watermark';
-        
-        // SVG atualizado com o texto "Your IP"
-        const svgString = `
-          <svg xmlns='http://www.w3.org/2000/svg' width='250' height='200'>
-            <text x='50%' y='50%' font-size='12' font-family='monospace' 
-                  fill='black' text-anchor='middle' transform='rotate(-25 125,100)'>
-              ${text}
-            </text>
-          </svg>`;
-        
-        watermarkDiv.style.backgroundImage = `url("data:image/svg+xml;base64,${btoa(svgString)}")`;
-        document.body.prepend(watermarkDiv); // Insere no início do body
-      }
+      var isArchive = window.__wm || currentHost.includes('archive') || currentHost.includes('googleusercontent');
 
       if (isAllowed && !isArchive) {
         document.addEventListener('DOMContentLoaded', function() {
+          // Remove a proteção inicial
           var curtain = document.getElementById('security-curtain');
           if (curtain) curtain.remove();
-          
           document.body.style.display = 'block';
           document.body.style.opacity = '1';
 
+          // BUSCA O IP E CRIA O SVG
           fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
             .then(data => {
-              // MUDANÇA AQUI: Texto alterado para "Your IP"
-              injectWatermark(`Your IP: ${data.ip}`);
+              const text = `Your IP: ${data.ip}`;
+              const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='250' height='200'><text x='50%' y='50%' font-size='14' font-family='monospace' fill='black' text-anchor='middle' transform='rotate(-25 125,100)'>${text}</text></svg>`;
+              
+              // Define a imagem na variável CSS do body
+              document.body.style.setProperty('--wm-img', `url("data:image/svg+xml;base64,${btoa(svg)}")`);
             })
             .catch(() => {
-              injectWatermark('Your IP: Protected');
+              const fallbackSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='250' height='200'><text x='50%' y='50%' font-size='14' font-family='monospace' fill='black' text-anchor='middle' transform='rotate(-25 125,100)'>Your IP: Protected</text></svg>`;
+              document.body.style.setProperty('--wm-img', `url("data:image/svg+xml;base64,${btoa(fallbackSvg)}")`);
             });
         });
       } else {
-        // Lógica de bloqueio (mantida igual)
-        try { window.stop(); } catch (e) {}
+        // Bloqueio para Wayback Machine e outros
         window.addEventListener('load', function(){
-            var curtain = document.getElementById('security-curtain');
-            if (curtain) curtain.remove();
-            document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;"><h1>Access Denied</h1></div>';
-            document.body.style.display = 'block';
+            document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;"><h1>Archiving Not Permitted</h1></div>';
+            document.body.style.display = 'flex';
             document.body.style.opacity = '1';
         });
       }
