@@ -2,56 +2,6 @@
 <html lang="pt">
 
 <head>
-  <style id="security-curtain">
-    html, body {
-      display: none !important;
-      opacity: 0 !important;
-      height: 100%;
-      margin: 0;
-      background-color: #ffffff;
-    }
-  </style>
-
-  <script>
-    (function() {
-      var allowedHosts = ['luizpassaroni.com', 'www.luizpassaroni.com', 'luizpassaroni.github.io', 'localhost', '127.0.0.1'];
-      var currentHost = window.location.hostname;
-      var isAllowed = false;
-
-      for (var i = 0; i < allowedHosts.length; i++) {
-        if (currentHost === allowedHosts[i] || currentHost.endsWith('.' + allowedHosts[i])) {
-          isAllowed = true;
-          break;
-        }
-      }
-
-      var isArchive = window.__wm ||
-                      currentHost.includes('archive') ||
-                      currentHost.includes('wayback') ||
-                      currentHost.includes('googleusercontent');
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var curtain = document.getElementById('security-curtain');
-        if (curtain) curtain.remove();
-
-        if (isAllowed && !isArchive) {
-          document.body.style.display = 'block';
-          document.body.style.opacity = '1';
-        } else {
-          document.body.style.display = 'block';
-          document.body.style.opacity = '1';
-          document.body.innerHTML =
-            '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:-apple-system,sans-serif;text-align:center;color:#333;padding:20px;">' +
-            '<div style="font-size:60px;margin-bottom:20px;">🚫</div>' +
-            '<h1 style="margin:0;font-size:32px;font-weight:700;">Archiving Not Permitted</h1>' +
-            '<p style="font-size:18px;color:#666;margin-top:10px;">The owner of this website does not authorize archiving.</p>' +
-            '<p style="margin-top:30px;font-size:12px;color:#ccc;font-family:monospace;">ERR_ACCESS_DENIED</p>' +
-            '</div>';
-        }
-      });
-    })();
-  </script>
-
   <link rel="icon" href="/favicon.png" type="image/png" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
