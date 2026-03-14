@@ -3,22 +3,29 @@
    ========================================= */
 
 :root {
-  --ios-bg: #F2F2F7; /* Cor de fundo nativa do Settings no iPhone Light */
+  --ios-bg: #F2F2F7;
   --ios-card: #FFFFFF;
   --ios-text: #000000;
+  --ios-secondary-label: rgba(60, 60, 67, 0.6); /* UIColor.secondaryLabel exato */
   --ios-separator: rgba(60, 60, 67, 0.15);
   --ios-blue: #007AFF;
+  --ios-icon-padding: 15%; /* padding interno dos squircles (~85% do tamanho) */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --ios-bg: #000000; /* Fundo puro (OLED) no Dark Mode */
-    --ios-card: #1C1C1E; /* Cinza dos cards no iOS Dark */
+    --ios-bg: #000000;
+    --ios-card: #1C1C1E;
     --ios-text: #FFFFFF;
+    --ios-secondary-label: rgba(235, 235, 245, 0.6); /* UIColor.secondaryLabel dark */
     --ios-separator: rgba(84, 84, 88, 0.45);
     --ios-blue: #0A84FF;
   }
 }
+
+/* =========================================
+   BASE
+   ========================================= */
 
 body {
   background-color: var(--ios-bg);
@@ -27,52 +34,244 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
+
+  /* Remove scrollbar — sensação de app nativo */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* Efeito Glassmorphism (Vidro Fosco do iOS) */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================================
+   TIPOGRAFIA — escala SF Pro nativa
+   ========================================= */
+
+/* Large Title: 34pt/bold — usado em NavigationBar */
+.ios-title-large {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.37px;
+  line-height: 1.2;
+}
+
+/* Title 1: 28pt/semibold — equivale ao h1 de páginas */
+.ios-title1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1.25;
+}
+
+/* Title 2: 22pt/semibold */
+.ios-title2 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.26px;
+}
+
+/* Headline: 17pt/semibold — cabeçalho de célula */
+.ios-headline {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.41px;
+}
+
+/* Body: 17pt/regular */
+.ios-body {
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.41px;
+  line-height: 1.47;
+}
+
+/* Callout: 16pt */
+.ios-callout {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+}
+
+/* Subheadline: 15pt */
+.ios-subheadline {
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.23px;
+}
+
+/* Footnote: 13pt — texto secundário */
+.ios-footnote {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.08px;
+}
+
+/* Caption 1: 12pt */
+.ios-caption1 {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Caption 2: 11pt */
+.ios-caption2 {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.07px;
+}
+
+/* Label de seção (estilo InsetGrouped do Settings) */
+.ios-section-label {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.08px;
+  text-transform: uppercase;
+  color: var(--ios-secondary-label);
+}
+
+/* =========================================
+   GLASSMORPHISM — vidro fosco nativo
+   Sem gradientes coloridos artificiais
+   ========================================= */
+
 .ios-glass {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 0.5px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
 }
 
 @media (prefers-color-scheme: dark) {
   .ios-glass {
-    background: rgba(28, 28, 30, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    background: rgba(28, 28, 30, 0.7);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
   }
 }
 
-/* Card estilo Ajustes (Settings) */
+/* =========================================
+   WIDGETS — InsetGroupedListStyle
+   ========================================= */
+
 .ios-widget {
   background-color: var(--ios-card);
   border-radius: 12px;
   overflow: hidden;
+  /* Sombra sutil nativa — não exagerada */
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* Ícones Squircle (A curva exata dos ícones da App Store) */
+@media (prefers-color-scheme: dark) {
+  .ios-widget {
+    box-shadow: none;
+  }
+}
+
+/* =========================================
+   ÍCONES SQUIRCLE — curva exata da App Store
+   ========================================= */
+
 .ios-app-icon {
   border-radius: 22.5%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   aspect-ratio: 1 / 1;
+  /* Padding interno: ícone ocupa ~85% do squircle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ícones com imagem que deve ter padding (não sangrar) */
+.ios-app-icon img.ios-icon-padded {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+}
+
+/* Ícones que sangram até a borda (ex: SwiftUI, Xcode) */
+.ios-app-icon img.ios-icon-bleed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ios-app-icon {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
 }
 
 @media (prefers-color-scheme: dark) {
   .ios-app-icon {
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 0 0 0.5px rgba(255, 255, 255, 0.06);
   }
 }
 
-/* Linhas divisórias nativas das listas (Separators) */
+/* =========================================
+   SEPARADORES — 0.5px nativo
+   ========================================= */
+
 .ios-border-b {
   border-bottom: 0.5px solid var(--ios-separator);
 }
 
-.ios-text-blue {
-  color: var(--ios-blue);
+/* =========================================
+   CORES SEMÂNTICAS
+   ========================================= */
+
+.ios-text-blue { color: var(--ios-blue); }
+.ios-text-secondary { color: var(--ios-secondary-label); }
+
+/* =========================================
+   INTERAÇÕES — tap feedback nativo
+   Spring animation: rápido, com bounce leve
+   ========================================= */
+
+.ios-tappable {
+  transition: transform 75ms ease-in, opacity 75ms ease-in;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.ios-tappable:active {
+  transform: scale(0.90);
+  opacity: 0.8;
+}
+
+/* Hover só em dispositivos com pointer fino (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .ios-tappable:hover {
+    opacity: 0.85;
+  }
+}
+
+/* =========================================
+   FOTO DE PERFIL
+   ========================================= */
+
+.ios-avatar {
+  border-radius: 50%;
+  /* Ring translúcido — sem borda sólida branca */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.12);
+  object-fit: cover;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ios-avatar {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* =========================================
+   ACESSIBILIDADE — prefers-reduced-motion
+   Guideline obrigatória da Apple HIG
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }

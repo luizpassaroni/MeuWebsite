@@ -79,215 +79,248 @@
 <body class="min-h-screen">
 
   <main class="flex-1 flex flex-col pt-8 pb-16">
+    <!-- mx-4 lateral para InsetGroupedListStyle correto -->
     <section class="mx-auto w-full max-w-3xl px-4 space-y-10">
 
+      <!-- HEADER — glassmorphism sem gradient colorido artificial -->
       <header class="ios-glass rounded-[2rem] p-8 flex flex-col-reverse md:flex-row items-center gap-8 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 pointer-events-none"></div>
 
         <div class="flex-1 space-y-4 text-center md:text-left relative z-10">
           <div>
-            <h1 class="text-4xl font-bold tracking-tight">Luiz Passaroni</h1>
-            <p class="text-lg font-medium ios-text-blue mt-1">iOS Developer & CS Student</p>
-            <p class="text-[15px] text-gray-500 dark:text-gray-400 mt-3 leading-relaxed">
+            <!-- Tipografia correta: Title 1 (28pt semibold, -0.5px tracking) -->
+            <h1 class="ios-title1">Luiz Passaroni</h1>
+            <!-- Subheadline em azul — 15pt, não 18pt -->
+            <p class="ios-subheadline ios-text-blue mt-1" style="font-weight: 500;">iOS Developer & CS Student</p>
+            <!-- Body text: 15pt, cor secondaryLabel exata -->
+            <p class="ios-subheadline ios-text-secondary mt-3" style="line-height: 1.5;">
               Desenvolvedor entusiasta com foco em mobile, especialmente no ecossistema Apple. Buscando explorar novas tecnologias e criar aplicações de alto impacto visual e funcional.
             </p>
           </div>
 
+          <!-- Social buttons: tap target 48px, scale(0.90) no active -->
           <div class="flex justify-center md:justify-start gap-5 pt-3">
-            <a href="mailto:aguiarpassaroni@gmail.com" class="flex flex-col items-center gap-1.5 active:scale-95 transition-transform group">
-              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] shadow-sm flex items-center justify-center ios-text-blue group-hover:bg-blue-50 transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <a href="/cdn-cgi/l/email-protection#761711031f170406170505170419181f36111b171f1a5815191b"
+               class="ios-tappable flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center ios-text-blue"
+                   style="box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
               </div>
-              <span class="text-[11px] text-gray-500 font-medium tracking-wide">Mail</span>
+              <span class="ios-caption2 ios-text-secondary" style="font-weight: 500;">Mail</span>
             </a>
 
-            <a href="https://github.com/luizpassaroni" target="_blank" class="flex flex-col items-center gap-1.5 active:scale-95 transition-transform group">
-              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] shadow-sm flex items-center justify-center text-gray-800 dark:text-white group-hover:bg-gray-100 dark:group-hover:bg-gray-800 transition-colors">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            <a href="https://github.com/luizpassaroni" target="_blank"
+               class="ios-tappable flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center"
+                   style="box-shadow: 0 1px 3px rgba(0,0,0,0.08); color: var(--ios-text);">
+                <svg class="w-[22px] h-[22px]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
               </div>
-              <span class="text-[11px] text-gray-500 font-medium tracking-wide">GitHub</span>
+              <span class="ios-caption2 ios-text-secondary" style="font-weight: 500;">GitHub</span>
             </a>
 
-            <a href="https://linkedin.com/in/luizpassaroni" target="_blank" class="flex flex-col items-center gap-1.5 active:scale-95 transition-transform group">
-              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] shadow-sm flex items-center justify-center text-[#0A66C2] group-hover:bg-blue-50 transition-colors">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            <a href="https://linkedin.com/in/luizpassaroni" target="_blank"
+               class="ios-tappable flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center"
+                   style="box-shadow: 0 1px 3px rgba(0,0,0,0.08); color: #0A66C2;">
+                <svg class="w-[22px] h-[22px]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+                </svg>
               </div>
-              <span class="text-[11px] text-gray-500 font-medium tracking-wide">LinkedIn</span>
+              <span class="ios-caption2 ios-text-secondary" style="font-weight: 500;">LinkedIn</span>
             </a>
           </div>
         </div>
 
+        <!-- Foto: ring translúcido, sem borda sólida branca -->
         <div class="w-36 h-36 md:w-44 md:h-44 shrink-0 z-10">
-           <img class="w-full h-full object-cover rounded-full border-[3px] border-white dark:border-[#1C1C1E] shadow-md" src="perfil.jpeg" alt="Luiz Felipe Passaroni">
+          <img class="ios-avatar w-full h-full" src="perfil.jpeg" alt="Luiz Felipe Passaroni">
         </div>
       </header>
 
+      <!-- EXPERIÊNCIA PROFISSIONAL -->
       <section class="space-y-2">
-        <h2 class="text-[13px] font-medium text-gray-500 uppercase tracking-widest pl-4">Experiência Profissional</h2>
-        <div class="ios-widget shadow-sm">
+        <!-- Label: secondaryLabel exato, uppercase, 13pt -->
+        <h2 class="ios-section-label pl-4">Experiência Profissional</h2>
+        <div class="ios-widget">
           <div class="flex items-center gap-3 p-3 pl-4">
-            <div class="w-10 h-10 rounded-[22.5%] bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-               <img src="https://www.google.com/s2/favicons?domain=globo.com&sz=128" alt="Globo" class="w-full h-full object-contain rounded-[20%]">
+            <!-- Squircle: ícone com padding ~15%, não sangrado -->
+            <div class="w-10 h-10 ios-app-icon bg-white shrink-0">
+              <img src="https://www.google.com/s2/favicons?domain=globo.com&sz=128" alt="Globo" class="ios-icon-padded">
             </div>
             <div class="flex-1">
-              <h3 class="font-medium text-[16px]">Globo</h3>
-              <p class="text-[14px] text-gray-500">Estagiário de Desenvolvimento iOS</p>
+              <!-- Headline: 17pt semibold — cabeçalho de célula nativo -->
+              <h3 class="ios-headline">Globo</h3>
+              <p class="ios-footnote ios-text-secondary">Estagiário de Desenvolvimento iOS</p>
             </div>
             <div class="flex items-center gap-2 pr-2">
-              <span class="text-[14px] text-gray-400">dez 2025 - Hoje</span>
+              <span class="ios-footnote ios-text-secondary">dez 2025 - Hoje</span>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- EDUCAÇÃO -->
       <section class="space-y-2 pt-4">
-        <h2 class="text-[13px] font-medium text-gray-500 uppercase tracking-widest pl-4">Educação</h2>
-        <div class="ios-widget shadow-sm">
+        <h2 class="ios-section-label pl-4">Educação</h2>
+        <div class="ios-widget">
           
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-            <div class="w-10 h-10 rounded-[22.5%] bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-              <img src="https://www.google.com/s2/favicons?domain=uva.br&sz=128" alt="Universidade Veiga de Almeida" class="w-full h-full object-contain rounded-[20%]">
+            <div class="w-10 h-10 ios-app-icon bg-white shrink-0">
+              <img src="https://www.google.com/s2/favicons?domain=uva.br&sz=128" alt="UVA" class="ios-icon-padded">
             </div>
             <div class="flex-1">
-              <h3 class="font-medium text-[16px]">Universidade Veiga de Almeida</h3>
-              <p class="text-[14px] text-gray-500">Bacharelado em Ciência da Computação</p>
+              <h3 class="ios-headline">Universidade Veiga de Almeida</h3>
+              <p class="ios-footnote ios-text-secondary">Bacharelado em Ciência da Computação</p>
             </div>
             <div class="flex items-center gap-2 pr-2">
-               <span class="text-[14px] text-gray-400">2024 - 2027</span>
+              <span class="ios-footnote ios-text-secondary">2024 - 2027</span>
             </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-            <div class="w-10 h-10 rounded-[22.5%] bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Bras%C3%A3o_do_Col%C3%A9gio_Pedro_II.png/512px-Bras%C3%A3o_do_Col%C3%A9gio_Pedro_II.png" onerror="this.src='https://www.google.com/s2/favicons?domain=cp2.g12.br&sz=128'" alt="Colégio Pedro II" class="w-full h-full object-contain rounded-[20%]">
+            <div class="w-10 h-10 ios-app-icon bg-white shrink-0">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Bras%C3%A3o_do_Col%C3%A9gio_Pedro_II.png/512px-Bras%C3%A3o_do_Col%C3%A9gio_Pedro_II.png"
+                   onerror="this.src='https://www.google.com/s2/favicons?domain=cp2.g12.br&sz=128'"
+                   alt="Colégio Pedro II" class="ios-icon-padded">
             </div>
             <div class="flex-1">
-              <h3 class="font-medium text-[16px]">Colégio Pedro II</h3>
-              <p class="text-[14px] text-gray-500">Técnico em Dev. de Sistemas</p>
+              <h3 class="ios-headline">Colégio Pedro II</h3>
+              <p class="ios-footnote ios-text-secondary">Técnico em Dev. de Sistemas</p>
             </div>
-             <div class="flex items-center gap-2 pr-2">
-               <span class="text-[14px] text-gray-400">2019 - 2021</span>
+            <div class="flex items-center gap-2 pr-2">
+              <span class="ios-footnote ios-text-secondary">2019 - 2021</span>
             </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4">
-            <div class="w-10 h-10 rounded-[22.5%] bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-               <img src="https://www.google.com/s2/favicons?domain=montgomeryschoolsmd.org&sz=128" alt="Richard Montgomery HS" class="w-full h-full object-contain rounded-[20%]">
+            <div class="w-10 h-10 ios-app-icon bg-white shrink-0">
+              <img src="https://www.google.com/s2/favicons?domain=montgomeryschoolsmd.org&sz=128" alt="Richard Montgomery HS" class="ios-icon-padded">
             </div>
             <div class="flex-1">
-              <h3 class="font-medium text-[16px]">Richard Montgomery HS</h3>
-              <p class="text-[14px] text-gray-500">High School - Maryland, USA</p>
+              <h3 class="ios-headline">Richard Montgomery HS</h3>
+              <p class="ios-footnote ios-text-secondary">High School - Maryland, USA</p>
             </div>
             <div class="flex items-center gap-2 pr-2">
-               <span class="text-[14px] text-gray-400">2021 - 2023</span>
+              <span class="ios-footnote ios-text-secondary">2021 - 2023</span>
             </div>
           </div>
 
         </div>
       </section>
 
+      <!-- TECNOLOGIAS — ícones com padding interno uniforme -->
       <section class="space-y-4 pt-4">
-         <h2 class="text-[13px] font-medium text-gray-500 uppercase tracking-widest pl-4">Tecnologias</h2>
+        <h2 class="ios-section-label pl-4">Tecnologias</h2>
          
-         <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-y-8 gap-x-2 px-2">
+        <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-y-8 gap-x-2 px-2">
            
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center">
-               <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg" alt="Swift" class="w-10 h-10 object-contain">
-             </div>
-             <span class="text-[11px] font-medium tracking-tight">Swift</span>
-           </div>
+          <!-- Swift: padding, não sangrado -->
+          <div class="ios-tappable flex flex-col items-center gap-1.5">
+            <div class="w-[60px] h-[60px] ios-app-icon bg-white">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg" alt="Swift" class="ios-icon-padded">
+            </div>
+            <span class="ios-caption2" style="font-weight: 500;">Swift</span>
+          </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
-             <div class="w-[60px] h-[60px] ios-app-icon overflow-hidden bg-black flex items-center justify-center">
-               <img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" alt="SwiftUI" class="w-full h-full object-cover">
-             </div>
-             <span class="text-[11px] font-medium tracking-tight">SwiftUI</span>
-           </div>
+          <!-- SwiftUI: sangrado (fullbleed nativo como App Store) -->
+          <div class="ios-tappable flex flex-col items-center gap-1.5">
+            <div class="w-[60px] h-[60px] ios-app-icon bg-black">
+              <img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" alt="SwiftUI" class="ios-icon-bleed">
+            </div>
+            <span class="ios-caption2" style="font-weight: 500;">SwiftUI</span>
+          </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-black flex items-center justify-center">
-               <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma" class="w-8 h-8 object-contain">
-             </div>
-             <span class="text-[11px] font-medium tracking-tight">Figma</span>
-           </div>
+          <!-- Figma: padding -->
+          <div class="ios-tappable flex flex-col items-center gap-1.5">
+            <div class="w-[60px] h-[60px] ios-app-icon bg-black">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma" class="ios-icon-padded">
+            </div>
+            <span class="ios-caption2" style="font-weight: 500;">Figma</span>
+          </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center">
-               <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git" class="w-10 h-10 object-contain">
-             </div>
-             <span class="text-[11px] font-medium tracking-tight">Git</span>
-           </div>
+          <!-- Git: padding -->
+          <div class="ios-tappable flex flex-col items-center gap-1.5">
+            <div class="w-[60px] h-[60px] ios-app-icon bg-white">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git" class="ios-icon-padded">
+            </div>
+            <span class="ios-caption2" style="font-weight: 500;">Git</span>
+          </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-[#157EFB] overflow-hidden flex items-center justify-center border border-blue-400">
-               <img src="https://developer.apple.com/assets/elements/icons/xcode/xcode-128x128_2x.png" alt="Xcode" class="w-[110%] h-[110%] object-cover mt-1">
-             </div>
-             <span class="text-[11px] font-medium tracking-tight">Xcode</span>
-           </div>
+          <!-- Xcode: sangrado -->
+          <div class="ios-tappable flex flex-col items-center gap-1.5">
+            <div class="w-[60px] h-[60px] ios-app-icon bg-[#157EFB]">
+              <img src="https://developer.apple.com/assets/elements/icons/xcode/xcode-128x128_2x.png" alt="Xcode" class="ios-icon-bleed">
+            </div>
+            <span class="ios-caption2" style="font-weight: 500;">Xcode</span>
+          </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center">
-               <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VS Code" class="w-10 h-10 object-contain">
-             </div>
-             <span class="text-[11px] font-medium tracking-tight">VS Code</span>
-           </div>
+          <!-- VS Code: padding -->
+          <div class="ios-tappable flex flex-col items-center gap-1.5">
+            <div class="w-[60px] h-[60px] ios-app-icon bg-white">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VS Code" class="ios-icon-padded">
+            </div>
+            <span class="ios-caption2" style="font-weight: 500;">VS Code</span>
+          </div>
            
-         </div>
+        </div>
       </section>
 
+      <!-- CERTIFICAÇÕES & CURSOS -->
       <section class="space-y-2 pt-6">
-        <h2 class="text-[13px] font-medium text-gray-500 uppercase tracking-widest pl-4">Certificações & Cursos</h2>
-        <div class="ios-widget shadow-sm">
+        <h2 class="ios-section-label pl-4">Certificações & Cursos</h2>
+        <div class="ios-widget">
           
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-               <img src="https://www.google.com/s2/favicons?domain=montgomerycollege.edu&sz=128" alt="Montgomery College" class="w-full h-full object-contain rounded-sm">
-             </div>
-             <div class="flex-1">
-               <h3 class="text-[15px] font-medium">Montgomery College</h3>
-               <p class="text-[13px] text-gray-500">iPhone/iPad Development with Swift</p>
-             </div>
+            <div class="w-8 h-8 ios-app-icon bg-white shrink-0">
+              <img src="https://www.google.com/s2/favicons?domain=montgomerycollege.edu&sz=128" alt="Montgomery College" class="ios-icon-padded">
+            </div>
+            <div class="flex-1">
+              <h3 class="ios-subheadline" style="font-weight: 500;">Montgomery College</h3>
+              <p class="ios-footnote ios-text-secondary">iPhone/iPad Development with Swift</p>
+            </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-               <img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" alt="Udemy" class="w-full h-full object-contain rounded-sm">
-             </div>
-             <div class="flex-1">
-               <h3 class="text-[15px] font-medium">Udemy</h3>
-               <p class="text-[13px] text-gray-500">Aprenda Flutter e Desenvolva Apps para Android e iOS</p>
-             </div>
+            <div class="w-8 h-8 ios-app-icon bg-white shrink-0">
+              <img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" alt="Udemy" class="ios-icon-padded">
+            </div>
+            <div class="flex-1">
+              <h3 class="ios-subheadline" style="font-weight: 500;">Udemy</h3>
+              <p class="ios-footnote ios-text-secondary">Aprenda Flutter e Desenvolva Apps para Android e iOS</p>
+            </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-               <img src="https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=128" alt="Fundação Bradesco" class="w-full h-full object-contain rounded-sm">
-             </div>
-             <div class="flex-1">
-               <h3 class="text-[15px] font-medium">Fundação Bradesco</h3>
-               <p class="text-[13px] text-gray-500">Linguagem de Programação Python - Básico</p>
-             </div>
+            <div class="w-8 h-8 ios-app-icon bg-white shrink-0">
+              <img src="https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=128" alt="Fundação Bradesco" class="ios-icon-padded">
+            </div>
+            <div class="flex-1">
+              <h3 class="ios-subheadline" style="font-weight: 500;">Fundação Bradesco</h3>
+              <p class="ios-footnote ios-text-secondary">Linguagem de Programação Python - Básico</p>
+            </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-               <img src="https://www.google.com/s2/favicons?domain=santander.com.br&sz=128" alt="Santander" class="w-full h-full object-contain rounded-sm">
-             </div>
-             <div class="flex-1">
-               <h3 class="text-[15px] font-medium">Santander Open Academy</h3>
-               <p class="text-[13px] text-gray-500">Introdução à Programação com Python</p>
-             </div>
+            <div class="w-8 h-8 ios-app-icon bg-white shrink-0">
+              <img src="https://www.google.com/s2/favicons?domain=santander.com.br&sz=128" alt="Santander" class="ios-icon-padded">
+            </div>
+            <div class="flex-1">
+              <h3 class="ios-subheadline" style="font-weight: 500;">Santander Open Academy</h3>
+              <p class="ios-footnote ios-text-secondary">Introdução à Programação com Python</p>
+            </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-[2px] shrink-0">
-               <img src="https://www.google.com/s2/favicons?domain=puc-rio.br&sz=128" alt="PUC-Rio" class="w-full h-full object-contain rounded-sm">
-             </div>
-             <div class="flex-1">
-               <h3 class="text-[15px] font-medium">PUC-Rio</h3>
-               <p class="text-[13px] text-gray-500">WWDC-SSC Crash Challenge</p>
-             </div>
+            <div class="w-8 h-8 ios-app-icon bg-white shrink-0">
+              <img src="https://www.google.com/s2/favicons?domain=puc-rio.br&sz=128" alt="PUC-Rio" class="ios-icon-padded">
+            </div>
+            <div class="flex-1">
+              <h3 class="ios-subheadline" style="font-weight: 500;">PUC-Rio</h3>
+              <p class="ios-footnote ios-text-secondary">WWDC-SSC Crash Challenge</p>
+            </div>
           </div>
 
         </div>
