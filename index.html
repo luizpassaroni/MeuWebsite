@@ -59,9 +59,13 @@
   <link rel="icon" href="/favicon.png" type="image/png" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  
   <title>Luiz Passaroni - iOS Developer</title>
   <meta name="description" content="Estudante de Ciência da Computação com foco em desenvolvimento iOS. Experiência em Swift, Flutter, Python. Estagiário na Globo.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="min-h-screen">
@@ -70,7 +74,7 @@
     <section class="mx-auto w-full max-w-3xl px-4 space-y-10">
 
       <header class="ios-glass rounded-[2rem] p-8 flex flex-col-reverse md:flex-row items-center gap-8 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 dark:from-blue-500/20 dark:to-purple-500/20 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 pointer-events-none"></div>
 
         <div class="flex-1 space-y-4 text-center md:text-left relative z-10">
           <div>
@@ -90,7 +94,7 @@
             </a>
 
             <a href="https://github.com/luizpassaroni" target="_blank" class="flex flex-col items-center gap-1.5 active:scale-95 transition-transform group">
-              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] shadow-sm flex items-center justify-center text-gray-800 dark:text-white group-hover:bg-gray-50 transition-colors">
+              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] shadow-sm flex items-center justify-center text-gray-800 dark:text-white group-hover:bg-gray-100 dark:group-hover:bg-gray-800 transition-colors">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
               </div>
               <span class="text-[11px] text-gray-500 font-medium tracking-wide">GitHub</span>
@@ -106,7 +110,7 @@
         </div>
 
         <div class="w-36 h-36 md:w-44 md:h-44 shrink-0 z-10">
-           <img class="w-full h-full object-cover rounded-full border-[3px] border-white dark:border-[#2C2C2E] shadow-md" src="perfil.jpeg" alt="Luiz Felipe Passaroni">
+           <img class="w-full h-full object-cover rounded-full border-[3px] border-white shadow-md" src="perfil.jpeg" alt="Luiz Felipe Passaroni">
         </div>
       </header>
 
@@ -115,54 +119,54 @@
         <div class="ios-widget shadow-sm">
           
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-            <div class="w-11 h-11 rounded-[22.5%] bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-[6px] shrink-0">
-               <img src="https://logo.clearbit.com/globo.com" alt="Globo" class="w-full h-full object-contain">
+            <div class="w-10 h-10 rounded-[22.5%] bg-white border border-gray-100 flex items-center justify-center p-[4px] shrink-0">
+               <img src="https://logo.clearbit.com/globo.com" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Rede_Globo_logo.svg/512px-Rede_Globo_logo.svg.png'" alt="Globo" class="w-full h-full object-contain">
             </div>
             <div class="flex-1">
               <h3 class="font-medium text-[16px]">Globo</h3>
               <p class="text-[14px] text-gray-500">Estagiário de Desenvolvimento iOS</p>
             </div>
             <div class="flex items-center gap-2 pr-2">
-              <span class="text-[15px] text-gray-400">dez 2025 - Hoje</span>
+              <span class="text-[14px] text-gray-400">dez 2025 - Hoje</span>
             </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-            <div class="w-11 h-11 rounded-[22.5%] bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-[6px] shrink-0">
-              <img src="https://logo.clearbit.com/uva.br" alt="Universidade Veiga de Almeida" class="w-full h-full object-contain">
+            <div class="w-10 h-10 rounded-[22.5%] bg-white border border-gray-100 flex items-center justify-center p-[4px] shrink-0">
+              <img src="https://logo.clearbit.com/uva.br" onerror="this.style.display='none'" alt="Universidade Veiga de Almeida" class="w-full h-full object-contain">
             </div>
             <div class="flex-1">
               <h3 class="font-medium text-[16px]">Universidade Veiga de Almeida</h3>
               <p class="text-[14px] text-gray-500">Bacharelado em Ciência da Computação</p>
             </div>
             <div class="flex items-center gap-2 pr-2">
-               <span class="text-[15px] text-gray-400">2024 - 2027</span>
+               <span class="text-[14px] text-gray-400">2024 - 2027</span>
             </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-            <div class="w-11 h-11 rounded-[22.5%] bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-[4px] shrink-0">
-               <img src="https://logo.clearbit.com/cp2.g12.br" alt="Colégio Pedro II" class="w-full h-full object-contain">
+            <div class="w-10 h-10 rounded-[22.5%] bg-white border border-gray-100 flex items-center justify-center p-[4px] shrink-0">
+               <img src="https://logo.clearbit.com/cp2.g12.br" onerror="this.style.display='none'" alt="Colégio Pedro II" class="w-full h-full object-contain">
             </div>
             <div class="flex-1">
               <h3 class="font-medium text-[16px]">Colégio Pedro II</h3>
               <p class="text-[14px] text-gray-500">Técnico em Dev. de Sistemas</p>
             </div>
              <div class="flex items-center gap-2 pr-2">
-               <span class="text-[15px] text-gray-400">2019 - 2021</span>
+               <span class="text-[14px] text-gray-400">2019 - 2021</span>
             </div>
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4">
-            <div class="w-11 h-11 rounded-[22.5%] bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-[6px] shrink-0">
-               <img src="https://logo.clearbit.com/montgomeryschoolsmd.org" alt="Richard Montgomery HS" class="w-full h-full object-contain">
+            <div class="w-10 h-10 rounded-[22.5%] bg-white border border-gray-100 flex items-center justify-center p-[4px] shrink-0">
+               <img src="https://logo.clearbit.com/montgomeryschoolsmd.org" onerror="this.style.display='none'" alt="Richard Montgomery HS" class="w-full h-full object-contain">
             </div>
             <div class="flex-1">
               <h3 class="font-medium text-[16px]">Richard Montgomery HS</h3>
               <p class="text-[14px] text-gray-500">High School - Maryland, USA</p>
             </div>
             <div class="flex items-center gap-2 pr-2">
-               <span class="text-[15px] text-gray-400">2021 - 2023</span>
+               <span class="text-[14px] text-gray-400">2021 - 2023</span>
             </div>
           </div>
 
@@ -174,50 +178,50 @@
          
          <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-y-8 gap-x-2 px-2">
            
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default group">
+           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
              <div class="w-[60px] h-[60px] ios-app-icon bg-[#FA7343] flex items-center justify-center">
                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg" alt="Swift" class="w-9 h-9 brightness-0 invert">
              </div>
              <span class="text-[11px] font-medium tracking-tight">Swift</span>
            </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default group">
+           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
              <div class="w-[60px] h-[60px] ios-app-icon overflow-hidden bg-black flex items-center justify-center">
                <img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" alt="SwiftUI" class="w-full h-full object-cover">
              </div>
              <span class="text-[11px] font-medium tracking-tight">SwiftUI</span>
            </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default group">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-white flex items-center justify-center">
+           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
+             <div class="w-[60px] h-[60px] ios-app-icon bg-white border border-gray-100 flex items-center justify-center">
                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" alt="Flutter" class="w-9 h-9 object-contain">
              </div>
              <span class="text-[11px] font-medium tracking-tight">Flutter</span>
            </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default group">
+           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
              <div class="w-[60px] h-[60px] ios-app-icon bg-black flex items-center justify-center">
                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma" class="w-8 h-8 object-contain">
              </div>
              <span class="text-[11px] font-medium tracking-tight">Figma</span>
            </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default group">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-white flex items-center justify-center">
+           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
+             <div class="w-[60px] h-[60px] ios-app-icon bg-white border border-gray-100 flex items-center justify-center">
                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git" class="w-10 h-10 object-contain">
              </div>
              <span class="text-[11px] font-medium tracking-tight">Git</span>
            </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default group">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-blue-500 overflow-hidden flex items-center justify-center">
+           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
+             <div class="w-[60px] h-[60px] ios-app-icon bg-[#157EFB] overflow-hidden flex items-center justify-center border border-blue-400">
                <img src="https://developer.apple.com/assets/elements/icons/xcode/xcode-128x128_2x.png" alt="Xcode" class="w-[110%] h-[110%] object-cover mt-1">
              </div>
              <span class="text-[11px] font-medium tracking-tight">Xcode</span>
            </div>
 
-           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default group">
-             <div class="w-[60px] h-[60px] ios-app-icon bg-white flex items-center justify-center">
+           <div class="flex flex-col items-center gap-1.5 active:opacity-60 transition-opacity cursor-default">
+             <div class="w-[60px] h-[60px] ios-app-icon bg-white border border-gray-100 flex items-center justify-center">
                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VS Code" class="w-10 h-10 object-contain">
              </div>
              <span class="text-[11px] font-medium tracking-tight">VS Code</span>
@@ -231,8 +235,8 @@
         <div class="ios-widget shadow-sm">
           
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-1 shrink-0">
-               <img src="https://logo.clearbit.com/montgomerycollege.edu" alt="Montgomery College" class="w-full h-full object-contain">
+             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-1 shrink-0">
+               <img src="https://logo.clearbit.com/montgomerycollege.edu" onerror="this.style.display='none'" alt="Montgomery College" class="w-full h-full object-contain">
              </div>
              <div class="flex-1">
                <h3 class="text-[15px] font-medium">Montgomery College</h3>
@@ -241,8 +245,8 @@
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-1 shrink-0">
-               <img src="https://logo.clearbit.com/udemy.com" alt="Udemy" class="w-full h-full object-contain">
+             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-1 shrink-0">
+               <img src="https://logo.clearbit.com/udemy.com" onerror="this.style.display='none'" alt="Udemy" class="w-full h-full object-contain">
              </div>
              <div class="flex-1">
                <h3 class="text-[15px] font-medium">Udemy</h3>
@@ -251,8 +255,8 @@
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-1 shrink-0">
-               <img src="https://logo.clearbit.com/fundacaobradesco.org.br" alt="Fundação Bradesco" class="w-full h-full object-contain">
+             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-1 shrink-0">
+               <img src="https://logo.clearbit.com/fundacaobradesco.org.br" onerror="this.style.display='none'" alt="Fundação Bradesco" class="w-full h-full object-contain">
              </div>
              <div class="flex-1">
                <h3 class="text-[15px] font-medium">Fundação Bradesco</h3>
@@ -261,8 +265,8 @@
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-1 shrink-0">
-               <img src="https://logo.clearbit.com/santander.com.br" alt="Santander" class="w-full h-full object-contain">
+             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-1 shrink-0">
+               <img src="https://logo.clearbit.com/santander.com.br" onerror="this.style.display='none'" alt="Santander" class="w-full h-full object-contain">
              </div>
              <div class="flex-1">
                <h3 class="text-[15px] font-medium">Santander Open Academy</h3>
@@ -271,8 +275,8 @@
           </div>
 
           <div class="flex items-center gap-3 p-3 pl-4">
-             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 dark:border-gray-800 flex items-center justify-center p-1 shrink-0">
-               <img src="https://logo.clearbit.com/puc-rio.br" alt="PUC-Rio" class="w-full h-full object-contain">
+             <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center p-1 shrink-0">
+               <img src="https://logo.clearbit.com/puc-rio.br" onerror="this.style.display='none'" alt="PUC-Rio" class="w-full h-full object-contain">
              </div>
              <div class="flex-1">
                <h3 class="text-[15px] font-medium">PUC-Rio</h3>
