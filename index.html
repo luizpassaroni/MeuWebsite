@@ -65,38 +65,16 @@
   <meta name="google-adsense-account" content="ca-pub-2699637004091628">
 </head>
 
-<body id="root" class="bg-light-bg text-light-text min-h-screen transition-colors duration-300">
+<body class="bg-light-bg text-light-text min-h-screen transition-colors duration-300">
 
   <div id="bg-gradient" class="fixed inset-0 -z-10 opacity-30 transition-colors duration-300" style="background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)"></div>
-
-  <script>
-    // Dark mode toggle
-    const root = document.getElementById('root');
-    const bgGradient = document.getElementById('bg-gradient');
-    const isDark = localStorage.getItem('theme') === 'dark';
-
-    if (isDark) {
-      root.classList.add('dark-mode');
-    }
-
-    window.toggleTheme = function() {
-      root.classList.toggle('dark-mode');
-      const isDarkNow = root.classList.contains('dark-mode');
-      localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
-    };
-  </script>
 
   <main class="flex-1 flex flex-col">
 
     <section class="mx-auto w-full max-w-4xl px-4 py-8 space-y-12">
 
       <!-- HERO HEADER -->
-      <header class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start relative">
-
-        <!-- Dark mode toggle -->
-        <button onclick="toggleTheme()" title="Toggle dark mode" class="absolute top-0 right-0 w-11 h-11 rounded-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 hover:shadow-lg transition-all duration-300 flex items-center justify-center touch-action-none">
-          <span id="theme-icon" class="text-lg">🌙</span>
-        </button>
+      <header class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
 
         <div class="md:col-span-2 space-y-6">
           <div class="space-y-3">
@@ -242,13 +220,6 @@
             <p class="text-xs text-gray-500 dark:text-gray-400">Mobile</p>
           </div>
 
-          <!-- Python -->
-          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
-            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-blue-600 rounded-lg flex items-center justify-center shadow-md mb-2 text-2xl">🐍</div>
-            <p class="font-semibold text-sm text-gray-900 dark:text-white">Python</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Backend</p>
-          </div>
-
           <!-- Figma Logo -->
           <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
             <svg class="w-12 h-12 mb-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -281,13 +252,6 @@
             <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold text-sm">{}</div>
             <p class="font-semibold text-sm text-gray-900 dark:text-white">VS Code</p>
             <p class="text-xs text-gray-500 dark:text-gray-400">Editor</p>
-          </div>
-
-          <!-- JavaScript -->
-          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
-            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center shadow-md mb-2 text-gray-900 font-bold">JS</div>
-            <p class="font-semibold text-sm text-gray-900 dark:text-white">JavaScript</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Web</p>
           </div>
         </div>
       </section>
