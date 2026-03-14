@@ -55,6 +55,20 @@ body {
     color: #c1c7d0;
   }
 
+  .text-gray-400 {
+    color: #c1c7d0;
+  }
+
+  .text-gray-300 {
+    color: #d1d5db;
+  }
+
+  .dark\:text-gray-400,
+  .dark\:text-gray-500,
+  .dark\:text-gray-300 {
+    color: #d1d5db !important;
+  }
+
   .text-gray-700 {
     color: #d1d5db;
   }
