@@ -65,16 +65,38 @@
   <meta name="google-adsense-account" content="ca-pub-2699637004091628">
 </head>
 
-<body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen">
+<body id="root" class="bg-light-bg text-light-text min-h-screen transition-colors duration-300">
 
-  <div class="fixed inset-0 -z-10 opacity-30" style="background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)"></div>
+  <div id="bg-gradient" class="fixed inset-0 -z-10 opacity-30 transition-colors duration-300" style="background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)"></div>
+
+  <script>
+    // Dark mode toggle
+    const root = document.getElementById('root');
+    const bgGradient = document.getElementById('bg-gradient');
+    const isDark = localStorage.getItem('theme') === 'dark';
+
+    if (isDark) {
+      root.classList.add('dark-mode');
+    }
+
+    window.toggleTheme = function() {
+      root.classList.toggle('dark-mode');
+      const isDarkNow = root.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
+    };
+  </script>
 
   <main class="flex-1 flex flex-col">
 
     <section class="mx-auto w-full max-w-4xl px-4 py-8 space-y-12">
 
       <!-- HERO HEADER -->
-      <header class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+      <header class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start relative">
+
+        <!-- Dark mode toggle -->
+        <button onclick="toggleTheme()" title="Toggle dark mode" class="absolute top-0 right-0 w-11 h-11 rounded-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 hover:shadow-lg transition-all duration-300 flex items-center justify-center touch-action-none">
+          <span id="theme-icon" class="text-lg">🌙</span>
+        </button>
 
         <div class="md:col-span-2 space-y-6">
           <div class="space-y-3">
@@ -133,55 +155,67 @@
       <section class="space-y-4">
         <h2 class="text-3xl font-bold text-gray-900">Experiência Profissional</h2>
 
-        <div class="p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow duration-300">
           <div class="flex items-start justify-between gap-4 flex-wrap">
             <div class="flex items-center gap-4">
-              <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-red-500 rounded-xl flex items-center justify-center shadow-lg text-white font-bold text-2xl">G</div>
+              <!-- Globo Logo SVG -->
+              <div class="w-16 h-16 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                <svg class="w-12 h-12" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="48" fill="url(#globo-gradient)" stroke="white" stroke-width="2"/>
+                  <defs>
+                    <linearGradient id="globo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#FFC400;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#FF6B00;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                  <text x="50" y="65" font-size="50" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial">G</text>
+                </svg>
+              </div>
               <div>
-                <h3 class="text-xl font-bold text-gray-900">Globo</h3>
-                <p class="text-sm text-gray-600">Estagiário de Desenvolvimento iOS</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Globo</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Estagiário de Desenvolvimento iOS</p>
               </div>
             </div>
-            <div class="text-sm font-mono bg-blue-100 text-blue-800 px-3 py-1 rounded-lg">dez 2025 - Presente</div>
+            <div class="text-sm font-mono bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-lg">dez 2025 - Presente</div>
           </div>
         </div>
       </section>
 
       <!-- EDUCAÇÃO -->
       <section class="space-y-4">
-        <h2 class="text-3xl font-bold text-gray-900">Educação</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Educação</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+          <div class="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow duration-300">
             <div class="flex items-start gap-4">
-              <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">🎓</div>
+              <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">🏫</div>
               <div>
-                <h3 class="font-bold text-gray-900">Universidade Veiga de Almeida</h3>
-                <p class="text-sm text-gray-600 mt-1">Bacharelado em Ciência da Computação</p>
-                <p class="text-xs text-gray-500 mt-2 font-mono">2024 - 2027</p>
+                <h3 class="font-bold text-gray-900 dark:text-white">Universidade Veiga de Almeida</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Bacharelado em Ciência da Computação</p>
+                <p class="text-xs text-gray-500 dark:text-gray-500 mt-2 font-mono">2024 - 2027</p>
               </div>
             </div>
           </div>
 
-          <div class="p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+          <div class="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow duration-300">
             <div class="flex items-start gap-4">
-              <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">🏫</div>
+              <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">📚</div>
               <div>
-                <h3 class="font-bold text-gray-900">Colégio Pedro II</h3>
-                <p class="text-sm text-gray-600 mt-1">Ensino Médio Técnico em Dev. de Sistemas</p>
-                <p class="text-xs text-gray-500 mt-2 font-mono">2019 - 2021</p>
+                <h3 class="font-bold text-gray-900 dark:text-white">Colégio Pedro II</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Ensino Médio Técnico em Dev. de Sistemas</p>
+                <p class="text-xs text-gray-500 dark:text-gray-500 mt-2 font-mono">2019 - 2021</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow duration-300">
           <div class="flex items-start gap-4">
-            <div class="w-14 h-14 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">🏫</div>
+            <div class="w-14 h-14 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">🎓</div>
             <div>
-              <h3 class="font-bold text-gray-900">Richard Montgomery High School</h3>
-              <p class="text-sm text-gray-600 mt-1">High School - Maryland, USA</p>
-              <p class="text-xs text-gray-500 mt-2 font-mono">2021 - 2023</p>
+              <h3 class="font-bold text-gray-900 dark:text-white">Richard Montgomery High School</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">High School - Maryland, USA</p>
+              <p class="text-xs text-gray-500 dark:text-gray-500 mt-2 font-mono">2021 - 2023</p>
             </div>
           </div>
         </div>
@@ -189,109 +223,125 @@
 
       <!-- TECNOLOGIAS E FERRAMENTAS -->
       <section class="space-y-4">
-        <h2 class="text-3xl font-bold text-gray-900">Tecnologias e Ferramentas</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Tecnologias e Ferramentas</h2>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
-            <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">S</div>
-            <p class="font-semibold text-sm text-gray-900">Swift</p>
-            <p class="text-xs text-gray-500">iOS</p>
+          <!-- Swift Logo -->
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <svg class="w-12 h-12 mb-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.445 2.887c1.054 1.233 1.701 2.888 1.701 4.688 0 3.888-2.844 7.125-6.445 7.75 1.268 1.453 2.038 3.338 2.038 5.425 0 4.549-3.688 8.25-8.238 8.25-1.596 0-3.088-.445-4.376-1.221.584-.667 1.346-1.167 2.193-1.404 1.163.558 2.459.88 3.838.88 3.687 0 6.708-3.112 6.708-6.963 0-2.162-.959-4.089-2.464-5.408 3.337-.584 5.954-3.534 5.954-7.104 0-1.329-.346-2.583-.95-3.671.775.146 1.508.459 2.149.921z" fill="#FA7343"/>
+            </svg>
+            <p class="font-semibold text-sm text-gray-900 dark:text-white">Swift</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">iOS</p>
           </div>
 
-          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+          <!-- Flutter -->
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">F</div>
-            <p class="font-semibold text-sm text-gray-900">Flutter</p>
-            <p class="text-xs text-gray-500">Mobile</p>
+            <p class="font-semibold text-sm text-gray-900 dark:text-white">Flutter</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Mobile</p>
           </div>
 
-          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+          <!-- Python -->
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
             <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-blue-600 rounded-lg flex items-center justify-center shadow-md mb-2 text-2xl">🐍</div>
-            <p class="font-semibold text-sm text-gray-900">Python</p>
-            <p class="text-xs text-gray-500">Backend</p>
+            <p class="font-semibold text-sm text-gray-900 dark:text-white">Python</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Backend</p>
           </div>
 
-          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
-            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">F</div>
-            <p class="font-semibold text-sm text-gray-900">Figma</p>
-            <p class="text-xs text-gray-500">Design</p>
+          <!-- Figma Logo -->
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <svg class="w-12 h-12 mb-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#0ACF83"/>
+              <circle cx="8" cy="12" r="2" fill="#A259FF"/>
+              <circle cx="16" cy="12" r="2" fill="#F24E1E"/>
+              <circle cx="12" cy="8" r="2" fill="#FF8703"/>
+              <circle cx="12" cy="16" r="2" fill="#1ABCFE"/>
+            </svg>
+            <p class="font-semibold text-sm text-gray-900 dark:text-white">Figma</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Design</p>
           </div>
 
-          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+          <!-- Git -->
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
             <div class="w-12 h-12 bg-gradient-to-br from-orange-600 to-red-600 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">⎇</div>
-            <p class="font-semibold text-sm text-gray-900">Git</p>
-            <p class="text-xs text-gray-500">Versionamento</p>
+            <p class="font-semibold text-sm text-gray-900 dark:text-white">Git</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Versionamento</p>
           </div>
 
-          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+          <!-- Xcode -->
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">X</div>
-            <p class="font-semibold text-sm text-gray-900">Xcode</p>
-            <p class="text-xs text-gray-500">IDE</p>
+            <p class="font-semibold text-sm text-gray-900 dark:text-white">Xcode</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">IDE</p>
           </div>
 
-          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+          <!-- VS Code -->
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold text-sm">{}</div>
-            <p class="font-semibold text-sm text-gray-900">VS Code</p>
-            <p class="text-xs text-gray-500">Editor</p>
+            <p class="font-semibold text-sm text-gray-900 dark:text-white">VS Code</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Editor</p>
           </div>
 
-          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+          <!-- JavaScript -->
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
             <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center shadow-md mb-2 text-gray-900 font-bold">JS</div>
-            <p class="font-semibold text-sm text-gray-900">JavaScript</p>
-            <p class="text-xs text-gray-500">Web</p>
+            <p class="font-semibold text-sm text-gray-900 dark:text-white">JavaScript</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Web</p>
           </div>
         </div>
       </section>
 
       <!-- SKILLS -->
       <section class="space-y-4">
-        <h2 class="text-3xl font-bold text-gray-900">Skills e Competências</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Skills e Competências</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 dark:from-blue-900 to-blue-100 dark:to-blue-800 rounded-lg border border-blue-200 dark:border-blue-700 hover:shadow-md transition-shadow">
             <span class="text-2xl">📱</span>
             <div>
-              <p class="font-semibold text-gray-900">Desenvolvimento Mobile</p>
-              <p class="text-xs text-gray-600">iOS & Cross-platform</p>
+              <p class="font-semibold text-gray-900 dark:text-white">Desenvolvimento Mobile</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400">iOS & Cross-platform</p>
             </div>
           </div>
 
-          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border border-purple-200 hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 dark:from-purple-900 to-purple-100 dark:to-purple-800 rounded-lg border border-purple-200 dark:border-purple-700 hover:shadow-md transition-shadow">
             <span class="text-2xl">🎨</span>
             <div>
-              <p class="font-semibold text-gray-900">UI/UX Design</p>
-              <p class="text-xs text-gray-600">Figma, Design Thinking</p>
+              <p class="font-semibold text-gray-900 dark:text-white">UI/UX Design</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400">Figma, Design Thinking</p>
             </div>
           </div>
 
-          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200 hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 dark:from-green-900 to-green-100 dark:to-green-800 rounded-lg border border-green-200 dark:border-green-700 hover:shadow-md transition-shadow">
             <span class="text-2xl">👥</span>
             <div>
-              <p class="font-semibold text-gray-900">Trabalho em Equipe</p>
-              <p class="text-xs text-gray-600">Colaboração e comunicação</p>
+              <p class="font-semibold text-gray-900 dark:text-white">Trabalho em Equipe</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400">Colaboração e comunicação</p>
             </div>
           </div>
 
-          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-orange-50 to-red-100 rounded-lg border border-orange-200 hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-orange-50 dark:from-orange-900 to-red-100 dark:to-red-800 rounded-lg border border-orange-200 dark:border-orange-700 hover:shadow-md transition-shadow">
             <span class="text-2xl">⚡</span>
             <div>
-              <p class="font-semibold text-gray-900">Adaptabilidade</p>
-              <p class="text-xs text-gray-600">Aprendizado rápido</p>
+              <p class="font-semibold text-gray-900 dark:text-white">Adaptabilidade</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400">Aprendizado rápido</p>
             </div>
           </div>
 
-          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-indigo-50 to-indigo-100 rounded-lg border border-indigo-200 hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-indigo-50 dark:from-indigo-900 to-indigo-100 dark:to-indigo-800 rounded-lg border border-indigo-200 dark:border-indigo-700 hover:shadow-md transition-shadow">
             <span class="text-2xl">📊</span>
             <div>
-              <p class="font-semibold text-gray-900">Problem Solving</p>
-              <p class="text-xs text-gray-600">Pensamento crítico</p>
+              <p class="font-semibold text-gray-900 dark:text-white">Problem Solving</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400">Pensamento crítico</p>
             </div>
           </div>
 
-          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-pink-50 to-rose-100 rounded-lg border border-pink-200 hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-pink-50 dark:from-pink-900 to-rose-100 dark:to-rose-800 rounded-lg border border-pink-200 dark:border-pink-700 hover:shadow-md transition-shadow">
             <span class="text-2xl">🎯</span>
             <div>
-              <p class="font-semibold text-gray-900">Monitoramento Proativo</p>
-              <p class="text-xs text-gray-600">Performance & Quality</p>
+              <p class="font-semibold text-gray-900 dark:text-white">Monitoramento Proativo</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400">Performance & Quality</p>
             </div>
           </div>
         </div>
@@ -299,55 +349,55 @@
 
       <!-- CERTIFICAÇÕES -->
       <section class="space-y-4 pb-8">
-        <h2 class="text-3xl font-bold text-gray-900">Certificações & Cursos</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Certificações & Cursos</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+          <div class="p-5 bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-700 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-2xl">🍎</span>
-              <h3 class="font-bold text-gray-900">Montgomery College</h3>
+              <h3 class="font-bold text-gray-900 dark:text-white">Montgomery College</h3>
             </div>
-            <p class="text-sm text-gray-700">iPhone/iPad Development with Swift</p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">iPhone/iPad Development with Swift</p>
           </div>
 
-          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+          <div class="p-5 bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-700 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-2xl">📱</span>
-              <h3 class="font-bold text-gray-900">Udemy</h3>
+              <h3 class="font-bold text-gray-900 dark:text-white">Udemy</h3>
             </div>
-            <p class="text-sm text-gray-700">Aprenda Flutter e Desenvolva Apps para Android e iOS</p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">Aprenda Flutter e Desenvolva Apps para Android e iOS</p>
           </div>
 
-          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+          <div class="p-5 bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-700 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-2xl">🎨</span>
-              <h3 class="font-bold text-gray-900">Udemy</h3>
+              <h3 class="font-bold text-gray-900 dark:text-white">Udemy</h3>
             </div>
-            <p class="text-sm text-gray-700">Café com Figma - Design de Interfaces com Figma do Zero</p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">Café com Figma - Design de Interfaces com Figma do Zero</p>
           </div>
 
-          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+          <div class="p-5 bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-700 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-2xl">🐍</span>
-              <h3 class="font-bold text-gray-900">Fundação Bradesco</h3>
+              <h3 class="font-bold text-gray-900 dark:text-white">Fundação Bradesco</h3>
             </div>
-            <p class="text-sm text-gray-700">Linguagem de Programação Python - Básico</p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">Linguagem de Programação Python - Básico</p>
           </div>
 
-          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+          <div class="p-5 bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-700 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-2xl">🐍</span>
-              <h3 class="font-bold text-gray-900">Santander Open Academy</h3>
+              <h3 class="font-bold text-gray-900 dark:text-white">Santander Open Academy</h3>
             </div>
-            <p class="text-sm text-gray-700">Introdução a Programação com Python</p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">Introdução a Programação com Python</p>
           </div>
 
-          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+          <div class="p-5 bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-700 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-2xl">🏆</span>
-              <h3 class="font-bold text-gray-900">PUC-Rio</h3>
+              <h3 class="font-bold text-gray-900 dark:text-white">PUC-Rio</h3>
             </div>
-            <p class="text-sm text-gray-700">WWDC-SSC Crash Challenge</p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">WWDC-SSC Crash Challenge</p>
           </div>
         </div>
       </section>

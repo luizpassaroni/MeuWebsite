@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* DARK MODE VARIABLES */
+:root {
+  color-scheme: light;
+}
+
+body.dark-mode {
+  color-scheme: dark;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,10 +24,258 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* LIGHT MODE */
 body {
   background: linear-gradient(135deg, #f0f9ff via #ffffff to #f5f3ff);
   color: #1f2937;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* DARK MODE */
+body.dark-mode {
+  background: linear-gradient(135deg, #0f172a via #1a202c to #1a1a2e);
+  color: #e5e7eb;
+}
+
+/* BG LIGHT/DARK */
+.bg-light-bg {
+  background-color: transparent;
+}
+
+.text-light-text {
+  color: #1f2937;
+}
+
+body.dark-mode .text-light-text {
+  color: #e5e7eb;
+}
+
+/* DARK MODE UTILITIES */
+.dark\:bg-gray-800 {
+  background-color: #1f2937;
+}
+
+body.dark-mode .dark\:bg-gray-800 {
+  background-color: #1f2937;
+}
+
+.dark\:bg-gray-700 {
+  background-color: #374151;
+}
+
+body.dark-mode .dark\:bg-gray-700 {
+  background-color: #374151;
+}
+
+.dark\:bg-blue-900 {
+  background-color: #1e3a8a;
+}
+
+body.dark-mode .dark\:bg-blue-900 {
+  background-color: #1e3a8a;
+}
+
+.dark\:bg-blue-800 {
+  background-color: #1e40af;
+}
+
+body.dark-mode .dark\:bg-blue-800 {
+  background-color: #1e40af;
+}
+
+.dark\:bg-blue-900 {
+  background-color: #1e3a8a;
+}
+
+body.dark-mode .dark\:bg-blue-900 {
+  background-color: #1e3a8a;
+}
+
+.dark\:bg-purple-900 {
+  background-color: #4c1d95;
+}
+
+body.dark-mode .dark\:bg-purple-900 {
+  background-color: #4c1d95;
+}
+
+.dark\:bg-purple-800 {
+  background-color: #6d28d9;
+}
+
+body.dark-mode .dark\:bg-purple-800 {
+  background-color: #6d28d9;
+}
+
+.dark\:bg-green-900 {
+  background-color: #15803d;
+}
+
+body.dark-mode .dark\:bg-green-900 {
+  background-color: #15803d;
+}
+
+.dark\:bg-green-800 {
+  background-color: #166534;
+}
+
+body.dark-mode .dark\:bg-green-800 {
+  background-color: #166534;
+}
+
+.dark\:bg-orange-900 {
+  background-color: #7c2d12;
+}
+
+body.dark-mode .dark\:bg-orange-900 {
+  background-color: #7c2d12;
+}
+
+.dark\:bg-red-800 {
+  background-color: #991b1b;
+}
+
+body.dark-mode .dark\:bg-red-800 {
+  background-color: #991b1b;
+}
+
+.dark\:bg-indigo-900 {
+  background-color: #3730a3;
+}
+
+body.dark-mode .dark\:bg-indigo-900 {
+  background-color: #3730a3;
+}
+
+.dark\:bg-indigo-800 {
+  background-color: #4f46e5;
+}
+
+body.dark-mode .dark\:bg-indigo-800 {
+  background-color: #4f46e5;
+}
+
+.dark\:bg-pink-900 {
+  background-color: #831843;
+}
+
+body.dark-mode .dark\:bg-pink-900 {
+  background-color: #831843;
+}
+
+.dark\:bg-rose-800 {
+  background-color: #9f1239;
+}
+
+body.dark-mode .dark\:bg-rose-800 {
+  background-color: #9f1239;
+}
+
+/* DARK MODE TEXT COLORS */
+.dark\:text-white {
+  color: white;
+}
+
+body.dark-mode .dark\:text-white {
+  color: white;
+}
+
+.dark\:text-gray-400 {
+  color: #9ca3af;
+}
+
+body.dark-mode .dark\:text-gray-400 {
+  color: #9ca3af;
+}
+
+.dark\:text-gray-300 {
+  color: #d1d5db;
+}
+
+body.dark-mode .dark\:text-gray-300 {
+  color: #d1d5db;
+}
+
+.dark\:text-gray-200 {
+  color: #e5e7eb;
+}
+
+body.dark-mode .dark\:text-gray-200 {
+  color: #e5e7eb;
+}
+
+.dark\:text-gray-500 {
+  color: #6b7280;
+}
+
+body.dark-mode .dark\:text-gray-500 {
+  color: #6b7280;
+}
+
+/* DARK MODE BORDERS */
+.dark\:border-gray-600 {
+  border-color: #4b5563;
+}
+
+body.dark-mode .dark\:border-gray-600 {
+  border-color: #4b5563;
+}
+
+.dark\:border-gray-700 {
+  border-color: #374151;
+}
+
+body.dark-mode .dark\:border-gray-700 {
+  border-color: #374151;
+}
+
+.dark\:border-blue-700 {
+  border-color: #1d4ed8;
+}
+
+body.dark-mode .dark\:border-blue-700 {
+  border-color: #1d4ed8;
+}
+
+.dark\:border-purple-700 {
+  border-color: #7e22ce;
+}
+
+body.dark-mode .dark\:border-purple-700 {
+  border-color: #7e22ce;
+}
+
+.dark\:border-green-700 {
+  border-color: #15803d;
+}
+
+body.dark-mode .dark\:border-green-700 {
+  border-color: #15803d;
+}
+
+.dark\:border-orange-700 {
+  border-color: #92400e;
+}
+
+body.dark-mode .dark\:border-orange-700 {
+  border-color: #92400e;
+}
+
+.dark\:border-indigo-700 {
+  border-color: #5b21b6;
+}
+
+body.dark-mode .dark\:border-indigo-700 {
+  border-color: #5b21b6;
+}
+
+.dark\:border-pink-700 {
+  border-color: #be185d;
+}
+
+body.dark-mode .dark\:border-pink-700 {
+  border-color: #be185d;
 }
 
 /* GRADIENTES */
