@@ -263,6 +263,197 @@ body::-webkit-scrollbar {
 }
 
 /* =========================================
+   STATUS BADGES — pills nativas
+   ========================================= */
+
+.ios-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: -0.1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ios-badge-green {
+  background: rgba(52, 199, 89, 0.14);
+  color: #1A9E3F;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ios-badge-green {
+    background: rgba(48, 209, 88, 0.18);
+    color: #30D158;
+  }
+}
+
+.ios-badge-orange {
+  background: rgba(255, 159, 10, 0.14);
+  color: #C17800;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ios-badge-orange {
+    background: rgba(255, 159, 10, 0.18);
+    color: #FF9F0A;
+  }
+}
+
+.ios-badge-blue {
+  background: rgba(0, 122, 255, 0.12);
+  color: #0062CC;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ios-badge-blue {
+    background: rgba(10, 132, 255, 0.18);
+    color: #0A84FF;
+  }
+}
+
+/* =========================================
+   SKILL BARS — proficiência
+   ========================================= */
+
+.ios-skill-track {
+  height: 4px;
+  background: var(--ios-separator);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.ios-skill-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--ios-blue);
+  width: 0%;
+  transition: width 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* =========================================
+   STAT CARDS — métricas rápidas
+   ========================================= */
+
+.ios-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.ios-stat-card {
+  background-color: var(--ios-card);
+  border-radius: 12px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ios-stat-card { box-shadow: none; }
+}
+
+.ios-stat-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.ios-stat-value {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: var(--ios-text);
+  line-height: 1.1;
+}
+
+.ios-stat-label {
+  font-size: 12px;
+  color: var(--ios-secondary-label);
+  margin-top: 3px;
+  letter-spacing: -0.08px;
+}
+
+/* =========================================
+   FEATURED PROJECT CARD
+   ========================================= */
+
+.ios-project-card {
+  background-color: var(--ios-card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ios-project-card { box-shadow: none; }
+}
+
+.ios-project-banner {
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+  position: relative;
+}
+
+.ios-project-banner-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 0.5px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.ios-project-body {
+  padding: 14px 16px 16px;
+}
+
+.ios-project-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.ios-tag {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(0, 122, 255, 0.1);
+  color: #0062CC;
+  letter-spacing: -0.1px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ios-tag {
+    background: rgba(10, 132, 255, 0.16);
+    color: #0A84FF;
+  }
+}
+
+.ios-tag-gray {
+  background: rgba(60, 60, 67, 0.08);
+  color: var(--ios-secondary-label);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ios-tag-gray {
+    background: rgba(235, 235, 245, 0.1);
+  }
+}
+
+/* =========================================
    ACESSIBILIDADE — prefers-reduced-motion
    Guideline obrigatória da Apple HIG
    ========================================= */
