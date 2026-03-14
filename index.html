@@ -14,12 +14,10 @@
 
   <script>
     (function() {
-      // --- CONFIGURAÇÃO ---
       var allowedHosts = ['luizpassaroni.com', 'luizpassaroni.github.io', 'localhost', '127.0.0.1'];
       var currentHost = window.location.hostname;
       var isAllowed = false;
 
-      // 1. Verifica se o domínio é o seu
       for (var i = 0; i < allowedHosts.length; i++) {
         if (currentHost.includes(allowedHosts[i])) {
           isAllowed = true;
@@ -27,31 +25,24 @@
         }
       }
 
-      // 2. Verifica se é um arquivador (Wayback, Archive.today, Google Cache)
-      var isArchive = window.__wm || 
-                      currentHost.includes('archive') || 
-                      currentHost.includes('wayback') || 
+      var isArchive = window.__wm ||
+                      currentHost.includes('archive') ||
+                      currentHost.includes('wayback') ||
                       currentHost.includes('googleusercontent');
 
-      // --- LÓGICA FINAL ---
       if (isAllowed && !isArchive) {
-        // ✅ É VOCÊ: Libera o site
         document.addEventListener('DOMContentLoaded', function() {
           var curtain = document.getElementById('security-curtain');
           if (curtain) curtain.remove();
-          
           document.body.style.display = 'block';
           document.body.style.opacity = '1';
         });
       } else {
-        // ⛔ É ARQUIVO: Mostra a tela de bloqueio
         try { window.stop(); } catch (e) {}
-        
         window.addEventListener('load', function(){
             var curtain = document.getElementById('security-curtain');
             if (curtain) curtain.remove();
-            
-            document.body.innerHTML = 
+            document.body.innerHTML =
               '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:-apple-system,sans-serif;text-align:center;color:#333;padding:20px;">' +
               '<div style="font-size:60px;margin-bottom:20px;">🚫</div>' +
               '<h1 style="margin:0;font-size:32px;font-weight:700;">Archiving Not Permitted</h1>' +
@@ -69,312 +60,297 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
-  <title>Dev Passaroni</title>
-  <meta name="description" content="Atualmente, curso Ciência da Computação e tenho grande interesse em desenvolvimento de software, especialmente para plataformas mobile. Estou sempre buscando aprimorar minhas habilidades e explorar novas tecnologias. Tenho experiência com projetos acadêmicos e desafios práticos, desenvolvendo aplicações interativas e explorando diferentes frameworks. Aberto a oportunidades de estágio na área de tecnologia!">
+  <title>Luiz Passaroni - iOS Developer</title>
+  <meta name="description" content="Estudante de Ciência da Computação com foco em desenvolvimento iOS. Experiência em Swift, Flutter, Python. Estagiário na Globo.">
   <meta name="google-adsense-account" content="ca-pub-2699637004091628">
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen">
+
+  <div class="fixed inset-0 -z-10 opacity-30" style="background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)"></div>
 
   <main class="flex-1 flex flex-col">
 
-    <section class="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4 my-8 px-4" aria-label="Resume Content">
+    <section class="mx-auto w-full max-w-4xl px-4 py-8 space-y-12">
 
-      <header class="flex items-start md:items-center justify-between gap-4">
+      <!-- HERO HEADER -->
+      <header class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
 
-        <div class="flex-1 space-y-1.5">
-
-          <h1 class="text-2xl font-bold" id="resume-name">Luiz Felipe de Aguiar Passaroni</h1>
-
-          <p class="max-w-md text-pretty font-mono text-sm text-design-resume print:text-[12px]" aria-labelledby="resume-name">Estudante de Ciência da Computação com foco em desenvolvimento de software, especialmente para plataformas mobile. Buscando aprimorar habilidades e explorar novas tecnologias.</p>
-
-          <p class="max-w-md items-center text-pretty font-mono text-xs text-foreground">
-
-            <a class="inline-flex gap-x-1.5 align-baseline leading-none hover:underline text-[#9CA0A8]" href="https://www.google.com/maps/search/Rio%20de%20Janeiro%2C%20Brasil" target="_blank" rel="noopener noreferrer" aria-label="Location: Rio de Janeiro, Brasil">Rio de Janeiro, Brasil</a>
-
-          </p>
-
-          <div class="flex gap-x-1 pt-1 font-mono text-sm text-design-resume print:hidden" role="list" aria-label="Contact links">
-
-            <a href="mailto:aguiarpassaroni@gmail.com" aria-label="Email" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground size-8">
-
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail size-4" aria-hidden="true">
-                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-              </svg>
-
-            </a>
-
-            <a href="https://github.com/luizpassaroni" aria-label="GitHub" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground size-8">
-
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github size-4" aria-hidden="true">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
-                <path d="M9 18c-4.51 2-5-2-7-2"></path>
-              </svg>
-
-            </a>
-
-            <a href="https://x.com/luizpassaroni" aria-label="X" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground size-8">
-              <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="size-4" style="width: 14px; height: 14px;">
-                <title>X</title>
-                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-              </svg>
-            </a>
-
-            <a href="https://linkedin.com/in/luizpassaroni" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground size-8">
-
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin size-4" aria-hidden="true">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect width="4" height="12" x="2" y="9"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
-
-            </a>
-
+        <div class="md:col-span-2 space-y-6">
+          <div class="space-y-3">
+            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Luiz Passaroni</h1>
+            <p class="text-lg text-gray-600">iOS Developer & Computer Science Student</p>
+            <p class="text-sm text-gray-500 leading-relaxed">Desenvolvedor entusiasta com foco em desenvolvimento mobile, especialmente iOS. Buscando explorar novas tecnologias e criar aplicações de impacto.</p>
           </div>
 
+          <div class="space-y-3">
+            <div class="flex items-center gap-2 text-gray-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>Rio de Janeiro, Brasil 🇧🇷</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="mailto:aguiarpassaroni@gmail.com" title="Email" class="group relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-white border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-300 shadow-sm hover:shadow-md">
+              <svg class="w-5 h-5 text-gray-700 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+            </a>
+
+            <a href="https://github.com/luizpassaroni" target="_blank" rel="noopener noreferrer" title="GitHub" class="group relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-white border-2 border-gray-200 hover:border-gray-800 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md">
+              <svg class="w-5 h-5 text-gray-700 group-hover:text-gray-800" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+
+            <a href="https://x.com/luizpassaroni" target="_blank" rel="noopener noreferrer" title="X/Twitter" class="group relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-white border-2 border-gray-200 hover:border-black hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md">
+              <svg class="w-5 h-5 text-gray-700 group-hover:text-black" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+              </svg>
+            </a>
+
+            <a href="https://linkedin.com/in/luizpassaroni" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="group relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-white border-2 border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-all duration-300 shadow-sm hover:shadow-md">
+              <svg class="w-5 h-5 text-gray-700 group-hover:text-blue-700" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+              </svg>
+            </a>
+          </div>
         </div>
 
-        <span class="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-28" aria-hidden="true">
+        <div class="flex justify-center md:justify-end">
+          <div class="relative w-48 h-48 md:w-56 md:h-56">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-600 rounded-3xl opacity-20 blur-2xl"></div>
+            <img class="relative w-full h-full object-cover rounded-3xl shadow-2xl border-4 border-white" alt="Foto de perfil de Luiz Felipe Passaroni" src="perfil.jpeg">
+          </div>
+        </div>
 
-          <img class="aspect-square h-full w-full" alt="Foto de perfil de Luiz Felipe Passaroni" src="perfil.jpeg">
-
-        </span>
       </header>
 
-      <div class="flex flex-col gap-6">
+      <!-- EXPERIÊNCIA PROFISSIONAL -->
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-gray-900">Experiência Profissional</h2>
 
-        <section class="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
-
-          <h2 class="text-xl font-bold" id="about-section">Sobre</h2>
-
-          <div class="text-pretty font-mono text-sm text-design-resume print:text-[12px]" aria-labelledby="about-section">Atualmente, curso Ciência da Computação e tenho grande interesse em desenvolvimento de software, especialmente para plataformas mobile. Estou sempre buscando aprimorar minhas habilidades e explorar novas tecnologias. Tenho experiência com projetos acadêmicos e desafios práticos, desenvolvendo aplicações interativas e explorando diferentes frameworks. Aberto a oportunidades de estágio na área de tecnologia!</div>
-
-        </section>
-
-        <section class="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
-
-          <h2 class="text-xl font-bold" id="experience-section">Experiência Profissional</h2>
-
-          <div class="space-y-4" role="feed" aria-labelledby="experience-section">
-
-            <article role="article">
-
-              <div class="rounded-lg bg-card text-card-foreground">
-
-                <div class="flex flex-col space-y-1.5">
-
-                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-base">
-
-                    <h3 class="font-semibold leading-none">Globo</h3>
-
-                    <div class="text-sm tabular-nums text-gray-500">dez de 2025 - o momento</div>
-
-                  </div>
-
-                </div>
-
-                <div class="text-pretty font-mono text-sm mt-2 text-design-resume print:text-[12px]">
-
-                  Estagiário de Desenvolvimento iOS
-
-                </div>
-
+        <div class="p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+          <div class="flex items-start justify-between gap-4 flex-wrap">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-red-500 rounded-xl flex items-center justify-center shadow-lg text-white font-bold text-2xl">G</div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">Globo</h3>
+                <p class="text-sm text-gray-600">Estagiário de Desenvolvimento iOS</p>
               </div>
+            </div>
+            <div class="text-sm font-mono bg-blue-100 text-blue-800 px-3 py-1 rounded-lg">dez 2025 - Presente</div>
+          </div>
+        </div>
+      </section>
 
-            </article>
+      <!-- EDUCAÇÃO -->
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-gray-900">Educação</h2>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <div class="flex items-start gap-4">
+              <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">🎓</div>
+              <div>
+                <h3 class="font-bold text-gray-900">Universidade Veiga de Almeida</h3>
+                <p class="text-sm text-gray-600 mt-1">Bacharelado em Ciência da Computação</p>
+                <p class="text-xs text-gray-500 mt-2 font-mono">2024 - 2027</p>
+              </div>
+            </div>
           </div>
 
-        </section>
-
-        <section class="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
-
-          <h2 class="text-xl font-bold" id="education-section">Educação</h2>
-
-          <div class="space-y-4" role="feed" aria-labelledby="education-section">
-
-            <article role="article">
-
-              <div class="rounded-lg bg-card text-card-foreground">
-
-                <div class="flex flex-col space-y-1.5">
-
-                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-base">
-
-                    <h3 class="font-semibold leading-none" id="education-universidade-veiga-de-almeida">Universidade Veiga de Almeida</h3>
-
-                    <div class="text-sm tabular-nums text-gray-500" aria-label="Period: 2024 to 2027">2024 - 2027</div>
-
-                  </div>
-
-                </div>
-
-                <div class="text-pretty font-mono text-sm mt-2 text-design-resume print:text-[12px]" aria-labelledby="education-universidade-veiga-de-almeida">Bacharelado em Ciência da Computação</div>
-
+          <div class="p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <div class="flex items-start gap-4">
+              <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">🏫</div>
+              <div>
+                <h3 class="font-bold text-gray-900">Colégio Pedro II</h3>
+                <p class="text-sm text-gray-600 mt-1">Ensino Médio Técnico em Dev. de Sistemas</p>
+                <p class="text-xs text-gray-500 mt-2 font-mono">2019 - 2021</p>
               </div>
+            </div>
+          </div>
+        </div>
 
-            </article>
+        <div class="p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+          <div class="flex items-start gap-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 text-2xl">🏫</div>
+            <div>
+              <h3 class="font-bold text-gray-900">Richard Montgomery High School</h3>
+              <p class="text-sm text-gray-600 mt-1">High School - Maryland, USA</p>
+              <p class="text-xs text-gray-500 mt-2 font-mono">2021 - 2023</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <article role="article">
+      <!-- TECNOLOGIAS E FERRAMENTAS -->
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-gray-900">Tecnologias e Ferramentas</h2>
 
-              <div class="rounded-lg bg-card text-card-foreground">
-
-                <div class="flex flex-col space-y-1.5">
-
-                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-base">
-
-                    <h3 class="font-semibold leading-none" id="education-richard-montgomery-high-school">Richard Montgomery High School</h3>
-
-                    <div class="text-sm tabular-nums text-gray-500" aria-label="Period: 2021 to 2023">2021 - 2023</div>
-
-                  </div>
-
-                </div>
-
-                <div class="text-pretty font-mono text-sm mt-2 text-design-resume print:text-[12px]" aria-labelledby="education-richard-montgomery-high-school">High School</div>
-
-              </div>
-
-            </article>
-
-            <article role="article">
-
-              <div class="rounded-lg bg-card text-card-foreground">
-
-                <div class="flex flex-col space-y-1.5">
-
-                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-base">
-
-                    <h3 class="font-semibold leading-none" id="education-colégio-pedro-ii">Colégio Pedro II</h3>
-
-                    <div class="text-sm tabular-nums text-gray-500" aria-label="Period: 2019 to 2022">2019 - 2021</div>
-
-                  </div>
-
-                </div>
-
-                <div class="text-pretty font-mono text-sm mt-2 text-design-resume print:text-[12px]" aria-labelledby="education-colégio-pedro-ii">Ensino Médio Técnico em Desenvolvimento de Sistemas</div>
-
-              </div>
-
-            </article>
-
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">S</div>
+            <p class="font-semibold text-sm text-gray-900">Swift</p>
+            <p class="text-xs text-gray-500">iOS</p>
           </div>
 
-        </section>
-
-        <section>
-
-          <h2 class="text-xl font-bold">Cursos e Certificados</h2>
-
-          <div class="space-y-4 mt-2">
-
-            <div>
-
-              <h3 class="font-semibold">Montgomery College</h3>
-
-              <p class="text-sm font-mono text-design-resume">iPhone/iPad Development with Swift</p>
-
-            </div>
-
-            <div>
-
-              <h3 class="font-semibold">Udemy</h3>
-
-              <p class="text-sm font-mono text-design-resume">Aprenda Flutter e Desenvolva Apps Para Android e IOS</p>
-
-              <p class="text-sm font-mono text-design-resume">Café com Figma - Design de Interfaces com Figma do Zero</p>
-
-            </div>
-
-            <div>
-
-              <h3 class="font-semibold">Fundação Bradesco</h3>
-
-              <p class="text-sm font-mono text-design-resume">Linguagem de Programação Python - Básico</p>
-
-            </div>
-
-            <div>
-
-              <h3 class="font-semibold">Santander Open Academy</h3>
-
-              <p class="text-sm font-mono text-design-resume">Introdução a Programação com Python</p>
-
-            </div>
-
-            <div>
-
-              <h3 class="font-semibold">PUC-Rio</h3>
-
-              <p class="text-sm font-mono text-design-resume">WWDC-SSC Crash Challenge</p>
-
-            </div>
-
+          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">F</div>
+            <p class="font-semibold text-sm text-gray-900">Flutter</p>
+            <p class="text-xs text-gray-500">Mobile</p>
           </div>
 
-        </section>
+          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-blue-600 rounded-lg flex items-center justify-center shadow-md mb-2 text-2xl">🐍</div>
+            <p class="font-semibold text-sm text-gray-900">Python</p>
+            <p class="text-xs text-gray-500">Backend</p>
+          </div>
 
-        <section class="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">F</div>
+            <p class="font-semibold text-sm text-gray-900">Figma</p>
+            <p class="text-xs text-gray-500">Design</p>
+          </div>
 
-          <h2 class="text-xl font-bold" id="skills-section">Skills</h2>
+          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <div class="w-12 h-12 bg-gradient-to-br from-orange-600 to-red-600 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">⎇</div>
+            <p class="font-semibold text-sm text-gray-900">Git</p>
+            <p class="text-xs text-gray-500">Versionamento</p>
+          </div>
 
-          <ul class="flex list-none flex-wrap gap-1 p-0" aria-label="List of skills" aria-labelledby="skills-section">
+          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold">X</div>
+            <p class="font-semibold text-sm text-gray-900">Xcode</p>
+            <p class="text-xs text-gray-500">IDE</p>
+          </div>
 
-            <li>
+          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-md mb-2 text-white font-bold text-sm">{}</div>
+            <p class="font-semibold text-sm text-gray-900">VS Code</p>
+            <p class="text-xs text-gray-500">Editor</p>
+          </div>
 
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Capacidade de adaptação">Capacidade de adaptação</div>
+          <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:scale-105 hover:-translate-y-1">
+            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center shadow-md mb-2 text-gray-900 font-bold">JS</div>
+            <p class="font-semibold text-sm text-gray-900">JavaScript</p>
+            <p class="text-xs text-gray-500">Web</p>
+          </div>
+        </div>
+      </section>
 
-            </li>
+      <!-- SKILLS -->
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-gray-900">Skills e Competências</h2>
 
-            <li>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 hover:shadow-md transition-shadow">
+            <span class="text-2xl">📱</span>
+            <div>
+              <p class="font-semibold text-gray-900">Desenvolvimento Mobile</p>
+              <p class="text-xs text-gray-600">iOS & Cross-platform</p>
+            </div>
+          </div>
 
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Trabalho em equipe">Trabalho em equipe</div>
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border border-purple-200 hover:shadow-md transition-shadow">
+            <span class="text-2xl">🎨</span>
+            <div>
+              <p class="font-semibold text-gray-900">UI/UX Design</p>
+              <p class="text-xs text-gray-600">Figma, Design Thinking</p>
+            </div>
+          </div>
 
-            </li>
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200 hover:shadow-md transition-shadow">
+            <span class="text-2xl">👥</span>
+            <div>
+              <p class="font-semibold text-gray-900">Trabalho em Equipe</p>
+              <p class="text-xs text-gray-600">Colaboração e comunicação</p>
+            </div>
+          </div>
 
-            <li>
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-orange-50 to-red-100 rounded-lg border border-orange-200 hover:shadow-md transition-shadow">
+            <span class="text-2xl">⚡</span>
+            <div>
+              <p class="font-semibold text-gray-900">Adaptabilidade</p>
+              <p class="text-xs text-gray-600">Aprendizado rápido</p>
+            </div>
+          </div>
 
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Monitoramento proativo">Monitoramento proativo</div>
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-indigo-50 to-indigo-100 rounded-lg border border-indigo-200 hover:shadow-md transition-shadow">
+            <span class="text-2xl">📊</span>
+            <div>
+              <p class="font-semibold text-gray-900">Problem Solving</p>
+              <p class="text-xs text-gray-600">Pensamento crítico</p>
+            </div>
+          </div>
 
-            </li>
+          <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-pink-50 to-rose-100 rounded-lg border border-pink-200 hover:shadow-md transition-shadow">
+            <span class="text-2xl">🎯</span>
+            <div>
+              <p class="font-semibold text-gray-900">Monitoramento Proativo</p>
+              <p class="text-xs text-gray-600">Performance & Quality</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <li>
+      <!-- CERTIFICAÇÕES -->
+      <section class="space-y-4 pb-8">
+        <h2 class="text-3xl font-bold text-gray-900">Certificações & Cursos</h2>
 
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Swift">Swift</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl">🍎</span>
+              <h3 class="font-bold text-gray-900">Montgomery College</h3>
+            </div>
+            <p class="text-sm text-gray-700">iPhone/iPad Development with Swift</p>
+          </div>
 
-            </li>
+          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl">📱</span>
+              <h3 class="font-bold text-gray-900">Udemy</h3>
+            </div>
+            <p class="text-sm text-gray-700">Aprenda Flutter e Desenvolva Apps para Android e iOS</p>
+          </div>
 
-            <li>
+          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl">🎨</span>
+              <h3 class="font-bold text-gray-900">Udemy</h3>
+            </div>
+            <p class="text-sm text-gray-700">Café com Figma - Design de Interfaces com Figma do Zero</p>
+          </div>
 
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Desenvolvimento mobile">Desenvolvimento mobile</div>
+          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl">🐍</span>
+              <h3 class="font-bold text-gray-900">Fundação Bradesco</h3>
+            </div>
+            <p class="text-sm text-gray-700">Linguagem de Programação Python - Básico</p>
+          </div>
 
-            </li>
+          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl">🐍</span>
+              <h3 class="font-bold text-gray-900">Santander Open Academy</h3>
+            </div>
+            <p class="text-sm text-gray-700">Introdução a Programação com Python</p>
+          </div>
 
-            <li>
-
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Desenvolvimento de sistemas">Desenvolvimento de sistemas</div>
-
-            </li>
-
-            <li>
-
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Projetos acadêmicos">Projetos acadêmicos</div>
-
-            </li>
-
-            <li>
-
-              <div class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-primary/80 text-primary-foreground hover:bg-primary/60 print:text-[10px] pointer-events-none" aria-label="Skill: Pacote office">Pacote office</div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-      </div>
+          <div class="p-5 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow hover:-translate-y-1">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl">🏆</span>
+              <h3 class="font-bold text-gray-900">PUC-Rio</h3>
+            </div>
+            <p class="text-sm text-gray-700">WWDC-SSC Crash Challenge</p>
+          </div>
+        </div>
+      </section>
 
     </section>
 
