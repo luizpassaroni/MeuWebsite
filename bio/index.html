@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luiz Passaroni — Links</title>
+  <style>
+    /* Variáveis para Modo Claro (Padrão) */
+    :root {
+      --bg-color: #ffffff;
+      --card-bg: #F2F2F7;
+      --accent-color: #007AFF;
+      --text-main: #000000;
+      --text-sub: #8E8E93;
+      --border-color: #E5E5EA;
+      --card-hover: #E5E5EA;
+    }
+
+    /* Variáveis para Modo Escuro */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #000000;
+        --card-bg: #1C1C1E;
+        --accent-color: #0A84FF;
+        --text-main: #FFFFFF;
+        --text-sub: #8E8E93;
+        --border-color: #38383A;
+        --card-hover: #2C2C2E;
+      }
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background-color: var(--bg-color);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-main);
+      transition: background-color 0.3s ease;
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .profile-img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 4px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-sub);
+      margin: 0;
+    }
+
+    .links-container {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .link-card:hover {
+      background-color: var(--card-hover);
+      transform: scale(1.02);
+    }
+
+    .icon-wrapper {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+    }
+
+    .icon-wrapper img {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+    }
+
+    .link-text {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    footer {
+      margin-top: 48px;
+      padding-bottom: 40px;
+      text-align: center;
+    }
+
+    .website-link {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 12px;
+      background-color: var(--card-bg);
+      display: inline-block;
+      transition: background-color 0.2s ease;
+    }
+
+    .website-link:hover {
+      background-color: var(--card-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="profile-header">
+    <img src="https://i.ibb.co/fGMpJfp6/perfil-1.png" alt="Luiz Passaroni" class="profile-img">
+    <h1>Luiz Passaroni</h1>
+    <p class="subtitle">iOS Developer · Globo</p>
+  </header>
+
+  <main class="links-container">
+    
+    <a href="https://linkedin.com/in/luizpassaroni" class="link-card" target="_blank">
+      <div class="icon-wrapper">
+        <img src="https://static.licdn.com/sc/h/akt4ae504epesldzj74dzred8" alt="LinkedIn">
+      </div>
+      <span class="link-text">LinkedIn</span>
+    </a>
+
+    <a href="https://github.com/luizpassaroni" class="link-card" target="_blank">
+      <div class="icon-wrapper">
+        <img src="https://github.githubassets.com/favicons/favicon.png" alt="GitHub">
+      </div>
+      <span class="link-text">GitHub</span>
+    </a>
+
+    <a href="https://www.instagram.com/luizpassaroni/" class="link-card" target="_blank">
+      <div class="icon-wrapper">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain=instagram.com" alt="Instagram">
+      </div>
+      <span class="link-text">Instagram</span>
+    </a>
+
+    <a href="https://www.threads.net/@luizpassaroni" class="link-card" target="_blank">
+      <div class="icon-wrapper">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain=threads.net" alt="Threads">
+      </div>
+      <span class="link-text">Threads</span>
+    </a>
+
+    <a href="https://bsky.app/profile/luizpassaroni.com" class="link-card" target="_blank">
+      <div class="icon-wrapper">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain=bsky.app" alt="BlueSky">
+      </div>
+      <span class="link-text">BlueSky</span>
+    </a>
+
+    <a href="https://www.tiktok.com/@luizpassaroni" class="link-card" target="_blank">
+      <div class="icon-wrapper">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain=tiktok.com" alt="TikTok">
+      </div>
+      <span class="link-text">TikTok</span>
+    </a>
+
+    <a href="https://x.com/luizpassaroni" class="link-card" target="_blank">
+      <div class="icon-wrapper">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain=x.com" alt="X">
+      </div>
+      <span class="link-text">X / Twitter</span>
+    </a>
+
+    <a href="https://www.facebook.com/luizpassaroni" class="link-card" target="_blank">
+      <div class="icon-wrapper">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain=facebook.com" alt="Facebook">
+      </div>
+      <span class="link-text">Facebook</span>
+    </a>
+
+  </main>
+
+  <footer>
+    <a href="https://luizpassaroni.com/" class="website-link">
+       Visite luizpassaroni.com
+    </a>
+  </footer>
+
+</body>
+</html>
