@@ -31,8 +31,8 @@
     .ios-lang-selector {
       appearance: none;
       background: var(--ios-glass-bg);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 14px;
       padding: 10px 35px 10px 38px;
@@ -59,15 +59,27 @@
       font-size: 22px;
       flex-shrink: 0;
       overflow: hidden;
+      margin-left: 4px; 
     }
-    .bg-br { background: #009B3A; border: 1px solid rgba(0,0,0,0.1); } /* Verde Brasil */
-    .bg-us { background: #012169; border: 1px solid rgba(0,0,0,0.1); } /* Azul EUA */
+    .bg-br { background: #009B3A; border: 1px solid rgba(0,0,0,0.1); }
+    .bg-us { background: #012169; border: 1px solid rgba(0,0,0,0.1); }
 
-    /* EFEITO GLASS MANTENDO AS BORDAS ANTIGAS */
+    /* CONFIGURAÇÃO DO VIDRO (GLASS) ADAPTÁVEL */
     .ios-widget-glass {
-      background: var(--ios-glass-bg) !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-radius: 1.5rem !important;
+      background: rgba(255, 255, 255, 0.7); 
+      overflow: hidden;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .ios-widget-glass, .ios-lang-selector {
+        background: rgba(28, 28, 30, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      }
+      .ios-lang-selector option { background: #1c1c1e; color: white; }
     }
 
     .tech-box { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
@@ -90,7 +102,7 @@
         </div>
       </div>
 
-      <header class="ios-glass rounded-[2rem] p-8 flex flex-col-reverse md:flex-row items-center gap-8 relative overflow-hidden">
+      <header class="ios-widget-glass p-8 flex flex-col-reverse md:flex-row items-center gap-8 relative overflow-hidden">
         <div class="flex-1 space-y-4 text-center md:text-left relative z-10">
           <div>
             <h1 class="ios-title1">Luiz Passaroni</h1>
@@ -125,6 +137,19 @@
         </div>
       </header>
 
+      <div class="ios-stat-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="ios-stat-card">
+          <div class="ios-stat-icon">⌨️</div>
+          <div class="ios-stat-value">Swift</div>
+          <div class="ios-stat-label" data-i18n="main_lang">Linguagem principal</div>
+        </div>
+        <div class="ios-stat-card">
+          <div class="ios-stat-icon">🏆</div>
+          <div class="ios-stat-value">8</div>
+          <div class="ios-stat-label" data-i18n="certs_label">Certificados</div>
+        </div>
+      </div>
+
       <section class="space-y-4 pt-4">
         <h2 class="ios-section-label pl-4" data-i18n="tech_title">Tecnologias</h2>
         <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-y-8 gap-x-2 px-2">
@@ -139,8 +164,8 @@
 
       <section class="space-y-2">
         <h2 class="ios-section-label pl-4" data-i18n="exp_title">Experiência Profissional</h2>
-        <div class="ios-widget ios-widget-glass">
-          <div class="ios-timeline-item p-4">
+        <div class="ios-widget-glass p-4">
+          <div class="ios-timeline-item">
             <div class="ios-tl-left"><div class="ios-tl-dot ios-tl-dot-active"></div></div>
             <div class="ios-tl-icon bg-white shrink-0"><img src="https://i.ibb.co/dsp2RhYJ/1767353113034.jpg" style="width:100%;height:100%;object-fit:contain;"></div>
             <div class="ios-tl-content">
@@ -157,14 +182,14 @@
 
       <section class="space-y-2">
         <h2 class="ios-section-label pl-4" data-i18n="edu_title">Educação</h2>
-        <div class="ios-widget ios-widget-glass">
-          <div class="ios-timeline-item border-b border-white/5 p-4">
+        <div class="ios-widget-glass">
+          <div class="ios-timeline-item border-b border-white/10 p-4">
             <div class="ios-tl-left"><div class="ios-tl-dot ios-tl-dot-active"></div><div class="ios-tl-line"></div></div>
             <div class="ios-tl-icon bg-white shrink-0"><img src="https://scontent.fqnv8-1.fna.fbcdn.net/v/t39.30808-6/396277438_728610869312002_5095888112251155297_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=1ABa4iiJCKcQ7kNvwEaTxIE&_nc_oc=Adliwk8YKxEUjaTdaTJecSEpcqb8icVx9f3TJJSZp1CJ4OtlVfiZc2g_Arz-G899ANU&_nc_zt=23&_nc_ht=scontent.fqnv8-1.fna&_nc_gid=DjPbb4ZaYc7ou6yLKokUrA&_nc_ss=8&oh=00_AfwBZmZxG00pVpHXdxgtZKeIkeEI5xiwxY9kCOcQsJk36Q&oe=69BBD87E" style="width:100%;height:100%;object-fit:cover;"></div>
             <div class="ios-tl-content"><div class="ios-tl-title">Universidade Veiga de Almeida</div><div class="ios-tl-sub" data-i18n="degree">Bacharelado em Ciência da Computação</div></div>
             <div class="ios-tl-right"><span class="ios-footnote ios-text-secondary">2024–2027</span><span class="ios-badge ios-badge-orange" data-i18n="ongoing">Em andamento</span></div>
           </div>
-          <div class="ios-timeline-item border-b border-white/5 p-4">
+          <div class="ios-timeline-item border-b border-white/10 p-4">
             <div class="ios-tl-left"><div class="ios-tl-dot"></div><div class="ios-tl-line"></div></div>
             <div class="ios-tl-icon bg-white"><img src="https://e4usa.org/sites/default/files/2023-08/rmhs-logo450x500.png" style="width:95%;height:95%;object-fit:contain;"></div>
             <div class="ios-tl-content"><div class="ios-tl-title">Richard Montgomery HS</div><div class="ios-tl-sub" data-i18n="hs">Ensino Médio — Maryland, EUA</div></div>
@@ -181,29 +206,33 @@
 
       <section class="space-y-2">
         <h2 class="ios-section-label pl-4" data-i18n="certs_title">Certificações & Cursos</h2>
-        <div class="ios-widget ios-widget-glass">
-          <div class="flex items-center gap-3 p-3 border-b border-white/5"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=montgomerycollege.edu&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Montgomery College</h3><p class="ios-footnote ios-text-secondary">iPhone/iPad Development with Swift</p></div><div class="pr-2"><span class="ios-badge ios-badge-blue">Apple</span></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/5"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Aprenda Flutter e Desenvolva Apps para Android e iOS</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/5"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Café com Figma — Design de Interfaces do Zero</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/5"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Entendendo a Linguagem</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/5"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Orientação a Objetos</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/5"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Fundação Bradesco</h3><p class="ios-footnote ios-text-secondary">Python - Básico</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/5"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=santander.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Santander Open Academy</h3><p class="ios-footnote ios-text-secondary">Introdução à Programação com Python</p></div></div>
+        <div class="ios-widget-glass">
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=montgomerycollege.edu&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Montgomery College</h3><p class="ios-footnote ios-text-secondary">iPhone/iPad Development with Swift</p></div><div class="pr-2"><span class="ios-badge ios-badge-blue">Apple</span></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Aprenda Flutter e Desenvolva Apps para Android e iOS</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Café com Figma — Design de Interfaces do Zero</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Entendendo a Linguagem</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Orientação a Objetos</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Fundação Bradesco</h3><p class="ios-footnote ios-text-secondary">Python - Básico</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=santander.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Santander Open Academy</h3><p class="ios-footnote ios-text-secondary">Introdução à Programação com Python</p></div></div>
           <div class="flex items-center gap-3 p-3"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=puc-rio.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">PUC-Rio</h3><p class="ios-footnote ios-text-secondary">WWDC-SSC Crash Challenge</p></div><div class="pr-2"><span class="ios-badge ios-badge-blue">Apple</span></div></div>
         </div>
       </section>
 
       <section class="space-y-2">
         <h2 class="ios-section-label pl-4" data-i18n="lang_title">Idiomas</h2>
-        <div class="ios-widget ios-widget-glass p-4">
-          <div class="flex items-center gap-3 pb-3 border-b border-white/5">
-            <div class="flag-app-icon bg-br">🇧🇷</div>
-            <div class="flex-1"><h3 class="ios-headline">Português</h3><p class="ios-footnote ios-text-secondary" data-i18n="native">Língua nativa</p></div>
+        <div class="ios-widget-glass p-5">
+          <div class="flex items-center gap-6 pb-4 border-b border-white/10"> <div class="flag-app-icon bg-br">🇧🇷</div>
+            <div class="flex-1">
+              <h3 class="ios-headline">Português</h3>
+              <p class="ios-footnote ios-text-secondary" data-i18n="native">Língua nativa</p>
+            </div>
             <span class="ios-badge ios-badge-green" style="margin-right:8px;" data-i18n="native_badge">Nativo</span>
           </div>
-          <div class="flex items-center gap-3 pt-3">
-            <div class="flag-app-icon bg-us">🇺🇸</div>
-            <div class="flex-1"><h3 class="ios-headline" data-i18n="english">Inglês</h3><p class="ios-footnote ios-text-secondary" data-i18n="us_time">2 anos morando nos EUA — Maryland</p></div>
+          <div class="flex items-center gap-6 pt-4"> <div class="flag-app-icon bg-us">🇺🇸</div>
+            <div class="flex-1">
+              <h3 class="ios-headline" data-i18n="english">Inglês</h3>
+              <p class="ios-footnote ios-text-secondary" data-i18n="us_time">2 anos morando nos EUA — Maryland</p>
+            </div>
             <span class="ios-badge ios-badge-blue" style="margin-right:8px;" data-i18n="advanced_badge">Avançado</span>
           </div>
         </div>
@@ -231,7 +260,7 @@
     const translations = {
       pt: {
         role: "iOS Developer & Estudante de CC",
-        about: "Desenvolvedor entusiasta com foco em mobile, especialmente no ecossistema Apple...",
+        about: "Desenvolvedor entusiasta com foco em mobile, especialmente no ecossistema Apple. Buscando explorar novas tecnologias e criar aplicações de alto impacto visual e funcional.",
         main_lang: "Linguagem principal", certs_label: "Certificados", exp_title: "Experiência Profissional",
         job_role: "Estagiário de Desenvolvimento iOS", current: "Atual", edu_title: "Educação",
         degree: "Bacharelado em Ciência da Computação", ongoing: "Em andamento", hs: "Ensino Médio — Maryland, EUA",
@@ -242,7 +271,7 @@
       },
       en: {
         role: "iOS Developer & CS Student",
-        about: "Enthusiastic developer focused on mobile, especially the Apple ecosystem...",
+        about: "Enthusiastic developer focused on mobile, especially the Apple ecosystem. Seeking to explore new technologies and create applications with high visual and functional impact.",
         main_lang: "Primary Language", certs_label: "Certifications", exp_title: "Professional Experience",
         job_role: "iOS Development Intern", current: "Current", edu_title: "Education",
         degree: "B.S. in Computer Science", ongoing: "Ongoing", hs: "High School — Maryland, USA",
