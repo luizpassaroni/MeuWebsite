@@ -10,7 +10,6 @@
   <meta name="color-scheme" content="light dark">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Estilo para o Dropdown Seletor */
     .ios-lang-selector {
       appearance: none;
       background: var(--ios-glass-bg);
@@ -30,21 +29,9 @@
       transition: all 0.2s ease;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
-
-    .ios-lang-selector:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .ios-lang-selector:focus {
-      outline: none;
-      border-color: var(--ios-blue);
-    }
-
-    /* Ajuste para garantir que o menu apareça bem em dark mode */
-    option {
-      background: var(--ios-bg);
-      color: var(--ios-text);
-    }
+    .ios-lang-selector:hover { background-color: rgba(255, 255, 255, 0.15); }
+    .ios-lang-selector:focus { outline: none; border-color: var(--ios-blue); }
+    option { background: var(--ios-bg); color: var(--ios-text); }
   </style>
 </head>
 
@@ -167,27 +154,27 @@
           </div>
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
             <div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div>
-            <div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary" data-i18n="course_flutter">Aprenda Flutter e Desenvolva Apps para Android e iOS</p></div>
+            <div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Aprenda Flutter e Desenvolva Apps para Android e iOS</p></div>
           </div>
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
             <div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div>
-            <div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary" data-i18n="course_figma">Café com Figma — Design de Interfaces do Zero</p></div>
+            <div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Café com Figma — Design de Interfaces do Zero</p></div>
           </div>
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
             <div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div>
-            <div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary" data-i18n="course_swift1">Swift: Entendendo a Linguagem</p></div>
+            <div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Entendendo a Linguagem</p></div>
           </div>
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
             <div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div>
-            <div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary" data-i18n="course_swift2">Swift: Orientação a Objetos</p></div>
+            <div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Entendendo e Praticando Orientação a Objetos</p></div>
           </div>
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
             <div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=128" class="ios-icon-padded"></div>
-            <div class="flex-1"><h3 class="ios-subheadline">Fundação Bradesco</h3><p class="ios-footnote ios-text-secondary">Python - Básico</p></div>
+            <div class="flex-1"><h3 class="ios-subheadline">Fundação Bradesco</h3><p class="ios-footnote ios-text-secondary">Linguagem de Programação Python - Básico</p></div>
           </div>
           <div class="flex items-center gap-3 p-3 pl-4 ios-border-b">
             <div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=santander.com.br&sz=128" class="ios-icon-padded"></div>
-            <div class="flex-1"><h3 class="ios-subheadline">Santander Open Academy</h3><p class="ios-footnote ios-text-secondary" data-i18n="course_python">Introdução à Programação com Python</p></div>
+            <div class="flex-1"><h3 class="ios-subheadline">Santander Open Academy</h3><p class="ios-footnote ios-text-secondary">Introdução à Programação com Python</p></div>
           </div>
           <div class="flex items-center gap-3 p-3 pl-4">
             <div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=puc-rio.br&sz=128" class="ios-icon-padded"></div>
@@ -249,12 +236,6 @@
         ongoing: "Em andamento",
         hs: "Ensino Médio — Maryland, EUA",
         technical: "Técnico em Dev. de Sistemas",
-        certs_title: "Certificações & Cursos",
-        course_flutter: "Aprenda Flutter e Desenvolva Apps para Android e iOS",
-        course_figma: "Café com Figma — Design de Interfaces do Zero",
-        course_swift1: "Swift: Entendendo a Linguagem",
-        course_swift2: "Swift: Orientação a Objetos",
-        course_python: "Introdução à Programação com Python",
         lang_title: "Idiomas",
         native: "Língua nativa",
         native_badge: "Nativo",
@@ -266,7 +247,7 @@
       },
       en: {
         role: "iOS Developer & CS Student",
-        about: "Enthusiastic developer focused on mobile, especially the Apple ecosystem. Seeking to explore new technologies and create applications with high visual and functional impact.",
+        about: "Enthusiastic developer focused on mobile, especially the Apple ecosystem. Seeking to explore new technologies and create high visual and functional impact applications.",
         main_lang: "Primary Language",
         certs_label: "Certifications",
         exp_title: "Professional Experience",
@@ -277,12 +258,6 @@
         ongoing: "Ongoing",
         hs: "High School — Maryland, USA",
         technical: "Technical Degree in Systems Dev.",
-        certs_title: "Certifications & Courses",
-        course_flutter: "Learn Flutter and Develop Apps for Android and iOS",
-        course_figma: "Coffee with Figma — UI Design from Scratch",
-        course_swift1: "Swift: Understanding the Language",
-        course_swift2: "Swift: Object-Oriented Programming",
-        course_python: "Introduction to Programming with Python",
         lang_title: "Languages",
         native: "Native speaker",
         native_badge: "Native",
@@ -300,7 +275,6 @@
         const key = el.getAttribute('data-i18n');
         if (translations[lang][key]) el.textContent = translations[lang][key];
       });
-      // Sincroniza o valor do dropdown
       document.getElementById('langSelect').value = lang;
       localStorage.setItem('preferredLang', lang);
     }
@@ -310,7 +284,6 @@
       const savedLang = localStorage.getItem('preferredLang') || systemLang;
       switchLanguage(savedLang);
 
-      // Animação original dos rings
       var rings = document.querySelectorAll('.ios-ring-anim');
       rings.forEach(function(r) {
         var final = r.getAttribute('stroke-dashoffset');
