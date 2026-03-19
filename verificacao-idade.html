@@ -865,7 +865,6 @@
   ══════════════════════════════════════════════════════════ */
   window.submitFace = async function () {
     if (!faceDone) { err('Tire a selfie primeiro.'); return; }
-    if (sessionExpired) return;
     noErr();
 
     showAnalyzing(['Detectando rosto…', 'Estimando idade com IA…', 'Verificando maioridade…']);
@@ -944,7 +943,6 @@
 
     if (!frontOk) { err('Capture ou envie a frente do documento.'); return; }
     if (!backOk)  { err('Capture ou envie o verso do documento.'); return; }
-    if (sessionExpired) return;
     noErr();
 
     var labels = front.isPdf
