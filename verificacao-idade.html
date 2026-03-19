@@ -457,7 +457,8 @@
       startTips(faceTips,'faceTipTitle','faceTipDesc','faceTipDots');
     } else {
       g('sLb2').textContent='Documento'; setStep(2); showPanel('panel2doc');
-      startCam('videoDoc','doc','environment','docBlocked','camDocWrap');
+      // câmera só abre se a aba câmera estiver ativa
+      if(docTab==='cam') startCam('videoDoc','doc','environment','docBlocked','camDocWrap');
     }
   };
 
@@ -488,8 +489,8 @@
     g('tabDocUp').classList.toggle('active',  tab==='up');
     g('docCamSub').classList.toggle('active', tab==='cam');
     g('docUpSub').classList.toggle('active',  tab==='up');
-    if(tab==='cam') startCam('videoDoc','doc','environment','docBlocked','camDocWrap');
-    else stopCam('doc');
+    if(tab==='cam'){ startCam('videoDoc','doc','environment','docBlocked','camDocWrap'); }
+    else { stopCam('doc'); }
   };
 
   /* ── SNAP ── */
@@ -596,16 +597,16 @@
     try {
       advanceAnalyzing(2);
 
-      // Converte dataUrl para blob
-      var res    = await fetch(docDataUrl);
-      var blob   = await res.blob();
-      var form   = new FormData();
-      form.append('base64Image', docDataUrl);
-      form.append('language',    'por');
+      // Converte dataUrl para Blob e envia como arquivo
+      var fetchRes = await fetch(docDataUrl);
+      var blob     = await fetchRes.blob();
+      var form     = new FormData();
+      form.append('file',              blob, 'documento.jpg');
+      form.append('language',          'por');
       form.append('isOverlayRequired', 'false');
       form.append('detectOrientation', 'true');
-      form.append('scale',       'true');
-      form.append('OCREngine',   '2'); // Engine 2 = mais precisa para documentos
+      form.append('scale',             'true');
+      form.append('OCREngine',         '2');
 
       var ocrRes  = await fetch('https://api.ocr.space/parse/image', {
         method:  'POST',
@@ -613,21 +614,24 @@
         body:    form
       });
       var ocrData = await ocrRes.json();
+      console.log('[OCR.space] Resposta completa:', ocrData);
 
       advanceAnalyzing(3);
 
-      if(ocrData.IsErroredOnProcessing){ hideAnalyzing(); err('Erro no OCR. Tente com uma foto mais nítida.'); return; }
+      if(ocrData.IsErroredOnProcessing){ hideAnalyzing(); err('Erro no OCR: ' + (ocrData.ErrorMessage||'tente com foto mais nítida.')); return; }
 
       var text = (ocrData.ParsedResults||[]).map(function(r){ return r.ParsedText||''; }).join(' ').toUpperCase();
       console.log('[OCR.space] Texto extraído:\n', text);
 
+      if(!text.trim()){ hideAnalyzing(); err('OCR não conseguiu ler o documento. Tente com melhor iluminação e sem reflexos.'); return; }
+
       var birthDate = extractBirthDate(text);
       hideAnalyzing();
 
-      if(!birthDate){ err('Não foi possível encontrar a data de nascimento. Tente com uma foto mais nítida e sem reflexos.'); return; }
+      if(!birthDate){ err('Data de nascimento não encontrada. Certifique-se que a frente do documento está legível.'); return; }
 
       var age = calcAge(birthDate);
-      console.log('[OCR] Data de nascimento:', birthDate, '| Idade:', age);
+      console.log('[OCR] Data:', birthDate, '| Idade:', age);
 
       if(age<MIN_AGE){ showDenied('O documento indica que você tem '+age+' anos.'); return; }
       aprovado('document', age);
