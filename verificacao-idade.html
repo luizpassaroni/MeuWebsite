@@ -403,7 +403,7 @@
     g('blankWarnFace').classList.remove('show');
     stopCam('face'); faceDone=true;
     g('prevImgFace').src=url; g('prevFace').style.display='block'; g('camFaceWrap').style.display='none';
-    g('okFace').classList.add('show'); g('camOffFace').classList.add('show');
+    g('okFace').classList.add('show');
     g('btnSnapFace').style.display='none'; g('btnConfirmFace').style.display='';
   };
 
@@ -451,7 +451,7 @@
         err('Não foi possível confirmar a maioridade pelo rosto. Tente com melhor iluminação ou refaça a selfie.');
         return;
       }
-      if(age<MIN_AGE){ showDenied('A verificação indica que você pode ser menor de idade.'); return; }
+      if(age>=MIN_AGE){ showDenied('A verificação indica que você pode ser menor de idade.'); return; }
       aprovado('face', age);
     } catch(e) {
       hideAnalyzing(); console.error('[face-api]',e);
