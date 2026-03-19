@@ -4,35 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Verificação de Idade</title>
-
-  <!-- face-api.js — detecção e estimativa de idade por rosto (roda no browser) -->
   <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-
-  <!-- Tesseract.js — OCR de documento (roda no browser) -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:       #fffbea;
-      --white:    #ffffff;
-      --text:     #1a1505;
-      --sub:      #78640a;
-      --border:   #e8d87a;
-      --border-lt:#f5eda0;
-      --yellow:   #f5c400;
-      --yellow-dk:#c99d00;
-      --yellow-lt:#fff8cc;
-      --amber:    #b45309;
-      --red:      #dc2626;
-      --green:    #16a34a;
-      --radius:   14px;
-      --shadow:   0 4px 28px rgba(180,130,0,.13);
+      --bg: #fffbea; --white: #ffffff; --text: #1a1505; --sub: #78640a;
+      --border: #e8d87a; --border-lt: #f5eda0; --yellow: #f5c400;
+      --yellow-dk: #c99d00; --yellow-lt: #fff8cc; --amber: #b45309;
+      --red: #dc2626; --green: #16a34a; --radius: 14px;
+      --shadow: 0 4px 28px rgba(180,130,0,.13);
     }
-
     html, body { min-height:100vh; background:var(--bg); font-family:'Outfit',sans-serif; color:var(--text); display:flex; align-items:center; justify-content:center; }
     body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle,#e8d55a 1px,transparent 1px); background-size:28px 28px; opacity:.3; z-index:0; }
     body::after  { content:''; position:fixed; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--yellow-dk),var(--yellow)); z-index:10; }
@@ -41,33 +23,22 @@
     @keyframes rise { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
     .card { background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); border:1.5px solid var(--border); overflow:hidden; }
-
     .card-top { background:linear-gradient(135deg,#92600a 0%,var(--yellow-dk) 50%,var(--yellow) 100%); padding:20px 28px; display:flex; align-items:center; gap:14px; }
     .shield-icon { flex-shrink:0; width:44px; height:44px; background:rgba(255,255,255,.18); border-radius:10px; display:flex; align-items:center; justify-content:center; }
     .shield-icon svg { width:24px; height:24px; color:#fff; }
     .card-top-text h2 { font-size:15px; font-weight:700; color:#fff; letter-spacing:-.2px; }
     .card-top-text p  { font-size:11.5px; color:rgba(255,255,255,.82); margin-top:3px; }
-    .top-right { margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+    .top-right { margin-left:auto; }
     .lei-chip { background:rgba(0,0,0,.2); border:1px solid rgba(255,255,255,.25); border-radius:20px; padding:4px 10px; font-size:10px; font-weight:600; color:#fff; white-space:nowrap; }
-
 
     .card-body { padding:28px; }
 
-    /* model loading banner */
-    .model-banner { display:flex; align-items:center; gap:10px; background:var(--yellow-lt); border:1.5px solid var(--border); border-radius:10px; padding:12px 16px; margin-bottom:20px; font-size:12.5px; color:var(--amber); }
-    .model-banner svg { width:16px; height:16px; flex-shrink:0; animation:spin .9s linear infinite; }
-    .model-banner.ready { background:#f0fdf4; border-color:#bbf7d0; color:var(--green); }
-    .model-banner.ready svg { animation:none; color:var(--green); }
-    @keyframes spin { to{transform:rotate(360deg)} }
-
-    /* law notice */
     .law-notice { display:flex; gap:12px; background:var(--yellow-lt); border:1.5px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:24px; }
     .law-notice svg { width:18px; height:18px; flex-shrink:0; color:var(--amber); margin-top:1px; }
     .law-notice-text { font-size:12.5px; color:var(--amber); line-height:1.6; }
     .law-notice-text strong { color:var(--text); }
     .law-notice-text a { color:var(--amber); font-weight:600; }
 
-    /* steps */
     .steps { display:flex; align-items:center; margin-bottom:24px; }
     .step { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; position:relative; }
     .step:not(:last-child)::after { content:''; position:absolute; top:14px; left:50%; width:100%; height:2px; background:var(--border-lt); z-index:0; }
@@ -79,7 +50,6 @@
     .step.active .step-label { color:var(--text); font-weight:600; }
     .step.done   .step-label { color:var(--yellow-dk); }
 
-    /* panels */
     .panel { display:none; }
     .panel.active { display:block; animation:fadeSlide .3s ease; }
     @keyframes fadeSlide { from{opacity:0;transform:translateX(8px)} to{opacity:1;transform:translateX(0)} }
@@ -97,13 +67,11 @@
     .method-card h4 { font-size:13px; font-weight:600; color:var(--text); margin-bottom:4px; }
     .method-card p  { font-size:11px; color:var(--sub); line-height:1.4; }
 
-    /* doc tabs */
+    /* input tabs */
     .input-tabs { display:flex; gap:8px; margin-bottom:18px; }
     .tab-btn { flex:1; padding:10px 8px; border:1.5px solid var(--border); border-radius:8px; background:var(--white); font-family:'Outfit',sans-serif; font-size:12.5px; font-weight:500; color:var(--sub); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:all .2s; }
     .tab-btn svg { width:14px; height:14px; flex-shrink:0; }
     .tab-btn.active { border-color:var(--yellow-dk); background:var(--yellow-lt); color:var(--amber); font-weight:600; }
-
-    /* sub panels */
     .sub-panel { display:none; }
     .sub-panel.active { display:block; animation:fadeSlide .25s ease; }
 
@@ -117,7 +85,6 @@
     .tip-dot { width:6px; height:6px; border-radius:50%; background:var(--border); transition:background .2s; }
     .tip-dot.active { background:var(--yellow-dk); }
 
-    /* camera */
     .camera-wrap { border-radius:10px; overflow:hidden; border:2px solid var(--border); margin-bottom:14px; background:#111; aspect-ratio:4/3; position:relative; }
     .camera-wrap video { width:100%; height:100%; object-fit:cover; display:block; }
     .cam-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
@@ -125,7 +92,6 @@
     .face-guide { width:150px; height:190px; border:3px solid rgba(245,196,0,.85); border-radius:50% 50% 50% 50%/60% 60% 40% 40%; box-shadow:0 0 0 9999px rgba(0,0,0,.38); animation:gPulse 2s ease-in-out infinite; }
     @keyframes gPulse { 0%,100%{border-color:rgba(245,196,0,.85)} 50%{border-color:rgba(245,196,0,1)} }
 
-    /* cam blocked */
     .cam-blocked { display:none; background:#fff5f5; border:1.5px solid #fecaca; border-radius:10px; padding:20px; text-align:center; margin-bottom:14px; }
     .cam-blocked.show { display:block; }
     .cam-blocked svg { width:32px; height:32px; color:var(--red); margin:0 auto 10px; display:block; }
@@ -133,22 +99,12 @@
     .cam-blocked p  { font-size:12px; color:#7f1d1d; line-height:1.6; }
     .cam-blocked ol { font-size:12px; color:#7f1d1d; padding-left:18px; margin-top:8px; line-height:1.8; text-align:left; }
 
-    /* photo preview */
     .photo-preview { border-radius:10px; overflow:hidden; border:2px solid var(--green); margin-bottom:14px; display:none; position:relative; }
     .photo-preview img { width:100%; display:block; }
     .retake-btn { position:absolute; top:8px; right:8px; background:rgba(0,0,0,.65); color:#fff; border:none; border-radius:6px; padding:5px 10px; font-family:'Outfit',sans-serif; font-size:11.5px; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:5px; }
     .retake-btn:hover { background:rgba(0,0,0,.85); }
     .retake-btn svg { width:12px; height:12px; }
 
-    /* doc pair */
-    .preview-pair { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
-    .preview-slot { border-radius:8px; overflow:hidden; border:2px dashed var(--border); aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; background:var(--bg); position:relative; }
-    .preview-slot.has-img { border-style:solid; border-color:var(--green); }
-    .preview-slot img { width:100%; height:100%; object-fit:cover; display:block; }
-    .preview-slot-label { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.55); color:#fff; font-size:10px; font-weight:600; text-align:center; padding:4px; }
-    .preview-slot-empty { font-size:11px; color:var(--sub); text-align:center; padding:8px; line-height:1.4; }
-
-    /* upload */
     .upload-area { border:2px dashed var(--border); border-radius:10px; padding:28px 20px; text-align:center; cursor:pointer; transition:border-color .2s,background .2s; background:var(--bg); margin-bottom:14px; }
     .upload-area:hover { border-color:var(--yellow-dk); background:var(--yellow-lt); }
     .upload-area.has-file { border-color:var(--green); border-style:solid; background:#f0fdf4; }
@@ -160,33 +116,28 @@
     .file-name    { font-size:11.5px; color:var(--green); margin-top:6px; font-weight:500; display:none; }
     .upload-area.has-file .file-name { display:block; }
 
-    /* badges */
     .ok-badge { display:none; align-items:center; gap:8px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; font-size:13px; color:var(--green); margin-bottom:14px; }
     .ok-badge.show { display:flex; }
     .ok-badge svg { width:16px; height:16px; flex-shrink:0; }
     .cam-off-notice { display:none; align-items:center; gap:8px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:8px 14px; font-size:11.5px; color:var(--green); margin-bottom:12px; }
     .cam-off-notice.show { display:flex; }
     .cam-off-notice svg { width:14px; height:14px; flex-shrink:0; }
-
-    /* blank warning */
     .blank-warning { display:none; background:#fff7ed; border:1px solid #fed7aa; border-radius:8px; padding:10px 14px; font-size:12.5px; color:#9a3412; margin-bottom:12px; align-items:center; gap:8px; }
     .blank-warning.show { display:flex; }
     .blank-warning svg { width:15px; height:15px; flex-shrink:0; }
 
-    /* error */
     .error-box { display:none; background:#fff5f5; border:1px solid #fecaca; border-radius:8px; padding:10px 14px; font-size:13px; color:var(--red); margin-bottom:16px; align-items:center; gap:8px; }
     .error-box.show { display:flex; animation:shake .3s ease; }
     @keyframes shake { 0%,100%{transform:translateX(0)} 30%{transform:translateX(-5px)} 70%{transform:translateX(5px)} }
 
-    /* privacy */
     .privacy-note { display:flex; gap:8px; font-size:11px; color:var(--sub); line-height:1.5; margin-bottom:20px; }
     .privacy-note svg { width:13px; height:13px; flex-shrink:0; margin-top:2px; color:var(--amber); }
 
-    /* analyzing overlay */
     .analyzing-overlay { display:none; position:fixed; inset:0; z-index:80; background:rgba(255,251,234,.95); backdrop-filter:blur(8px); align-items:center; justify-content:center; flex-direction:column; gap:20px; padding:24px; text-align:center; }
     .analyzing-overlay.show { display:flex; animation:fadeIn .3s ease; }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
     .analyzing-spinner { width:56px; height:56px; border:4px solid var(--border); border-top-color:var(--yellow-dk); border-radius:50%; animation:spin .9s linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg)} }
     .analyzing-steps { display:flex; flex-direction:column; gap:10px; width:280px; }
     .an-step { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--sub); opacity:.4; transition:opacity .4s; }
     .an-step.active { opacity:1; color:var(--text); font-weight:500; }
@@ -195,36 +146,6 @@
     .an-dot { width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--amber); border-radius:50%; animation:spin .7s linear infinite; flex-shrink:0; }
     .analyzing-note { font-size:11px; color:var(--sub); max-width:260px; }
 
-    /* ocr progress */
-    .ocr-progress { width:240px; background:var(--border-lt); border-radius:4px; height:6px; margin-top:4px; overflow:hidden; display:none; }
-    .ocr-progress.show { display:block; }
-    .ocr-bar { height:100%; background:var(--yellow-dk); width:0; transition:width .3s; }
-
-
-
-    /* high contrast */
-    .hc-toggle { position:fixed; bottom:16px; right:16px; z-index:20; background:var(--white); border:1.5px solid var(--border); border-radius:20px; padding:6px 12px; font-size:11px; color:var(--sub); font-family:'Outfit',sans-serif; cursor:pointer; display:flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(0,0,0,.1); }
-    .hc-toggle svg { width:14px; height:14px; }
-    body.high-contrast { --bg:#000; --white:#111; --text:#fff; --sub:#e5e5e5; --border:#555; --border-lt:#444; --yellow:#ffe000; --yellow-dk:#c9a800; --yellow-lt:#2a2500; --amber:#fbbf24; --green:#4ade80; --red:#f87171; --shadow:0 4px 28px rgba(0,0,0,.6); }
-    body.high-contrast .law-notice,.body.high-contrast .cam-tips { background:var(--yellow-lt); }
-
-    /* buttons */
-    .btn-row { display:flex; gap:10px; }
-    .btn { flex:1; padding:13px; border-radius:8px; font-family:'Outfit',sans-serif; font-size:14px; font-weight:600; cursor:pointer; border:none; display:flex; align-items:center; justify-content:center; gap:8px; transition:background .15s,box-shadow .15s,transform .1s; position:relative; overflow:hidden; }
-    .btn:active { transform:scale(.99); }
-    .btn svg { width:16px; height:16px; }
-    .btn-primary { background:var(--yellow); color:var(--text); }
-    .btn-primary:hover { background:#e8b800; box-shadow:0 4px 16px rgba(180,130,0,.3); }
-    .btn-primary:disabled { opacity:.5; cursor:not-allowed; }
-    .btn-back { background:var(--yellow-lt); color:var(--amber); border:1.5px solid var(--border); flex:none; padding:13px 16px; }
-    .btn-dark { background:var(--text); color:#fff; }
-    .btn-dark:hover { background:#2d2000; }
-    .btn-inner { display:flex; align-items:center; justify-content:center; gap:8px; }
-    .btn.loading .btn-inner { opacity:0; }
-    .spinner { display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:20px; height:20px; border:2.5px solid rgba(0,0,0,.15); border-top-color:var(--text); border-radius:50%; animation:spin .7s linear infinite; }
-    .btn.loading .spinner { display:block; }
-
-    /* success */
     .success-screen { text-align:center; padding:16px 0 8px; }
     .success-icon-wrap { width:72px; height:72px; background:var(--yellow); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; animation:pop .4s cubic-bezier(.22,1,.36,1); }
     @keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
@@ -240,7 +161,26 @@
     .status-dot { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--sub); }
     .dot-y { width:7px; height:7px; border-radius:50%; background:var(--yellow-dk); animation:blink 2s ease-in-out infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .btn-row { display:flex; gap:10px; }
+    .btn { flex:1; padding:13px; border-radius:8px; font-family:'Outfit',sans-serif; font-size:14px; font-weight:600; cursor:pointer; border:none; display:flex; align-items:center; justify-content:center; gap:8px; transition:background .15s,box-shadow .15s,transform .1s; position:relative; overflow:hidden; }
+    .btn:active { transform:scale(.99); }
+    .btn svg { width:16px; height:16px; }
+    .btn-primary { background:var(--yellow); color:var(--text); }
+    .btn-primary:hover { background:#e8b800; box-shadow:0 4px 16px rgba(180,130,0,.3); }
+    .btn-primary:disabled { opacity:.5; cursor:not-allowed; }
+    .btn-back { background:var(--yellow-lt); color:var(--amber); border:1.5px solid var(--border); flex:none; padding:13px 16px; }
+    .btn-dark { background:var(--text); color:#fff; }
+    .btn-dark:hover { background:#2d2000; }
+    .btn-inner { display:flex; align-items:center; justify-content:center; gap:8px; }
+    .btn.loading .btn-inner { opacity:0; }
+    .spinner { display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:20px; height:20px; border:2.5px solid rgba(0,0,0,.15); border-top-color:var(--text); border-radius:50%; animation:spin .7s linear infinite; }
+    .btn.loading .spinner { display:block; }
+
     .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .hc-toggle { position:fixed; bottom:16px; right:16px; z-index:20; background:var(--white); border:1.5px solid var(--border); border-radius:20px; padding:6px 12px; font-size:11px; color:var(--sub); font-family:'Outfit',sans-serif; cursor:pointer; display:flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(0,0,0,.1); }
+    .hc-toggle svg { width:14px; height:14px; }
+    body.high-contrast { --bg:#000; --white:#111; --text:#fff; --sub:#e5e5e5; --border:#555; --border-lt:#444; --yellow:#ffe000; --yellow-dk:#c9a800; --yellow-lt:#2a2500; --amber:#fbbf24; --green:#4ade80; --red:#f87171; --shadow:0 4px 28px rgba(0,0,0,.6); }
   </style>
 </head>
 <body>
@@ -264,18 +204,15 @@
       </div>
       <div class="top-right">
         <div class="lei-chip">Lei 15.211/2025</div>
-
       </div>
     </div>
 
     <div class="card-body">
 
-
-
       <div class="law-notice">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <div class="law-notice-text">
-          Em cumprimento ao <strong>Estatuto Digital da Criança e do Adolescente</strong> (Lei nº 15.211/2025), confirmamos que você é maior de 18 anos antes de liberar o acesso a este serviço. Seus dados <strong>não saem do seu dispositivo</strong> — tudo é processado localmente. <a href="https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/L15211.htm" target="_blank">Ver lei ↗</a>
+          Em cumprimento ao <strong>Estatuto Digital da Criança e do Adolescente</strong> (Lei nº 15.211/2025), confirmamos que você é maior de 18 anos antes de liberar o acesso. <a href="https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/L15211.htm" target="_blank">Ver lei ↗</a>
         </div>
       </div>
 
@@ -290,25 +227,25 @@
         <span id="errorText"></span>
       </div>
 
-      <!-- ══ PANEL 1: método ══ -->
+      <!-- PANEL 1: escolha do método -->
       <div class="panel active" id="panel1">
         <div class="panel-title">Como deseja comprovar sua idade?</div>
         <div class="panel-sub">Escolha uma das opções abaixo.</div>
         <div class="method-grid">
           <div class="method-card" id="mFace" onclick="selectMethod('face')" role="button" tabindex="0">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/><path d="M9 11c.5.5 1.5.9 3 .9s2.5-.4 3-.9" stroke-width="1.5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/></svg>
             <h4>Selfie do rosto</h4>
-            <p>Foto ao vivo pela câmera — estimativa de idade por IA</p>
+            <p>Foto ao vivo — estimativa de idade por IA</p>
           </div>
           <div class="method-card" id="mDoc" onclick="selectMethod('doc')" role="button" tabindex="0">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8" cy="11" r="2"/><path d="M13 10h5M13 14h3"/></svg>
-            <h4>Documento de identidade</h4>
-            <p>RG, CNH ou passaporte — leitura automática por OCR</p>
+            <h4>Documento</h4>
+            <p>RG ou CNH — leitura automática por OCR</p>
           </div>
         </div>
         <div class="privacy-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Todo o processamento ocorre <strong>no seu próprio dispositivo</strong>. Nenhuma imagem é enviada para servidores.
+          Seus dados são processados de forma segura. A selfie é analisada localmente no seu dispositivo.
         </div>
         <div class="btn-row">
           <button class="btn btn-primary" id="btnContinue" onclick="goStep2()" disabled style="opacity:.5;cursor:not-allowed">
@@ -317,28 +254,22 @@
         </div>
       </div>
 
-      <!-- ══ PANEL 2A: selfie ══ -->
+      <!-- PANEL 2A: selfie -->
       <div class="panel" id="panel2face">
         <div class="panel-title">Selfie do rosto</div>
         <div class="panel-sub">Posicione seu rosto dentro da moldura e clique em "Fotografar".</div>
-
-        <div class="cam-tips" id="faceTips">
-          <div class="tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="faceTipIcon"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg></div>
+        <div class="cam-tips">
+          <div class="tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg></div>
           <div><div class="tip-text"><strong id="faceTipTitle">Boa iluminação</strong><span id="faceTipDesc">Evite luz forte atrás. Prefira luz frontal natural.</span></div><div class="tip-dots" id="faceTipDots"></div></div>
         </div>
-
         <div class="cam-blocked" id="faceBlocked"></div>
         <div class="camera-wrap" id="camFaceWrap"><video id="videoFace" autoplay playsinline muted></video><div class="cam-overlay"><div class="face-guide"></div></div></div>
         <canvas id="canvasFace" style="display:none"></canvas>
-
-        <div class="blank-warning" id="blankWarnFace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Imagem muito escura ou em branco. Verifique a iluminação.</div>
-
-        <div class="photo-preview" id="prevFace"><img id="prevImgFace" src="" alt="Selfie" /><button class="retake-btn" onclick="retake('face')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>Refazer</button></div>
+        <div class="blank-warning" id="blankWarnFace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Imagem muito escura. Verifique a iluminação.</div>
+        <div class="photo-preview" id="prevFace"><img id="prevImgFace" src="" alt="Selfie"/><button class="retake-btn" onclick="retakeFace()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>Refazer</button></div>
         <div class="ok-badge" id="okFace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Selfie capturada!</div>
         <div class="cam-off-notice" id="camOffFace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Câmera desligada — privacidade protegida.</div>
-
-        <div class="privacy-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>A análise de idade é feita localmente pelo modelo face-api.js. Nenhum dado biométrico é transmitido.</div>
-
+        <div class="privacy-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Análise de idade feita localmente. Nenhum dado biométrico é transmitido.</div>
         <div class="btn-row">
           <button class="btn btn-back" onclick="goStep1()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
           <button class="btn btn-dark" id="btnSnapFace" onclick="snapFace()"><div class="btn-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Fotografar</div></button>
@@ -346,93 +277,48 @@
         </div>
       </div>
 
-      <!-- ══ PANEL 2B: doc frente ══ -->
+      <!-- PANEL 2B: documento -->
       <div class="panel" id="panel2doc">
-        <div class="panel-title">Frente do documento</div>
-        <div class="panel-sub">Fotografe ou envie a <strong>frente</strong> do seu RG, CNH ou passaporte.</div>
-
+        <div class="panel-title">Documento de identidade</div>
+        <div class="panel-sub">Envie uma foto nítida da <strong>frente</strong> do seu RG ou CNH.</div>
         <div class="input-tabs">
           <button class="tab-btn active" id="tabDocCam" onclick="switchDocTab('cam')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Câmera</button>
           <button class="tab-btn" id="tabDocUp" onclick="switchDocTab('up')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Enviar arquivo</button>
         </div>
-
         <div class="sub-panel active" id="docCamSub">
-          <div class="cam-tips" id="docTips2"><div class="tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="docTip2Icon"><rect x="3" y="5" width="18" height="14" rx="2"/></svg></div><div><div class="tip-text"><strong id="docTip2Title">Centralize o documento</strong><span id="docTip2Desc">Coloque o documento dentro da moldura.</span></div><div class="tip-dots" id="docTip2Dots"></div></div></div>
-          <div class="cam-blocked" id="doc2Blocked"></div>
-          <div class="camera-wrap" id="camDoc2Wrap"><video id="videoDoc2" autoplay playsinline muted></video><div class="cam-overlay"><div class="doc-guide"></div></div></div>
-          <canvas id="canvasDoc2" style="display:none"></canvas>
-          <div class="blank-warning" id="blankWarnDoc2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Imagem muito escura. Melhore a iluminação.</div>
-          <div class="photo-preview" id="prevDoc2"><img id="prevImgDoc2" src="" alt="Frente" /><button class="retake-btn" onclick="retakeDoc(2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>Refazer</button></div>
-          <div class="ok-badge" id="okDoc2Cam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Frente capturada!</div>
-          <div class="cam-off-notice" id="camOffDoc2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Câmera desligada.</div>
+          <div class="cam-tips">
+            <div class="tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/></svg></div>
+            <div><div class="tip-text"><strong>Centralize o documento</strong><span>Coloque dentro da moldura, sem reflexos.</span></div></div>
+          </div>
+          <div class="cam-blocked" id="docBlocked"></div>
+          <div class="camera-wrap" id="camDocWrap"><video id="videoDoc" autoplay playsinline muted></video><div class="cam-overlay"><div class="doc-guide"></div></div></div>
+          <canvas id="canvasDoc" style="display:none"></canvas>
+          <div class="blank-warning" id="blankWarnDoc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Imagem muito escura. Melhore a iluminação.</div>
+          <div class="photo-preview" id="prevDocCam"><img id="prevImgDocCam" src="" alt="Documento"/><button class="retake-btn" onclick="retakeDoc()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>Refazer</button></div>
+          <div class="ok-badge" id="okDocCam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Documento fotografado!</div>
           <div class="btn-row">
             <button class="btn btn-back" onclick="goStep1()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="btn btn-dark" id="btnSnapDoc2" onclick="snapDoc(2)"><div class="btn-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Fotografar</div></button>
-            <button class="btn btn-primary" id="btnNextDoc2Cam" onclick="goStep3()" style="display:none"><div class="btn-inner">Próximo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></div></button>
+            <button class="btn btn-dark" id="btnSnapDoc" onclick="snapDoc()"><div class="btn-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Fotografar</div></button>
+            <button class="btn btn-primary" id="btnSubmitDocCam" onclick="submitDocument('cam')" style="display:none"><div class="btn-inner">Analisar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="spinner"></div></button>
           </div>
         </div>
-
         <div class="sub-panel" id="docUpSub">
-          <div class="upload-area" id="upArea2" onclick="document.getElementById('upFile2').click()">
+          <div class="upload-area" id="upArea" onclick="document.getElementById('upFile').click()">
             <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <div class="upload-label">Clique para selecionar a frente</div>
-            <div class="upload-hint">JPG, PNG ou PDF · máx. 10 MB</div>
-            <div class="file-name" id="upName2"></div>
-            <input type="file" id="upFile2" accept="image/*,application/pdf" onchange="handleUpload(2,this)" />
+            <div class="upload-label">Clique para selecionar o documento</div>
+            <div class="upload-hint">JPG ou PNG · máx. 5 MB</div>
+            <div class="file-name" id="upName"></div>
+            <input type="file" id="upFile" accept="image/*" onchange="handleUpload(this)" />
           </div>
-          <div class="ok-badge" id="okUp2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Frente selecionada!</div>
+          <div class="ok-badge" id="okUp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Arquivo selecionado!</div>
           <div class="btn-row">
             <button class="btn btn-back" onclick="goStep1()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="btn btn-primary" id="btnNextDoc2Up" onclick="goStep3()" disabled style="opacity:.5;cursor:not-allowed"><div class="btn-inner">Próximo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></div></button>
+            <button class="btn btn-primary" id="btnSubmitDocUp" onclick="submitDocument('up')" disabled style="opacity:.5;cursor:not-allowed"><div class="btn-inner">Analisar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="spinner"></div></button>
           </div>
         </div>
       </div>
 
-      <!-- ══ PANEL 3: doc verso ══ -->
-      <div class="panel" id="panel3doc">
-        <div class="panel-title">Verso do documento</div>
-        <div class="panel-sub">Agora fotografe ou envie o <strong>verso</strong>.</div>
-        <div class="preview-pair">
-          <div class="preview-slot has-img" id="slotFront"><img id="slotFrontImg" src="" alt="Frente" /><div class="preview-slot-label">FRENTE ✓</div></div>
-          <div class="preview-slot" id="slotBack"><div class="preview-slot-empty">Verso<br>pendente</div><div class="preview-slot-label">VERSO</div></div>
-        </div>
-
-        <div class="input-tabs">
-          <button class="tab-btn active" id="tabBackCam" onclick="switchBackTab('cam')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Câmera</button>
-          <button class="tab-btn" id="tabBackUp" onclick="switchBackTab('up')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Enviar arquivo</button>
-        </div>
-
-        <div class="sub-panel active" id="backCamSub">
-          <div class="camera-wrap" id="camDoc3Wrap"><video id="videoDoc3" autoplay playsinline muted></video><div class="cam-overlay"><div class="doc-guide"></div></div></div>
-          <canvas id="canvasDoc3" style="display:none"></canvas>
-          <div class="blank-warning" id="blankWarnDoc3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Imagem muito escura. Melhore a iluminação.</div>
-          <div class="photo-preview" id="prevDoc3"><img id="prevImgDoc3" src="" alt="Verso" /><button class="retake-btn" onclick="retakeDoc(3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>Refazer</button></div>
-          <div class="ok-badge" id="okDoc3Cam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Verso capturado!</div>
-          <div class="cam-off-notice" id="camOffDoc3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Câmera desligada.</div>
-          <div class="btn-row">
-            <button class="btn btn-back" onclick="goStep2Doc()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="btn btn-dark" id="btnSnapDoc3" onclick="snapDoc(3)"><div class="btn-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Fotografar</div></button>
-            <button class="btn btn-primary" id="btnSubmitDoc3Cam" onclick="submitDocument()" style="display:none"><div class="btn-inner">Analisar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="spinner"></div></button>
-          </div>
-        </div>
-
-        <div class="sub-panel" id="backUpSub">
-          <div class="upload-area" id="upArea3" onclick="document.getElementById('upFile3').click()">
-            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <div class="upload-label">Clique para selecionar o verso</div>
-            <div class="upload-hint">JPG, PNG ou PDF · máx. 10 MB</div>
-            <div class="file-name" id="upName3"></div>
-            <input type="file" id="upFile3" accept="image/*,application/pdf" onchange="handleUpload(3,this)" />
-          </div>
-          <div class="ok-badge" id="okUp3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Verso selecionado!</div>
-          <div class="btn-row">
-            <button class="btn btn-back" onclick="goStep2Doc()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="btn btn-primary" id="btnSubmitDoc3Up" onclick="submitDocument()" disabled style="opacity:.5;cursor:not-allowed"><div class="btn-inner">Analisar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="spinner"></div></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══ PANEL SUCCESS ══ -->
+      <!-- PANEL SUCCESS -->
       <div class="panel" id="panelOk">
         <div class="success-screen">
           <div class="success-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -443,10 +329,9 @@
       </div>
 
     </div>
-
     <div class="card-footer">
-      <div class="footer-note">Processamento 100% local · sem envio de dados</div>
-      <div class="status-dot"><div class="dot-y"></div> Verificação segura</div>
+      <div class="footer-note">Verificação segura · Lei 15.211/2025</div>
+      <div class="status-dot"><div class="dot-y"></div> Ativo</div>
     </div>
   </div>
 </div>
@@ -455,75 +340,50 @@
 <div class="analyzing-overlay" id="analyzingOverlay" role="status">
   <div class="analyzing-spinner"></div>
   <div class="analyzing-steps">
-    <div class="an-step" id="anS1"><div class="an-dot" id="anD1"></div><span id="anT1">Preparando análise…</span></div>
-    <div class="an-step" id="anS2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="anI2" style="opacity:0"><polyline points="20 6 9 17 4 12"/></svg><span id="anT2">Processando…</span></div>
-    <div class="an-step" id="anS3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="anI3" style="opacity:0"><polyline points="20 6 9 17 4 12"/></svg><span id="anT3">Verificando maioridade…</span></div>
+    <div class="an-step" id="anS1"><div class="an-dot" id="anD1"></div><span id="anT1">Preparando…</span></div>
+    <div class="an-step" id="anS2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0" id="anI2"><polyline points="20 6 9 17 4 12"/></svg><span id="anT2">Processando…</span></div>
+    <div class="an-step" id="anS3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0" id="anI3"><polyline points="20 6 9 17 4 12"/></svg><span id="anT3">Verificando maioridade…</span></div>
   </div>
-  <div class="ocr-progress" id="ocrProgress"><div class="ocr-bar" id="ocrBar"></div></div>
-  <div class="analyzing-note">Tudo é processado localmente. Nenhuma imagem é enviada.</div>
+  <div class="analyzing-note">Processamento seguro. Nenhuma imagem é armazenada.</div>
 </div>
-
 
 <script>
 (function () {
 
-  /* ══════════════════════════════════════════════════════════
-     CONFIGURAÇÃO
-  ══════════════════════════════════════════════════════════ */
-  var MIN_AGE          = 18;
-  var AMBIGUOUS_MIN    = 15;
-  var AMBIGUOUS_MAX    = 22;
-  var FACE_MODEL_URL   = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
+  /* ── CONFIG ── */
+  var MIN_AGE        = 18;
+  var AMBIGUOUS_MIN  = 15;
+  var AMBIGUOUS_MAX  = 22;
+  var FACE_MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
+  var OCR_API_KEY    = 'K82791873288957'; // substituído pelo GitHub Actions
 
-  var method          = null;
-  var docTab          = 'cam';
-  var backTab         = 'cam';
-  var streams         = {};
-  var faceDone        = false;
-  var front           = { cam: false, up: false, dataUrl: null, isPdf: false };
-  var back            = { cam: false, up: false, dataUrl: null };
-  var modelsReady     = false;
-  var tipTimers        = [];
+  /* ── ESTADO ── */
+  var method      = null;
+  var modelsReady = false;
+  var faceDone    = false;
+  var docDataUrl  = null;
+  var docTab      = 'cam';
+  var streams     = {};
+  var tipTimers   = [];
 
-  /* ══════════════════════════════════════════════════════════
-     HELPERS
-  ══════════════════════════════════════════════════════════ */
+  /* ── HELPERS ── */
   function g(id) { return document.getElementById(id); }
-
-  function announce(msg) {
-    var l = g('ariaLive');
-    l.textContent = '';
-    setTimeout(function () { l.textContent = msg; }, 50);
-  }
-
-  function err(msg) {
-    var b = g('errorBox');
-    g('errorText').textContent = msg;
-    b.classList.remove('show');
-    void b.offsetWidth;
-    b.classList.add('show');
-    announce(msg);
-  }
+  function announce(msg) { var l=g('ariaLive'); l.textContent=''; setTimeout(function(){ l.textContent=msg; },50); }
+  function err(msg) { var b=g('errorBox'); g('errorText').textContent=msg; b.classList.remove('show'); void b.offsetWidth; b.classList.add('show'); announce(msg); }
   function noErr() { g('errorBox').classList.remove('show'); }
 
   function setStep(n) {
-    for (var i = 1; i <= 3; i++) {
-      var el = g('sEl' + i);
-      el.classList.remove('active', 'done');
-      if (i < n)  el.classList.add('done');
-      if (i === n) el.classList.add('active');
+    for (var i=1;i<=3;i++) {
+      var el=g('sEl'+i); el.classList.remove('active','done');
+      if (i<n) el.classList.add('done');
+      if (i===n) el.classList.add('active');
     }
   }
 
-  var allPanels = ['panel1','panel2face','panel2doc','panel3doc','panelOk'];
-  function showPanel(id) {
-    allPanels.forEach(function (p) { g(p).classList.remove('active'); });
-    g(id).classList.add('active');
-  }
+  var allPanels = ['panel1','panel2face','panel2doc','panelOk'];
+  function showPanel(id) { allPanels.forEach(function(p){ g(p).classList.remove('active'); }); g(id).classList.add('active'); }
 
-  /* ══════════════════════════════════════════════════════════
-     CARREGAR MODELOS face-api.js
-  ══════════════════════════════════════════════════════════ */
+  /* ── MODELOS ── */
   async function loadModels() {
     try {
       await Promise.all([
@@ -531,604 +391,313 @@
         faceapi.nets.ageGenderNet.loadFromUri(FACE_MODEL_URL)
       ]);
       modelsReady = true;
-    } catch (e) {
-      console.error('[Models]', e);
-    }
+    } catch(e) { console.error('[Models]', e); }
   }
   loadModels();
 
-  /* ══════════════════════════════════════════════════════════
-     DICAS CARROSSEL
-  ══════════════════════════════════════════════════════════ */
-  var faceTipsData = [
-    { title: 'Boa iluminação', desc: 'Evite luz forte atrás. Prefira luz frontal.' },
-    { title: 'Centralize o rosto', desc: 'Mantenha o rosto dentro da moldura amarela.' },
-    { title: 'Olhos abertos', desc: 'Olhe diretamente para a câmera.' }
+  /* ── TIPS ── */
+  var faceTips = [
+    { title:'Boa iluminação', desc:'Evite luz forte atrás. Prefira luz frontal.' },
+    { title:'Centralize o rosto', desc:'Mantenha o rosto dentro da moldura amarela.' },
+    { title:'Olhos abertos', desc:'Olhe diretamente para a câmera.' }
   ];
-  var docTipsData = [
-    { title: 'Centralize o documento', desc: 'Coloque-o dentro da moldura amarela.' },
-    { title: 'Sem reflexos', desc: 'Evite brilho sobre o documento.' },
-    { title: 'Texto nítido', desc: 'Todos os dados devem estar legíveis.' }
-  ];
-
   function startTips(tips, titleId, descId, dotsId) {
-    var cur = 0;
-    var dots = g(dotsId);
-    dots.innerHTML = '';
-    tips.forEach(function (_, i) {
-      var d = document.createElement('div');
-      d.className = 'tip-dot' + (i === 0 ? ' active' : '');
-      dots.appendChild(d);
-    });
-    function show(i) {
-      g(titleId).textContent = tips[i].title;
-      g(descId).textContent  = tips[i].desc;
-      dots.querySelectorAll('.tip-dot').forEach(function (d, j) { d.classList.toggle('active', j === i); });
-    }
+    var cur=0, dots=g(dotsId);
+    dots.innerHTML='';
+    tips.forEach(function(_,i){ var d=document.createElement('div'); d.className='tip-dot'+(i===0?' active':''); dots.appendChild(d); });
+    function show(i){ g(titleId).textContent=tips[i].title; g(descId).textContent=tips[i].desc; dots.querySelectorAll('.tip-dot').forEach(function(d,j){ d.classList.toggle('active',j===i); }); }
     show(0);
-    var t = setInterval(function () { cur = (cur + 1) % tips.length; show(cur); }, 3000);
+    var t=setInterval(function(){ cur=(cur+1)%tips.length; show(cur); },3000);
     tipTimers.push(t);
-    return t;
   }
-  function clearTips() { tipTimers.forEach(clearInterval); tipTimers = []; }
+  function clearTips() { tipTimers.forEach(clearInterval); tipTimers=[]; }
 
-  /* ══════════════════════════════════════════════════════════
-     CÂMERA
-  ══════════════════════════════════════════════════════════ */
+  /* ── CÂMERA ── */
   function startCam(videoId, key, facing, blockedId, wrapId) {
-    var v = g(videoId);
-    if (blockedId && g(blockedId)) g(blockedId).classList.remove('show');
-    if (wrapId && g(wrapId)) g(wrapId).style.display = '';
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: facing || 'environment' }, audio: false })
-      .then(function (s) { streams[key] = s; v.srcObject = s; })
-      .catch(function () {
-        if (wrapId && g(wrapId)) g(wrapId).style.display = 'none';
-        if (blockedId && g(blockedId)) {
-          var b = g(blockedId);
-          b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><h4>Câmera bloqueada</h4><p>O navegador negou acesso à câmera. Para liberar:</p><ol><li>Clique no ícone de câmera na barra de endereços</li><li>Selecione "Permitir"</li><li>Recarregue a página</li></ol>';
-          b.classList.add('show');
-        }
+    var v=g(videoId);
+    if(blockedId && g(blockedId)) g(blockedId).classList.remove('show');
+    if(wrapId && g(wrapId)) g(wrapId).style.display='';
+    navigator.mediaDevices.getUserMedia({ video:{ facingMode: facing||'environment' }, audio:false })
+      .then(function(s){ streams[key]=s; v.srcObject=s; })
+      .catch(function(){
+        if(wrapId && g(wrapId)) g(wrapId).style.display='none';
+        if(blockedId && g(blockedId)){ var b=g(blockedId); b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><h4>Câmera bloqueada</h4><p>Permita o acesso à câmera nas configurações do navegador e recarregue.</p>'; b.classList.add('show'); }
       });
   }
+  function stopCam(key) { if(streams[key]){ streams[key].getTracks().forEach(function(t){ t.stop(); }); streams[key]=null; } }
+  function stopAll() { ['face','doc'].forEach(stopCam); }
 
-  function stopCam(key) {
-    if (streams[key]) { streams[key].getTracks().forEach(function (t) { t.stop(); }); streams[key] = null; }
-  }
-  function stopAll() { ['face', 'doc2', 'doc3'].forEach(stopCam); }
-
-  /* ══════════════════════════════════════════════════════════
-     CAPTURA
-  ══════════════════════════════════════════════════════════ */
+  /* ── CANVAS ── */
   function isBlank(canvas) {
-    try {
-      var d = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
-      var sum = 0, n = 0;
-      for (var i = 0; i < d.length; i += 400) { sum += (d[i] * 299 + d[i+1] * 587 + d[i+2] * 114) / 1000; n++; }
-      var avg = sum / n;
-      return avg < 12 || avg > 243;
-    } catch (e) { return false; }
+    try{ var d=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data,sum=0,n=0; for(var i=0;i<d.length;i+=400){ sum+=(d[i]*299+d[i+1]*587+d[i+2]*114)/1000; n++; } var avg=sum/n; return avg<12||avg>243; }catch(e){ return false; }
   }
-
   function snapToCanvas(videoId, canvasId) {
-    var v = g(videoId), c = g(canvasId);
-    c.width = v.videoWidth || 640; c.height = v.videoHeight || 480;
-    c.getContext('2d').drawImage(v, 0, 0);
-    return c.toDataURL('image/jpeg', 0.92);
+    var v=g(videoId),c=g(canvasId); c.width=v.videoWidth||640; c.height=v.videoHeight||480; c.getContext('2d').drawImage(v,0,0); return c.toDataURL('image/jpeg',0.92);
   }
 
-  /* ══════════════════════════════════════════════════════════
-     MÉTODO SELECT
-  ══════════════════════════════════════════════════════════ */
-  window.selectMethod = function (m) {
-    method = m; noErr();
-    g('mFace').classList.toggle('selected', m === 'face');
-    g('mDoc').classList.toggle('selected',  m === 'doc');
-    // Habilita o botão assim que um método é selecionado
-    var btn = g('btnContinue');
-    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+  /* ── MÉTODO SELECT ── */
+  window.selectMethod = function(m) {
+    method=m; noErr();
+    g('mFace').classList.toggle('selected', m==='face');
+    g('mDoc').classList.toggle('selected',  m==='doc');
+    var btn=g('btnContinue'); btn.disabled=false; btn.style.opacity='1'; btn.style.cursor='pointer';
   };
-
-  ['mFace','mDoc'].forEach(function (id) {
-    g(id).addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectMethod(id === 'mFace' ? 'face' : 'doc'); }
-    });
+  ['mFace','mDoc'].forEach(function(id){
+    g(id).addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); selectMethod(id==='mFace'?'face':'doc'); } });
   });
 
-  /* ══════════════════════════════════════════════════════════
-     NAVEGAÇÃO
-  ══════════════════════════════════════════════════════════ */
-  window.goStep2 = function () {
-    if (!method) { err('Selecione um método de verificação.'); return; }
-    if (method === 'face' && !modelsReady) { err('Os modelos de IA ainda estão carregando. Aguarde alguns segundos.'); return; }
+  /* ── NAVEGAÇÃO ── */
+  window.goStep2 = function() {
+    if(!method){ err('Selecione um método de verificação.'); return; }
+    if(method==='face' && !modelsReady){ err('Os modelos de IA ainda estão carregando. Aguarde alguns segundos.'); return; }
     noErr(); clearTips();
-
-    if (method === 'face') {
-      g('sLb2').textContent = 'Selfie';
-      setStep(2); showPanel('panel2face');
-      startCam('videoFace', 'face', 'user', 'faceBlocked', 'camFaceWrap');
-      startTips(faceTipsData, 'faceTipTitle', 'faceTipDesc', 'faceTipDots');
+    if(method==='face'){
+      g('sLb2').textContent='Selfie'; setStep(2); showPanel('panel2face');
+      startCam('videoFace','face','user','faceBlocked','camFaceWrap');
+      startTips(faceTips,'faceTipTitle','faceTipDesc','faceTipDots');
     } else {
-      g('sLb2').textContent = 'Documento';
-      setStep(2); showPanel('panel2doc');
-      if (docTab === 'cam') startCam('videoDoc2', 'doc2', 'environment', 'doc2Blocked', 'camDoc2Wrap');
-      startTips(docTipsData, 'docTip2Title', 'docTip2Desc', 'docTip2Dots');
+      g('sLb2').textContent='Documento'; setStep(2); showPanel('panel2doc');
+      startCam('videoDoc','doc','environment','docBlocked','camDocWrap');
     }
   };
 
-  window.goStep1 = function () {
-    noErr(); stopAll(); clearTips();
-    faceDone = false; front = { cam: false, up: false, dataUrl: null, isPdf: false }; back = { cam: false, up: false, dataUrl: null };
+  window.goStep1 = function() {
+    stopAll(); clearTips(); noErr();
+    method=null; faceDone=false; docDataUrl=null;
+    g('mFace').classList.remove('selected'); g('mDoc').classList.remove('selected');
+    var btn=g('btnContinue'); btn.disabled=true; btn.style.opacity='.5'; btn.style.cursor='not-allowed';
     // reset face
-    g('prevFace').style.display = 'none'; g('camFaceWrap').style.display = '';
+    g('prevFace').style.display='none'; g('camFaceWrap').style.display='';
     g('okFace').classList.remove('show'); g('camOffFace').classList.remove('show');
-    g('blankWarnFace').classList.remove('show'); g('faceBlocked').classList.remove('show');
-    g('btnSnapFace').style.display = ''; g('btnConfirmFace').style.display = 'none';
-    // reset doc2
-    g('prevDoc2').style.display = 'none'; g('camDoc2Wrap').style.display = '';
-    g('okDoc2Cam').classList.remove('show'); g('camOffDoc2').classList.remove('show');
-    g('blankWarnDoc2').classList.remove('show');
-    g('btnSnapDoc2').style.display = ''; g('btnNextDoc2Cam').style.display = 'none';
-    g('upArea2').classList.remove('has-file'); g('okUp2').classList.remove('show');
-    g('upName2').textContent = ''; g('upFile2').value = '';
-    var b2 = g('btnNextDoc2Up'); b2.disabled = true; b2.style.opacity = '.5'; b2.style.cursor = 'not-allowed';
-    // reset doc3
-    g('prevDoc3').style.display = 'none'; g('camDoc3Wrap').style.display = '';
-    g('okDoc3Cam').classList.remove('show'); g('camOffDoc3').classList.remove('show');
-    g('blankWarnDoc3').classList.remove('show');
-    g('btnSnapDoc3').style.display = ''; g('btnSubmitDoc3Cam').style.display = 'none';
-    g('upArea3').classList.remove('has-file'); g('okUp3').classList.remove('show');
-    g('upName3').textContent = ''; g('upFile3').value = '';
-    var b3 = g('btnSubmitDoc3Up'); b3.disabled = true; b3.style.opacity = '.5'; b3.style.cursor = 'not-allowed';
-    g('slotBack').className = 'preview-slot';
-    g('slotBack').innerHTML = '<div class="preview-slot-empty">Verso<br>pendente</div><div class="preview-slot-label">VERSO</div>';
+    g('blankWarnFace').classList.remove('show');
+    g('btnSnapFace').style.display=''; g('btnConfirmFace').style.display='none';
+    // reset doc
+    g('prevDocCam').style.display='none'; g('camDocWrap').style.display='';
+    g('okDocCam').classList.remove('show'); g('blankWarnDoc').classList.remove('show');
+    g('btnSnapDoc').style.display=''; g('btnSubmitDocCam').style.display='none';
+    g('upArea').classList.remove('has-file'); g('okUp').classList.remove('show');
+    g('upName').textContent=''; g('upFile').value='';
+    var b=g('btnSubmitDocUp'); b.disabled=true; b.style.opacity='.5'; b.style.cursor='not-allowed';
+    switchDocTab('cam');
     setStep(1); showPanel('panel1');
   };
 
-  window.switchDocTab = function (tab) {
-    docTab = tab;
-    g('tabDocCam').classList.toggle('active', tab === 'cam');
-    g('tabDocUp').classList.toggle('active',  tab === 'up');
-    g('docCamSub').classList.toggle('active', tab === 'cam');
-    g('docUpSub').classList.toggle('active',  tab === 'up');
-    if (tab === 'cam' && !front.cam) startCam('videoDoc2', 'doc2', 'environment', 'doc2Blocked', 'camDoc2Wrap');
-    else stopCam('doc2');
+  window.switchDocTab = function(tab) {
+    docTab=tab;
+    g('tabDocCam').classList.toggle('active', tab==='cam');
+    g('tabDocUp').classList.toggle('active',  tab==='up');
+    g('docCamSub').classList.toggle('active', tab==='cam');
+    g('docUpSub').classList.toggle('active',  tab==='up');
+    if(tab==='cam') startCam('videoDoc','doc','environment','docBlocked','camDocWrap');
+    else stopCam('doc');
   };
 
-  window.switchBackTab = function (tab) {
-    backTab = tab;
-    g('tabBackCam').classList.toggle('active', tab === 'cam');
-    g('tabBackUp').classList.toggle('active',  tab === 'up');
-    g('backCamSub').classList.toggle('active', tab === 'cam');
-    g('backUpSub').classList.toggle('active',  tab === 'up');
-    if (tab === 'cam' && !back.cam) startCam('videoDoc3', 'doc3', 'environment', null, 'camDoc3Wrap');
-    else stopCam('doc3');
-  };
-
-  window.goStep3 = function () {
-    var ok = (docTab === 'cam' && front.cam) || (docTab === 'up' && front.up);
-    if (!ok) { err('Capture ou envie a frente do documento primeiro.'); return; }
-    noErr(); stopCam('doc2');
-    showPanel('panel3doc');
-    switchBackTab(docTab);
-  };
-
-  window.goStep2Doc = function () {
-    noErr(); stopCam('doc3');
-    showPanel('panel2doc');
-    if (docTab === 'cam' && !front.cam) startCam('videoDoc2', 'doc2', 'environment', 'doc2Blocked', 'camDoc2Wrap');
-  };
-
-  /* ══════════════════════════════════════════════════════════
-     SNAP & RETAKE
-  ══════════════════════════════════════════════════════════ */
-  window.snapFace = function () {
-    var url = snapToCanvas('videoFace', 'canvasFace');
-    if (isBlank(g('canvasFace'))) { g('blankWarnFace').classList.add('show'); return; }
+  /* ── SNAP ── */
+  window.snapFace = function() {
+    var url=snapToCanvas('videoFace','canvasFace');
+    if(isBlank(g('canvasFace'))){ g('blankWarnFace').classList.add('show'); return; }
     g('blankWarnFace').classList.remove('show');
-    stopCam('face'); faceDone = true;
-    g('prevImgFace').src = url;
-    g('prevFace').style.display = 'block';
-    g('camFaceWrap').style.display = 'none';
-    g('okFace').classList.add('show');
-    g('camOffFace').classList.add('show');
-    g('btnSnapFace').style.display = 'none'; g('btnConfirmFace').style.display = '';
+    stopCam('face'); faceDone=true;
+    g('prevImgFace').src=url; g('prevFace').style.display='block'; g('camFaceWrap').style.display='none';
+    g('okFace').classList.add('show'); g('camOffFace').classList.add('show');
+    g('btnSnapFace').style.display='none'; g('btnConfirmFace').style.display='';
   };
 
-  window.snapDoc = function (step) {
-    var url = snapToCanvas('videoDoc' + step, 'canvasDoc' + step);
-    if (isBlank(g('canvasDoc' + step))) { g('blankWarnDoc' + step).classList.add('show'); return; }
-    g('blankWarnDoc' + step).classList.remove('show');
-    stopCam(step === 2 ? 'doc2' : 'doc3');
-
-    if (step === 2) {
-      front.cam = true; front.dataUrl = url;
-      g('slotFrontImg').src = url;
-      g('prevImgDoc2').src = url; g('prevDoc2').style.display = 'block';
-      g('camDoc2Wrap').style.display = 'none';
-      g('okDoc2Cam').classList.add('show'); g('camOffDoc2').classList.add('show');
-      g('btnSnapDoc2').style.display = 'none'; g('btnNextDoc2Cam').style.display = '';
-    } else {
-      back.cam = true; back.dataUrl = url;
-      var slot = g('slotBack');
-      slot.className = 'preview-slot has-img';
-      slot.innerHTML = '<img src="' + url + '" style="width:100%;height:100%;object-fit:cover;display:block;"/><div class="preview-slot-label">VERSO ✓</div>';
-      g('prevImgDoc3').src = url; g('prevDoc3').style.display = 'block';
-      g('camDoc3Wrap').style.display = 'none';
-      g('okDoc3Cam').classList.add('show'); g('camOffDoc3').classList.add('show');
-      g('btnSnapDoc3').style.display = 'none'; g('btnSubmitDoc3Cam').style.display = '';
-    }
-  };
-
-  window.retake = function (type) {
-    if (type !== 'face') return;
-    faceDone = false;
-    g('prevFace').style.display = 'none'; g('camFaceWrap').style.display = '';
+  window.retakeFace = function() {
+    faceDone=false;
+    g('prevFace').style.display='none'; g('camFaceWrap').style.display='';
     g('okFace').classList.remove('show'); g('camOffFace').classList.remove('show');
-    g('blankWarnFace').classList.remove('show');
-    g('btnSnapFace').style.display = ''; g('btnConfirmFace').style.display = 'none';
-    startCam('videoFace', 'face', 'user', 'faceBlocked', 'camFaceWrap');
+    g('btnSnapFace').style.display=''; g('btnConfirmFace').style.display='none';
+    startCam('videoFace','face','user','faceBlocked','camFaceWrap');
   };
 
-  window.retakeDoc = function (step) {
-    if (step === 2) {
-      front.cam = false; front.dataUrl = null;
-      g('prevDoc2').style.display = 'none'; g('camDoc2Wrap').style.display = '';
-      g('okDoc2Cam').classList.remove('show'); g('camOffDoc2').classList.remove('show');
-      g('blankWarnDoc2').classList.remove('show');
-      g('btnSnapDoc2').style.display = ''; g('btnNextDoc2Cam').style.display = 'none';
-      startCam('videoDoc2', 'doc2', 'environment', 'doc2Blocked', 'camDoc2Wrap');
-    } else {
-      back.cam = false; back.dataUrl = null;
-      g('prevDoc3').style.display = 'none'; g('camDoc3Wrap').style.display = '';
-      g('okDoc3Cam').classList.remove('show'); g('camOffDoc3').classList.remove('show');
-      g('blankWarnDoc3').classList.remove('show');
-      g('btnSnapDoc3').style.display = ''; g('btnSubmitDoc3Cam').style.display = 'none';
-      g('slotBack').className = 'preview-slot';
-      g('slotBack').innerHTML = '<div class="preview-slot-empty">Verso<br>pendente</div><div class="preview-slot-label">VERSO</div>';
-      startCam('videoDoc3', 'doc3', 'environment', null, 'camDoc3Wrap');
-    }
+  window.snapDoc = function() {
+    var url=snapToCanvas('videoDoc','canvasDoc');
+    if(isBlank(g('canvasDoc'))){ g('blankWarnDoc').classList.add('show'); return; }
+    g('blankWarnDoc').classList.remove('show');
+    stopCam('doc'); docDataUrl=url;
+    g('prevImgDocCam').src=url; g('prevDocCam').style.display='block'; g('camDocWrap').style.display='none';
+    g('okDocCam').classList.add('show');
+    g('btnSnapDoc').style.display='none'; g('btnSubmitDocCam').style.display='';
   };
 
-  /* ══════════════════════════════════════════════════════════
-     UPLOAD
-  ══════════════════════════════════════════════════════════ */
-  window.handleUpload = function (step, input) {
-    if (!input.files || !input.files[0]) return;
-    var f = input.files[0];
-    if (f.size > 10 * 1024 * 1024) { err('Arquivo muito grande. Máximo 10 MB.'); return; }
-    noErr();
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      var url = e.target.result;
-      if (step === 2) {
-        front.up = true; front.dataUrl = url; front.isPdf = f.type === 'application/pdf';
-        g('upArea2').classList.add('has-file'); g('upName2').textContent = f.name;
-        g('okUp2').classList.add('show');
-        if (f.type.startsWith('image')) g('slotFrontImg').src = url;
-        var b = g('btnNextDoc2Up'); b.disabled = false; b.style.opacity = '1'; b.style.cursor = 'pointer';
-        // PDF não tem verso — texto do botão muda
-        if (front.isPdf) {
-          b.querySelector('.btn-inner').innerHTML = 'Analisar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg>';
-          b.onclick = function () { submitDocument(); };
-        } else {
-          b.querySelector('.btn-inner').innerHTML = 'Próximo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:16px;height:16px"><polyline points="9 18 15 12 9 6"/></svg>';
-          b.onclick = function () { goStep3(); };
-        }
-      } else {
-        back.up = true; back.dataUrl = url;
-        g('upArea3').classList.add('has-file'); g('upName3').textContent = f.name;
-        g('okUp3').classList.add('show');
-        if (f.type.startsWith('image')) {
-          var slot = g('slotBack');
-          slot.className = 'preview-slot has-img';
-          slot.innerHTML = '<img src="' + url + '" style="width:100%;height:100%;object-fit:cover;display:block;"/><div class="preview-slot-label">VERSO ✓</div>';
-        }
-        var b3 = g('btnSubmitDoc3Up'); b3.disabled = false; b3.style.opacity = '1'; b3.style.cursor = 'pointer';
-      }
+  window.retakeDoc = function() {
+    docDataUrl=null;
+    g('prevDocCam').style.display='none'; g('camDocWrap').style.display='';
+    g('okDocCam').classList.remove('show');
+    g('btnSnapDoc').style.display=''; g('btnSubmitDocCam').style.display='none';
+    startCam('videoDoc','doc','environment','docBlocked','camDocWrap');
+  };
+
+  window.handleUpload = function(input) {
+    var f=input.files[0]; if(!f) return;
+    if(f.size > 5*1024*1024){ err('Arquivo muito grande. Máximo 5 MB.'); return; }
+    var reader=new FileReader();
+    reader.onload=function(e){
+      docDataUrl=e.target.result;
+      g('upArea').classList.add('has-file');
+      g('upName').textContent=f.name;
+      g('okUp').classList.add('show');
+      var b=g('btnSubmitDocUp'); b.disabled=false; b.style.opacity='1'; b.style.cursor='pointer';
     };
     reader.readAsDataURL(f);
   };
 
-  /* ══════════════════════════════════════════════════════════
-     ANIMAÇÃO DE ANÁLISE
-  ══════════════════════════════════════════════════════════ */
+  /* ── ANALYZING ── */
   function showAnalyzing(labels) {
-    labels = labels || ['Preparando análise…', 'Processando…', 'Verificando maioridade…'];
-    g('anT1').textContent = labels[0]; g('anT2').textContent = labels[1]; g('anT3').textContent = labels[2];
-    ['anS1','anS2','anS3'].forEach(function (id) { g(id).classList.remove('active','done'); });
-    g('anI2').style.opacity = '0'; g('anI3').style.opacity = '0';
-    g('anD1').style.display = ''; g('ocrProgress').classList.remove('show');
-    g('analyzingOverlay').classList.add('show');
+    ['anS1','anS2','anS3'].forEach(function(id){ g(id).classList.remove('active','done'); });
+    if(labels[0]) g('anT1').textContent=labels[0];
+    if(labels[1]) g('anT2').textContent=labels[1];
+    if(labels[2]) g('anT3').textContent=labels[2];
     g('anS1').classList.add('active');
-
-    setTimeout(function () {
-      g('anS1').classList.remove('active'); g('anS1').classList.add('done');
-      g('anD1').style.display = 'none'; g('anI2').style.opacity = '1';
-      g('anS2').classList.add('active');
-    }, 600);
+    g('analyzingOverlay').classList.add('show');
   }
-
   function advanceAnalyzing(step) {
-    if (step === 3) {
-      g('anS2').classList.remove('active'); g('anS2').classList.add('done');
-      g('anI3').style.opacity = '1'; g('anS3').classList.add('active');
-    }
+    for(var i=1;i<step;i++){ g('anS'+i).classList.remove('active'); g('anS'+i).classList.add('done'); g('anI'+i) && (g('anI'+i).style.opacity='1'); }
+    if(step<=3){ g('anS'+step).classList.add('active'); }
   }
+  function hideAnalyzing() { g('analyzingOverlay').classList.remove('show'); }
 
-  function hideAnalyzing() {
-    g('analyzingOverlay').classList.remove('show');
-    g('ocrProgress').classList.remove('show');
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     ★ ANÁLISE FACIAL — face-api.js
-  ══════════════════════════════════════════════════════════ */
-  window.submitFace = async function () {
-    if (!faceDone) { err('Tire a selfie primeiro.'); return; }
+  /* ── SUBMIT SELFIE ── */
+  window.submitFace = async function() {
+    if(!faceDone){ err('Tire a selfie primeiro.'); return; }
     noErr();
-
-    showAnalyzing(['Detectando rosto…', 'Estimando idade com IA…', 'Verificando maioridade…']);
-
+    showAnalyzing(['Detectando rosto…','Estimando idade com IA…','Verificando maioridade…']);
     try {
-      var img = g('prevImgFace');
-      var options = new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 });
-
-      // Detecta rosto + idade/gênero
-      var detections = await faceapi.detectAllFaces(img, options).withAgeAndGender();
-
+      var img=g('prevImgFace');
+      var options=new faceapi.TinyFaceDetectorOptions({ inputSize:416, scoreThreshold:0.5 });
+      var detections=await faceapi.detectAllFaces(img,options).withAgeAndGender();
       advanceAnalyzing(3);
-      await new Promise(function (r) { setTimeout(r, 600); });
-
-      if (!detections || detections.length === 0) {
-        hideAnalyzing();
-        err('Nenhum rosto detectado. Tente com melhor iluminação e enquadramento.');
-        return;
-      }
-
-      if (detections.length > 1) {
-        hideAnalyzing();
-        err('Mais de um rosto detectado. Certifique-se de estar sozinho na foto.');
-        return;
-      }
-
-      var det   = detections[0];
-      var age   = Math.round(det.age);
-
+      await new Promise(function(r){ setTimeout(r,600); });
+      if(!detections||detections.length===0){ hideAnalyzing(); err('Nenhum rosto detectado. Tente com melhor iluminação.'); return; }
+      if(detections.length>1){ hideAnalyzing(); err('Mais de um rosto detectado. Fique sozinho na foto.'); return; }
+      var age=Math.round(detections[0].age);
       console.log('[face-api] Idade estimada:', age);
-
       hideAnalyzing();
-
-      // Zona ambígua: pede documento
-      if (age >= AMBIGUOUS_MIN && age < AMBIGUOUS_MAX) {
-        err('Não foi possível confirmar a maioridade apenas pelo rosto. Por favor, envie seu documento.');
-        // Muda para fluxo de documento automaticamente
-        method = 'doc';
-        g('mFace').classList.remove('selected');
-        g('mDoc').classList.add('selected');
-        g('sLb2').textContent = 'Documento';
-        setStep(2); showPanel('panel2doc');
-        if (docTab === 'cam') startCam('videoDoc2', 'doc2', 'environment', 'doc2Blocked', 'camDoc2Wrap');
-        startTips(docTipsData, 'docTip2Title', 'docTip2Desc', 'docTip2Dots');
+      if(age>=AMBIGUOUS_MIN && age<AMBIGUOUS_MAX){
+        err('Não foi possível confirmar a maioridade apenas pelo rosto. Por favor, use a opção de documento.');
+        goStep1(); setTimeout(function(){ selectMethod('doc'); },300);
         return;
       }
-
-      // Claramente menor
-      if (age < MIN_AGE) {
-        g('successMsg').textContent = 'Acesso não autorizado. A verificação indica que você pode ser menor de idade.';
-        // Mostra tela de rejeição (reutilizamos o success panel com mensagem diferente)
-        setStep(3); showPanel('panelOk');
-        g('successMsg').style.color = 'var(--red)';
-        g('panelOk').querySelector('.success-icon-wrap').style.background = 'var(--red)';
-        announce('Acesso negado.');
-        return;
-      }
-
-      // Aprovado
+      if(age<MIN_AGE){ showDenied('A verificação indica que você pode ser menor de idade.'); return; }
       aprovado('face', age);
-
-    } catch (e) {
-      hideAnalyzing();
-      console.error('[face-api]', e);
+    } catch(e) {
+      hideAnalyzing(); console.error('[face-api]',e);
       err('Erro na análise. Verifique se os modelos carregaram e tente novamente.');
     }
   };
 
-  /* ══════════════════════════════════════════════════════════
-     ★ OCR DE DOCUMENTO — Tesseract.js
-  ══════════════════════════════════════════════════════════ */
-  window.submitDocument = async function () {
-    var frontOk = (docTab === 'cam' && front.cam) || (docTab === 'up' && front.up);
-    // PDF não tem verso — só exige frente
-    var backOk  = front.isPdf || (backTab === 'cam' && back.cam) || (backTab === 'up' && back.up);
-
-    if (!frontOk) { err('Capture ou envie a frente do documento.'); return; }
-    if (!backOk)  { err('Capture ou envie o verso do documento.'); return; }
+  /* ── SUBMIT DOCUMENTO (OCR.space) ── */
+  window.submitDocument = async function(source) {
+    if(!docDataUrl){ err('Capture ou envie o documento primeiro.'); return; }
     noErr();
-
-    var labels = front.isPdf
-      ? ['Lendo documento PDF…', 'Extraindo dados…', 'Buscando data de nascimento…']
-      : ['Lendo frente do documento…', 'Lendo verso do documento…', 'Buscando data de nascimento…'];
-    showAnalyzing(labels);
-
-    // Mostra barra de progresso OCR
-    g('ocrProgress').classList.add('show');
-    var ocrBar = g('ocrBar');
+    showAnalyzing(['Enviando documento para OCR…','Extraindo dados…','Buscando data de nascimento…']);
 
     try {
-      // Função auxiliar para OCR de uma imagem
-      async function runOcr(dataUrl) {
-        var result = await Tesseract.recognize(dataUrl, 'por', {
-          logger: function (m) {
-            if (m.status === 'recognizing text') {
-              ocrBar.style.width = Math.round(m.progress * 100) + '%';
-            }
-          }
-        });
-        return result.data.text;
-      }
+      advanceAnalyzing(2);
 
-      // OCR da frente
-      var textFront = await runOcr(front.dataUrl);
+      // Converte dataUrl para blob
+      var res    = await fetch(docDataUrl);
+      var blob   = await res.blob();
+      var form   = new FormData();
+      form.append('base64Image', docDataUrl);
+      form.append('language',    'por');
+      form.append('isOverlayRequired', 'false');
+      form.append('detectOrientation', 'true');
+      form.append('scale',       'true');
+      form.append('OCREngine',   '2'); // Engine 2 = mais precisa para documentos
+
+      var ocrRes  = await fetch('https://api.ocr.space/parse/image', {
+        method:  'POST',
+        headers: { 'apikey': OCR_API_KEY },
+        body:    form
+      });
+      var ocrData = await ocrRes.json();
+
       advanceAnalyzing(3);
-      ocrBar.style.width = '0%';
 
-      // OCR do verso — apenas se não for PDF
-      var textBack = '';
-      if (!front.isPdf && back.dataUrl) {
-        textBack = await runOcr(back.dataUrl);
-      }
-      ocrBar.style.width = '100%';
+      if(ocrData.IsErroredOnProcessing){ hideAnalyzing(); err('Erro no OCR. Tente com uma foto mais nítida.'); return; }
 
-      var fullText = (textFront + ' ' + textBack).toUpperCase();
-      console.log('[Tesseract] Texto extraído (frente):\n', textFront);
-      console.log('[Tesseract] Texto extraído (verso):\n', textBack);
+      var text = (ocrData.ParsedResults||[]).map(function(r){ return r.ParsedText||''; }).join(' ').toUpperCase();
+      console.log('[OCR.space] Texto extraído:\n', text);
 
-      // Busca data de nascimento no texto
-      var birthDate = extractBirthDate(fullText);
-
+      var birthDate = extractBirthDate(text);
       hideAnalyzing();
 
-      if (!birthDate) {
-        err('Não foi possível encontrar a data de nascimento no documento. Certifique-se de que o texto está legível e tente novamente.');
-        return;
-      }
+      if(!birthDate){ err('Não foi possível encontrar a data de nascimento. Tente com uma foto mais nítida e sem reflexos.'); return; }
 
       var age = calcAge(birthDate);
       console.log('[OCR] Data de nascimento:', birthDate, '| Idade:', age);
 
-      if (age < MIN_AGE) {
-        g('successMsg').textContent = 'Acesso não autorizado. O documento indica que você tem ' + age + ' anos.';
-        setStep(3); showPanel('panelOk');
-        g('successMsg').style.color = 'var(--red)';
-        g('panelOk').querySelector('.success-icon-wrap').style.background = 'var(--red)';
-        announce('Acesso negado.');
-        return;
-      }
-
+      if(age<MIN_AGE){ showDenied('O documento indica que você tem '+age+' anos.'); return; }
       aprovado('document', age);
 
-    } catch (e) {
-      hideAnalyzing();
-      console.error('[Tesseract]', e);
-      err('Erro na leitura do documento. Tente com uma foto mais nítida.');
+    } catch(e) {
+      hideAnalyzing(); console.error('[OCR]',e);
+      err('Erro na leitura do documento. Verifique sua conexão e tente novamente.');
     }
   };
 
-  /* ══════════════════════════════════════════════════════════
-     EXTRAÇÃO DE DATA DE NASCIMENTO (regex multi-formato)
-  ══════════════════════════════════════════════════════════ */
+  /* ── EXTRAÇÃO DE DATA ── */
   function extractBirthDate(text) {
-    // Normaliza OCR: remove espaços duplos, substitui caracteres confusos
-    text = text.toUpperCase()
-               .replace(/\s+/g, ' ')
-               .replace(/[Oo]/g, '0')   // OCR confunde O com 0 em datas
-               .replace(/[Il]/g, '1');  // OCR confunde I/l com 1
-
-    var DATE_RE = '(\\d{1,2})[\\.\\/\\-\\s](\\d{1,2})[\\.\\/\\-\\s](\\d{4})';
-
-    // Labels usados em RG, CNH, passaporte e carteira de trabalho brasileiros:
-    // NASCIMENTO, NASC., NASC, DT.NASC, DT NASC, D.NASC, DN, DATA NASC,
-    // DATA DE NASCIMENTO, DT. NASC., DATANASC, NASCTO, NASCTO.
+    text = text.toUpperCase().replace(/\s+/g,' ');
+    var DATE_RE = '(\\d{1,2})[\\.\\/\\-](\\d{1,2})[\\.\\/\\-](\\d{4})';
     var labelPattern = new RegExp(
-      '(?:DATA\\s*(?:DE\\s*)?NASC(?:IMENTO|TO)?\\.?' +
-      '|D\\.?\\s*NASC\\.?' +
-      '|DT\\.?\\s*NASC\\.?' +
-      '|\\bDN\\b' +
-      '|NASCIMENTO' +
-      '|NASC\\.?)' +
-      '[^\\d]{0,10}' + DATE_RE,
-      'i'
+      '(?:DATA\\s*(?:DE\\s*)?NASC(?:IMENTO|TO)?\\.?|D\\.?\\s*NASC\\.?|DT\\.?\\s*NASC\\.?|\\bDN\\b|NASCIMENTO|NASC\\.?)' +
+      '[^\\d]{0,15}' + DATE_RE, 'i'
     );
-
-    // 1. Tenta com label de nascimento (mais confiável)
     var m = text.match(labelPattern);
-    if (m) {
-      var d = parseInt(m[1]), mo = parseInt(m[2]), y = parseInt(m[3]);
-      if (isValidDate(d, mo, y)) return new Date(y, mo - 1, d);
+    if(m){ var d=parseInt(m[1]),mo=parseInt(m[2]),y=parseInt(m[3]); if(isValidDate(d,mo,y)) return new Date(y,mo-1,d); }
+    var all, re=new RegExp(DATE_RE,'g');
+    while((all=re.exec(text))!==null){
+      var dd=parseInt(all[1]),mm=parseInt(all[2]),yy=parseInt(all[3]);
+      if(isValidDate(dd,mm,yy)&&yy>=1900&&yy<=2010){ return new Date(yy,mm-1,dd); }
     }
+    return null;
+  }
+  function isValidDate(d,m,y){ if(m<1||m>12||d<1||d>31) return false; var dt=new Date(y,m-1,d); return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d; }
+  function calcAge(birthDate){ var t=new Date(),age=t.getFullYear()-birthDate.getFullYear(),mo=t.getMonth()-birthDate.getMonth(); if(mo<0||(mo===0&&t.getDate()<birthDate.getDate())) age--; return age; }
 
-    // 2. Tenta todas as datas no texto e filtra por ano plausível (1900–2015)
-    var all, best = null;
-    var re = new RegExp(DATE_RE, 'g');
-    while ((all = re.exec(text)) !== null) {
-      var dd = parseInt(all[1]), mm = parseInt(all[2]), yy = parseInt(all[3]);
-      if (isValidDate(dd, mm, yy) && yy >= 1900 && yy <= 2015) {
-        best = new Date(yy, mm - 1, dd);
-        break;
-      }
-    }
-    return best;
+  /* ── DENIED ── */
+  function showDenied(msg) {
+    g('successMsg').textContent = msg;
+    g('successMsg').style.color = 'var(--red)';
+    g('panelOk').querySelector('.success-icon-wrap').style.background = 'var(--red)';
+    g('panelOk').querySelector('h3').textContent = 'Acesso não autorizado';
+    setStep(3); showPanel('panelOk');
+    announce('Acesso negado.');
   }
 
-  function isValidDate(d, m, y) {
-    if (m < 1 || m > 12 || d < 1 || d > 31) return false;
-    var date = new Date(y, m - 1, d);
-    return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d;
-  }
-
-  function calcAge(birthDate) {
-    var today = new Date();
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var mo  = today.getMonth() - birthDate.getMonth();
-    if (mo < 0 || (mo === 0 && today.getDate() < birthDate.getDate())) age--;
-    return age;
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     APROVAÇÃO
-  ══════════════════════════════════════════════════════════ */
+  /* ── APROVADO ── */
   function aprovado(via, age) {
     stopAll();
-
-    // Token simples no sessionStorage (sem servidor)
-    var token = {
+    sessionStorage.setItem('age_verified', JSON.stringify({
       verified:  true,
       method:    via,
-      ageGroup:  age < 25 ? '18-24' : age < 40 ? '25-39' : '40+',
-      expiresAt: Date.now() + 60 * 60 * 1000  // 1 hora
-    };
-    sessionStorage.setItem('age_verified', JSON.stringify(token));
-
-    var msgEl = g('successMsg');
-    msgEl.textContent = via === 'face'
-      ? 'Identidade verificada por reconhecimento facial. Você já pode continuar.'
-      : 'Data de nascimento confirmada pelo documento. Você já pode continuar.';
-    msgEl.style.color = '';
+      ageGroup:  age<25?'18-24':age<40?'25-39':'40+',
+      expiresAt: Date.now() + 60*60*1000
+    }));
+    g('successMsg').textContent = via==='face'
+      ? 'Identidade verificada por reconhecimento facial.'
+      : 'Data de nascimento confirmada pelo documento.';
+    g('successMsg').style.color = '';
     g('panelOk').querySelector('.success-icon-wrap').style.background = '';
-
+    g('panelOk').querySelector('h3').textContent = 'Maioridade confirmada!';
     setStep(3); showPanel('panelOk');
     announce('Maioridade confirmada. Você já pode continuar.');
-
-    setTimeout(function () {
-      window.location.href = '/';
-    }, 2500);
+    setTimeout(function(){ window.location.href='/'; }, 2500);
   }
 
-  /* ══════════════════════════════════════════════════════════
-     INIT
-  ══════════════════════════════════════════════════════════ */
-
-  // Verifica se o visitante está no Brasil via IP
-  // Se não estiver, libera acesso direto sem verificação
+  /* ── GEOLOCALIZAÇÃO: só exibe no Brasil ── */
   fetch('https://ipapi.co/json/')
-    .then(function (r) { return r.json(); })
-    .then(function (data) {
-      if (data.country_code !== 'BR') {
-        // Fora do Brasil — libera direto
-        var token = {
-          verified: true,
-          method: 'geo-bypass',
-          ageGroup: 'non-BR',
-          expiresAt: Date.now() + 60 * 60 * 1000
-        };
-        sessionStorage.setItem('age_verified', JSON.stringify(token));
-        window.location.href = '/';
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if(data.country_code !== 'BR'){
+        sessionStorage.setItem('age_verified', JSON.stringify({ verified:true, method:'geo-bypass', expiresAt: Date.now()+60*60*1000 }));
+        window.location.href='/';
       }
     })
-    .catch(function () {
-      // Se a API falhar, não bloqueia — deixa passar
-      // (melhor erro para o lado do usuário legítimo)
-    });
+    .catch(function(){});
 
 })();
 </script>
