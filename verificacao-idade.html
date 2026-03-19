@@ -1018,27 +1018,38 @@
      EXTRAÇÃO DE DATA DE NASCIMENTO (regex multi-formato)
   ══════════════════════════════════════════════════════════ */
   function extractBirthDate(text) {
-    // Formatos brasileiros comuns em documentos:
-    // DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY
-    // Também captura labels: "NASC", "NASCIMENTO", "DATA NASC"
+    // Normaliza OCR: remove espaços duplos, substitui caracteres confusos
+    text = text.toUpperCase()
+               .replace(/\s+/g, ' ')
+               .replace(/[Oo]/g, '0')   // OCR confunde O com 0 em datas
+               .replace(/[Il]/g, '1');  // OCR confunde I/l com 1
 
-    var patterns = [
-      // Com label de nascimento antes da data
-      /(?:NASC(?:IMENTO)?|DATA\s*NASC[^\d]*)(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/i,
-      // Data isolada qualquer (tenta todas e filtra)
-      /(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/g
-    ];
+    var DATE_RE = '(\\d{1,2})[\\.\\/\\-\\s](\\d{1,2})[\\.\\/\\-\\s](\\d{4})';
 
-    // Tenta primeiro com label
-    var m = text.match(patterns[0]);
+    // Labels usados em RG, CNH, passaporte e carteira de trabalho brasileiros:
+    // NASCIMENTO, NASC., NASC, DT.NASC, DT NASC, D.NASC, DN, DATA NASC,
+    // DATA DE NASCIMENTO, DT. NASC., DATANASC, NASCTO, NASCTO.
+    var labelPattern = new RegExp(
+      '(?:DATA\\s*(?:DE\\s*)?NASC(?:IMENTO|TO)?\\.?' +
+      '|D\\.?\\s*NASC\\.?' +
+      '|DT\\.?\\s*NASC\\.?' +
+      '|\\bDN\\b' +
+      '|NASCIMENTO' +
+      '|NASC\\.?)' +
+      '[^\\d]{0,10}' + DATE_RE,
+      'i'
+    );
+
+    // 1. Tenta com label de nascimento (mais confiável)
+    var m = text.match(labelPattern);
     if (m) {
       var d = parseInt(m[1]), mo = parseInt(m[2]), y = parseInt(m[3]);
       if (isValidDate(d, mo, y)) return new Date(y, mo - 1, d);
     }
 
-    // Tenta todas as datas e filtra por ano plausível (1900–2015)
+    // 2. Tenta todas as datas no texto e filtra por ano plausível (1900–2015)
     var all, best = null;
-    var re = /(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/g;
+    var re = new RegExp(DATE_RE, 'g');
     while ((all = re.exec(text)) !== null) {
       var dd = parseInt(all[1]), mm = parseInt(all[2]), yy = parseInt(all[3]);
       if (isValidDate(dd, mm, yy) && yy >= 1900 && yy <= 2015) {
