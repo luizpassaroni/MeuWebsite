@@ -1096,6 +1096,29 @@
   /* ══════════════════════════════════════════════════════════
      INIT
   ══════════════════════════════════════════════════════════ */
+
+  // Verifica se o visitante está no Brasil via IP
+  // Se não estiver, libera acesso direto sem verificação
+  fetch('https://ipapi.co/json/')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data.country_code !== 'BR') {
+        // Fora do Brasil — libera direto
+        var token = {
+          verified: true,
+          method: 'geo-bypass',
+          ageGroup: 'non-BR',
+          expiresAt: Date.now() + 60 * 60 * 1000
+        };
+        sessionStorage.setItem('age_verified', JSON.stringify(token));
+        window.location.href = '/';
+      }
+    })
+    .catch(function () {
+      // Se a API falhar, não bloqueia — deixa passar
+      // (melhor erro para o lado do usuário legítimo)
+    });
+
 })();
 </script>
 </body>
