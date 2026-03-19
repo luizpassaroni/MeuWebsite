@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luiz Passaroni - iOS Developer</title>
+  <meta name="description" content="Estudante de Ciência da Computação com foco em desenvolvimento iOS.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* SELETOR DE IDIOMA NO TOPO */
+    .ios-lang-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 1rem;
+      margin-bottom: -30px;
+      position: relative;
+      z-index: 100;
+    }
+    .ios-lang-container { position: relative; display: flex; align-items: center; }
+    .lang-icon-prefix {
+      position: absolute;
+      left: 12px;
+      pointer-events: none;
+      color: var(--ios-blue);
+      width: 18px;
+      height: 18px;
+    }
+    .ios-lang-selector {
+      appearance: none;
+      background: var(--ios-glass-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 10px 35px 10px 38px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ios-text);
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 14px;
+    }
+
+    /* ESTILO DAS BANDEIRAS COM BORDAS (ESTILO APP ICON) */
+    .flag-app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      overflow: hidden;
+      margin-left: 4px;
+      margin-right: 12px;
+    }
+    .bg-br { background: #009B3A; border: 1px solid rgba(0,0,0,0.1); }
+    .bg-us { background: #012169; border: 1px solid rgba(0,0,0,0.1); }
+
+    /* CONFIGURAÇÃO DO VIDRO (GLASS) ADAPTÁVEL */
+    .ios-widget-glass {
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-radius: 1.5rem !important;
+      background: rgba(255, 255, 255, 0.7); 
+      overflow: hidden;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .ios-widget-glass, .ios-lang-selector {
+        background: rgba(28, 28, 30, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      }
+      .ios-lang-selector option { background: #1c1c1e; color: white; }
+    }
+
+    .tech-box { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .tech-img { max-width: 42px; max-height: 42px; object-fit: contain; }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <main class="flex-1 flex flex-col pt-8 pb-16">
+    <section class="mx-auto w-full max-w-3xl px-4 space-y-10">
+
+      <div class="ios-lang-wrapper">
+        <div class="ios-lang-container">
+          <svg class="lang-icon-prefix" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.806m10.022 5.806c-.832-2.314-2.122-4.522-3.827-5.806m1.102 11.5l2.29-6m2.29 6l-2.29-6m-6.404 0H9m-6.404 0H3m4.847 0a12.016 12.016 0 003.111-5H5.889a12.016 12.016 0 003.111 5z"/></svg>
+          <select id="langSelect" onchange="switchLanguage(this.value)" class="ios-lang-selector">
+            <option value="pt">🇧🇷 Português</option>
+            <option value="en">🇺🇸 English</option>
+          </select>
+        </div>
+      </div>
+
+      <header class="ios-widget-glass p-8 flex flex-col-reverse md:flex-row items-center gap-8 relative overflow-hidden">
+        <div class="flex-1 space-y-4 text-center md:text-left relative z-10">
+          <div>
+            <h1 class="ios-title1">Luiz Passaroni</h1>
+            <p class="ios-subheadline ios-text-blue mt-1" style="font-weight:500;" data-i18n="role">iOS Developer & Estudante de CC</p>
+            <p class="ios-subheadline ios-text-secondary mt-3" style="line-height:1.5;" data-i18n="about">
+              Desenvolvedor entusiasta com foco em mobile, especialmente no ecossistema Apple. Buscando explorar novas tecnologias e criar aplicações de alto impacto visual e funcional.
+            </p>
+          </div>
+          <div class="flex justify-center md:justify-start gap-5 pt-3">
+            <a href="mailto:aguiarpassaroni@gmail.com" class="ios-tappable flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center ios-text-blue" style="box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+                <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="ios-caption2 ios-text-secondary" style="font-weight:500;">Mail</span>
+            </a>
+            <a href="https://github.com/luizpassaroni" target="_blank" class="ios-tappable flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center" style="box-shadow:0 1px 3px rgba(0,0,0,0.08);color:var(--ios-text);">
+                <svg class="w-[22px] h-[22px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </div>
+              <span class="ios-caption2 ios-text-secondary" style="font-weight:500;">GitHub</span>
+            </a>
+            <a href="https://linkedin.com/in/luizpassaroni" target="_blank" class="ios-tappable flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center" style="box-shadow:0 1px 3px rgba(0,0,0,0.08);color:#0A66C2;">
+                <svg class="w-[22px] h-[22px]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+              </div>
+              <span class="ios-caption2 ios-text-secondary" style="font-weight:500;">LinkedIn</span>
+            </a>
+          </div>
+        </div>
+        <div class="w-36 h-36 md:w-44 md:h-44 shrink-0 z-10">
+          <img class="ios-avatar w-full h-full" src="perfil.jpeg" alt="Luiz Felipe Passaroni">
+        </div>
+      </header>
+
+      <div class="ios-stat-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="ios-stat-card">
+          <div class="ios-stat-icon">⌨️</div>
+          <div class="ios-stat-value">Swift</div>
+          <div class="ios-stat-label" data-i18n="main_lang">Linguagem principal</div>
+        </div>
+        <div class="ios-stat-card">
+          <div class="ios-stat-icon">🏆</div>
+          <div class="ios-stat-value">8</div>
+          <div class="ios-stat-label" data-i18n="certs_label">Certificados</div>
+        </div>
+      </div>
+
+      <section class="space-y-4 pt-4">
+        <h2 class="ios-section-label pl-4" data-i18n="tech_title">Tecnologias</h2>
+        <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-y-8 gap-x-2 px-2">
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Swift</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">SwiftUI</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Figma</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Git</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://developer.apple.com/assets/elements/icons/xcode/xcode-128x128_2x.png" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Xcode</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box" style="background:white;border-radius:10px;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Photoshop</span></div>
+        </div>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="ios-section-label pl-4" data-i18n="exp_title">Experiência Profissional</h2>
+        <div class="ios-widget-glass p-4">
+          <div class="ios-timeline-item">
+            <div class="ios-tl-left"><div class="ios-tl-dot ios-tl-dot-active"></div></div>
+            <div class="ios-tl-icon bg-white shrink-0"><img src="https://i.ibb.co/dsp2RhYJ/1767353113034.jpg" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div class="ios-tl-content">
+              <div class="ios-tl-title">Globo</div>
+              <div class="ios-tl-sub" data-i18n="job_role">Estagiário de Desenvolvimento iOS</div>
+            </div>
+            <div class="ios-tl-right">
+              <span class="ios-footnote ios-text-secondary">dez 2025</span>
+              <span class="ios-badge ios-badge-green" data-i18n="current">Atual</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="ios-section-label pl-4" data-i18n="edu_title">Educação</h2>
+        <div class="ios-widget-glass">
+          <div class="ios-timeline-item border-b border-white/10 p-4">
+            <div class="ios-tl-left"><div class="ios-tl-dot ios-tl-dot-active"></div><div class="ios-tl-line"></div></div>
+            <div class="ios-tl-icon bg-white shrink-0"><img src="https://scontent.fqnv8-1.fna.fbcdn.net/v/t39.30808-6/396277438_728610869312002_5095888112251155297_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=1ABa4iiJCKcQ7kNvwEaTxIE&_nc_oc=Adliwk8YKxEUjaTdaTJecSEpcqb8icVx9f3TJJSZp1CJ4OtlVfiZc2g_Arz-G899ANU&_nc_zt=23&_nc_ht=scontent.fqnv8-1.fna&_nc_gid=DjPbb4ZaYc7ou6yLKokUrA&_nc_ss=8&oh=00_AfwBZmZxG00pVpHXdxgtZKeIkeEI5xiwxY9kCOcQsJk36Q&oe=69BBD87E" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div class="ios-tl-content"><div class="ios-tl-title">Universidade Veiga de Almeida</div><div class="ios-tl-sub" data-i18n="degree">Bacharelado em Ciência da Computação</div></div>
+            <div class="ios-tl-right"><span class="ios-footnote ios-text-secondary">2024–2027</span><span class="ios-badge ios-badge-orange" data-i18n="ongoing">Em andamento</span></div>
+          </div>
+          <div class="ios-timeline-item border-b border-white/10 p-4">
+            <div class="ios-tl-left"><div class="ios-tl-dot"></div><div class="ios-tl-line"></div></div>
+            <div class="ios-tl-icon bg-white"><img src="https://e4usa.org/sites/default/files/2023-08/rmhs-logo450x500.png" style="width:95%;height:95%;object-fit:contain;"></div>
+            <div class="ios-tl-content"><div class="ios-tl-title">Richard Montgomery HS</div><div class="ios-tl-sub" data-i18n="hs">Ensino Médio — Maryland, EUA</div></div>
+            <div class="ios-tl-right"><span class="ios-footnote ios-text-secondary">2021–2023</span></div>
+          </div>
+          <div class="ios-timeline-item p-4">
+            <div class="ios-tl-left"><div class="ios-tl-dot"></div></div>
+            <div class="ios-tl-icon bg-white"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Bras%C3%A3o_Col%C3%A9gio_Pedro_II.png" style="width:95%;height:95%;object-fit:contain;"></div>
+            <div class="ios-tl-content"><div class="ios-tl-title">Colégio Pedro II</div><div class="ios-tl-sub" data-i18n="technical">Técnico em Dev. de Sistemas</div></div>
+            <div class="ios-tl-right"><span class="ios-footnote ios-text-secondary">2019–2021</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="ios-section-label pl-4" data-i18n="certs_title">Certificações & Cursos</h2>
+        <div class="ios-widget-glass">
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=montgomerycollege.edu&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Montgomery College</h3><p class="ios-footnote ios-text-secondary">iPhone/iPad Development with Swift</p></div><div class="pr-2"><span class="ios-badge ios-badge-blue">Apple</span></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Aprenda Flutter e Desenvolva Apps para Android e iOS</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Café com Figma — Design de Interfaces do Zero</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Entendendo a Linguagem</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Orientação a Objetos</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Fundação Bradesco</h3><p class="ios-footnote ios-text-secondary">Python - Básico</p></div></div>
+          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=santander.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Santander Open Academy</h3><p class="ios-footnote ios-text-secondary">Introdução à Programação com Python</p></div></div>
+          <div class="flex items-center gap-3 p-3"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=puc-rio.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">PUC-Rio</h3><p class="ios-footnote ios-text-secondary">WWDC-SSC Crash Challenge</p></div><div class="pr-2"><span class="ios-badge ios-badge-blue">Apple</span></div></div>
+        </div>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="ios-section-label pl-4" data-i18n="lang_title">Idiomas</h2>
+        <div class="ios-widget-glass p-5">
+          <div class="flex items-center pb-4 border-b border-white/10">
+            <div class="flag-app-icon bg-br">🇧🇷</div>
+            <div class="flex-1">
+              <h3 class="ios-headline">Português</h3>
+              <p class="ios-footnote ios-text-secondary" data-i18n="native">Língua nativa</p>
+            </div>
+            <span class="ios-badge ios-badge-green" style="margin-right:8px;" data-i18n="native_badge">Nativo</span>
+          </div>
+          <div class="flex items-center pt-4">
+            <div class="flag-app-icon bg-us">🇺🇸</div>
+            <div class="flex-1">
+              <h3 class="ios-headline" data-i18n="english">Inglês</h3>
+              <p class="ios-footnote ios-text-secondary" data-i18n="us_time">2 anos morando nos EUA — Maryland</p>
+            </div>
+            <span class="ios-badge ios-badge-blue" style="margin-right:8px;" data-i18n="advanced_badge">Avançado</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-2 pt-2 pb-4">
+        <h2 class="ios-section-label pl-4" data-i18n="project_title">Projeto em Destaque</h2>
+        <a href="https://github.com/luizpassaroni/FabTheQuiz" target="_blank" class="ios-tappable ios-hero-card">
+          <div class="ios-hero-bg"><div class="ios-hero-orb ios-hero-orb-1"></div><div class="ios-hero-orb ios-hero-orb-2"></div></div>
+          <div class="ios-hero-content">
+            <div class="ios-hero-title">FabTheQuiz</div>
+            <div class="ios-hero-sub" data-i18n="quiz_desc">Quiz interativo sobre a Força Aérea Brasileira — desenvolvido para o WWDC Student Challenge.</div>
+            <div class="ios-hero-tags">
+              <span class="ios-hero-tag">SwiftUI</span><span class="ios-hero-tag">AVKit</span><span class="ios-hero-tag">SceneKit</span><span class="ios-hero-tag">UIKit</span>
+            </div>
+          </div>
+          <div class="ios-hero-icon">✈️</div>
+        </a>
+      </section>
+
+    </section>
+  </main>
+
+  <script>
+
+    if (!sessionStorage.getItem('age_verified')) {
+  window.location.href = '/verificacao-idade.html';
+}
+    const translations = {
+      pt: {
+        role: "iOS Developer & Estudante de CC",
+        about: "Desenvolvedor entusiasta com foco em mobile, especialmente no ecossistema Apple. Buscando explorar novas tecnologias e criar aplicações de alto impacto visual e funcional.",
+        main_lang: "Linguagem principal", certs_label: "Certificados", exp_title: "Experiência Profissional",
+        job_role: "Estagiário de Desenvolvimento iOS", current: "Atual", edu_title: "Educação",
+        degree: "Bacharelado em Ciência da Computação", ongoing: "Em andamento", hs: "Ensino Médio — Maryland, EUA",
+        technical: "Técnico em Dev. de Sistemas", certs_title: "Certificações & Cursos", lang_title: "Idiomas",
+        native: "Língua nativa", native_badge: "Nativo", english: "Inglês", us_time: "2 anos morando nos EUA — Maryland",
+        advanced_badge: "Avançado", project_title: "Projeto em Destaque",
+        quiz_desc: "Quiz interativo sobre a Força Aérea Brasileira — desenvolvido para o WWDC Student Challenge."
+      },
+      en: {
+        role: "iOS Developer & CS Student",
+        about: "Enthusiastic developer focused on mobile, especially the Apple ecosystem. Seeking to explore new technologies and create applications with high visual and functional impact.",
+        main_lang: "Primary Language", certs_label: "Certifications", exp_title: "Professional Experience",
+        job_role: "iOS Development Intern", current: "Current", edu_title: "Education",
+        degree: "B.S. in Computer Science", ongoing: "Ongoing", hs: "High School — Maryland, USA",
+        technical: "Technical Degree in Systems Dev.", certs_title: "Certifications & Courses", lang_title: "Languages",
+        native: "Native speaker", native_badge: "Native", english: "English", us_time: "2 years living in the USA — Maryland",
+        advanced_badge: "Advanced", project_title: "Featured Project",
+        quiz_desc: "Interactive quiz about the Brazilian Air Force — developed for the WWDC Student Challenge."
+      }
+    };
+
+    function switchLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) el.textContent = translations[lang][key];
+      });
+      document.getElementById('langSelect').value = lang;
+      localStorage.setItem('preferredLang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const systemLang = navigator.language.startsWith('en') ? 'en' : 'pt';
+      const savedLang = localStorage.getItem('preferredLang') || systemLang;
+      switchLanguage(savedLang);
+    });
+  </script>
+</body>
+</html>
