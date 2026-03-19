@@ -227,29 +227,17 @@
         <span id="errorText"></span>
       </div>
 
-      <!-- PANEL 1: escolha do método -->
+      <!-- PANEL 1: intro -->
       <div class="panel active" id="panel1">
-        <div class="panel-title">Como deseja comprovar sua idade?</div>
-        <div class="panel-sub">Escolha uma das opções abaixo.</div>
-        <div class="method-grid">
-          <div class="method-card" id="mFace" onclick="selectMethod('face')" role="button" tabindex="0">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/></svg>
-            <h4>Selfie do rosto</h4>
-            <p>Foto ao vivo — estimativa de idade por IA</p>
-          </div>
-          <div class="method-card" id="mDoc" onclick="selectMethod('doc')" role="button" tabindex="0">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8" cy="11" r="2"/><path d="M13 10h5M13 14h3"/></svg>
-            <h4>Documento</h4>
-            <p>RG ou CNH — leitura automática por OCR</p>
-          </div>
-        </div>
+        <div class="panel-title">Confirmação de maioridade</div>
+        <div class="panel-sub">Tire uma selfie para confirmar que você tem 18 anos ou mais.</div>
         <div class="privacy-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Seus dados são processados de forma segura. A selfie é analisada localmente no seu dispositivo.
+          A análise de idade ocorre <strong>localmente no seu dispositivo</strong>. Nenhuma imagem é enviada para servidores.
         </div>
         <div class="btn-row">
-          <button class="btn btn-primary" id="btnContinue" onclick="goStep2()" disabled style="opacity:.5;cursor:not-allowed">
-            <div class="btn-inner">Continuar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></div>
+          <button class="btn btn-primary" id="btnContinue" onclick="goStep2()">
+            <div class="btn-inner">Tirar selfie <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
           </button>
         </div>
       </div>
@@ -274,47 +262,6 @@
           <button class="btn btn-back" onclick="goStep1()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
           <button class="btn btn-dark" id="btnSnapFace" onclick="snapFace()"><div class="btn-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Fotografar</div></button>
           <button class="btn btn-primary" id="btnConfirmFace" onclick="submitFace()" style="display:none"><div class="btn-inner">Analisar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="spinner"></div></button>
-        </div>
-      </div>
-
-      <!-- PANEL 2B: documento -->
-      <div class="panel" id="panel2doc">
-        <div class="panel-title">Documento de identidade</div>
-        <div class="panel-sub">Envie uma foto nítida da <strong>frente</strong> do seu RG ou CNH.</div>
-        <div class="input-tabs">
-          <button class="tab-btn active" id="tabDocCam" onclick="switchDocTab('cam')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Câmera</button>
-          <button class="tab-btn" id="tabDocUp" onclick="switchDocTab('up')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Enviar arquivo</button>
-        </div>
-        <div class="sub-panel active" id="docCamSub">
-          <div class="cam-tips">
-            <div class="tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/></svg></div>
-            <div><div class="tip-text"><strong>Centralize o documento</strong><span>Coloque dentro da moldura, sem reflexos.</span></div></div>
-          </div>
-          <div class="cam-blocked" id="docBlocked"></div>
-          <div class="camera-wrap" id="camDocWrap"><video id="videoDoc" autoplay playsinline muted></video><div class="cam-overlay"><div class="doc-guide"></div></div></div>
-          <canvas id="canvasDoc" style="display:none"></canvas>
-          <div class="blank-warning" id="blankWarnDoc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Imagem muito escura. Melhore a iluminação.</div>
-          <div class="photo-preview" id="prevDocCam"><img id="prevImgDocCam" src="" alt="Documento"/><button class="retake-btn" onclick="retakeDoc()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>Refazer</button></div>
-          <div class="ok-badge" id="okDocCam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Documento fotografado!</div>
-          <div class="btn-row">
-            <button class="btn btn-back" onclick="goStep1()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="btn btn-dark" id="btnSnapDoc" onclick="snapDoc()"><div class="btn-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Fotografar</div></button>
-            <button class="btn btn-primary" id="btnSubmitDocCam" onclick="submitDocument('cam')" style="display:none"><div class="btn-inner">Analisar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="spinner"></div></button>
-          </div>
-        </div>
-        <div class="sub-panel" id="docUpSub">
-          <div class="upload-area" id="upArea" onclick="document.getElementById('upFile').click()">
-            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <div class="upload-label">Clique para selecionar o documento</div>
-            <div class="upload-hint">JPG ou PNG · máx. 5 MB</div>
-            <div class="file-name" id="upName"></div>
-            <input type="file" id="upFile" accept="image/*" onchange="handleUpload(this)" />
-          </div>
-          <div class="ok-badge" id="okUp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Arquivo selecionado!</div>
-          <div class="btn-row">
-            <button class="btn btn-back" onclick="goStep1()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="btn btn-primary" id="btnSubmitDocUp" onclick="submitDocument('up')" disabled style="opacity:.5;cursor:not-allowed"><div class="btn-inner">Analisar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="spinner"></div></button>
-          </div>
         </div>
       </div>
 
@@ -355,14 +302,10 @@
   var AMBIGUOUS_MIN  = 15;
   var AMBIGUOUS_MAX  = 22;
   var FACE_MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
-  var OCR_API_KEY    = '__OCR_API_KEY__'; // substituído pelo GitHub Actions
 
   /* ── ESTADO ── */
-  var method      = null;
   var modelsReady = false;
   var faceDone    = false;
-  var docDataUrl  = null;
-  var docTab      = 'cam';
   var streams     = {};
   var tipTimers   = [];
 
@@ -380,7 +323,7 @@
     }
   }
 
-  var allPanels = ['panel1','panel2face','panel2doc','panelOk'];
+  var allPanels = ['panel1','panel2face','panelOk'];
   function showPanel(id) { allPanels.forEach(function(p){ g(p).classList.remove('active'); }); g(id).classList.add('active'); }
 
   /* ── MODELOS ── */
@@ -425,7 +368,7 @@
       });
   }
   function stopCam(key) { if(streams[key]){ streams[key].getTracks().forEach(function(t){ t.stop(); }); streams[key]=null; } }
-  function stopAll() { ['face','doc'].forEach(stopCam); }
+  function stopAll() { stopCam('face'); }
 
   /* ── CANVAS ── */
   function isBlank(canvas) {
@@ -435,62 +378,22 @@
     var v=g(videoId),c=g(canvasId); c.width=v.videoWidth||640; c.height=v.videoHeight||480; c.getContext('2d').drawImage(v,0,0); return c.toDataURL('image/jpeg',0.92);
   }
 
-  /* ── MÉTODO SELECT ── */
-  window.selectMethod = function(m) {
-    method=m; noErr();
-    g('mFace').classList.toggle('selected', m==='face');
-    g('mDoc').classList.toggle('selected',  m==='doc');
-    var btn=g('btnContinue'); btn.disabled=false; btn.style.opacity='1'; btn.style.cursor='pointer';
-  };
-  ['mFace','mDoc'].forEach(function(id){
-    g(id).addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); selectMethod(id==='mFace'?'face':'doc'); } });
-  });
-
   /* ── NAVEGAÇÃO ── */
   window.goStep2 = function() {
-    if(!method){ err('Selecione um método de verificação.'); return; }
-    if(method==='face' && !modelsReady){ err('Os modelos de IA ainda estão carregando. Aguarde alguns segundos.'); return; }
+    if(!modelsReady){ err('Os modelos de IA ainda estão carregando. Aguarde alguns segundos.'); return; }
     noErr(); clearTips();
-    if(method==='face'){
-      g('sLb2').textContent='Selfie'; setStep(2); showPanel('panel2face');
-      startCam('videoFace','face','user','faceBlocked','camFaceWrap');
-      startTips(faceTips,'faceTipTitle','faceTipDesc','faceTipDots');
-    } else {
-      g('sLb2').textContent='Documento'; setStep(2); showPanel('panel2doc');
-      // câmera só abre se a aba câmera estiver ativa
-      if(docTab==='cam') startCam('videoDoc','doc','environment','docBlocked','camDocWrap');
-    }
+    g('sLb2').textContent='Selfie'; setStep(2); showPanel('panel2face');
+    startCam('videoFace','face','user','faceBlocked','camFaceWrap');
+    startTips(faceTips,'faceTipTitle','faceTipDesc','faceTipDots');
   };
 
   window.goStep1 = function() {
-    stopAll(); clearTips(); noErr();
-    method=null; faceDone=false; docDataUrl=null;
-    g('mFace').classList.remove('selected'); g('mDoc').classList.remove('selected');
-    var btn=g('btnContinue'); btn.disabled=true; btn.style.opacity='.5'; btn.style.cursor='not-allowed';
-    // reset face
+    stopAll(); clearTips(); noErr(); faceDone=false;
     g('prevFace').style.display='none'; g('camFaceWrap').style.display='';
     g('okFace').classList.remove('show'); g('camOffFace').classList.remove('show');
     g('blankWarnFace').classList.remove('show');
     g('btnSnapFace').style.display=''; g('btnConfirmFace').style.display='none';
-    // reset doc
-    g('prevDocCam').style.display='none'; g('camDocWrap').style.display='';
-    g('okDocCam').classList.remove('show'); g('blankWarnDoc').classList.remove('show');
-    g('btnSnapDoc').style.display=''; g('btnSubmitDocCam').style.display='none';
-    g('upArea').classList.remove('has-file'); g('okUp').classList.remove('show');
-    g('upName').textContent=''; g('upFile').value='';
-    var b=g('btnSubmitDocUp'); b.disabled=true; b.style.opacity='.5'; b.style.cursor='not-allowed';
-    switchDocTab('cam');
     setStep(1); showPanel('panel1');
-  };
-
-  window.switchDocTab = function(tab) {
-    docTab=tab;
-    g('tabDocCam').classList.toggle('active', tab==='cam');
-    g('tabDocUp').classList.toggle('active',  tab==='up');
-    g('docCamSub').classList.toggle('active', tab==='cam');
-    g('docUpSub').classList.toggle('active',  tab==='up');
-    if(tab==='cam'){ startCam('videoDoc','doc','environment','docBlocked','camDocWrap'); }
-    else { stopCam('doc'); }
   };
 
   /* ── SNAP ── */
@@ -510,38 +413,6 @@
     g('okFace').classList.remove('show'); g('camOffFace').classList.remove('show');
     g('btnSnapFace').style.display=''; g('btnConfirmFace').style.display='none';
     startCam('videoFace','face','user','faceBlocked','camFaceWrap');
-  };
-
-  window.snapDoc = function() {
-    var url=snapToCanvas('videoDoc','canvasDoc');
-    if(isBlank(g('canvasDoc'))){ g('blankWarnDoc').classList.add('show'); return; }
-    g('blankWarnDoc').classList.remove('show');
-    stopCam('doc'); docDataUrl=url;
-    g('prevImgDocCam').src=url; g('prevDocCam').style.display='block'; g('camDocWrap').style.display='none';
-    g('okDocCam').classList.add('show');
-    g('btnSnapDoc').style.display='none'; g('btnSubmitDocCam').style.display='';
-  };
-
-  window.retakeDoc = function() {
-    docDataUrl=null;
-    g('prevDocCam').style.display='none'; g('camDocWrap').style.display='';
-    g('okDocCam').classList.remove('show');
-    g('btnSnapDoc').style.display=''; g('btnSubmitDocCam').style.display='none';
-    startCam('videoDoc','doc','environment','docBlocked','camDocWrap');
-  };
-
-  window.handleUpload = function(input) {
-    var f=input.files[0]; if(!f) return;
-    if(f.size > 5*1024*1024){ err('Arquivo muito grande. Máximo 5 MB.'); return; }
-    var reader=new FileReader();
-    reader.onload=function(e){
-      docDataUrl=e.target.result;
-      g('upArea').classList.add('has-file');
-      g('upName').textContent=f.name;
-      g('okUp').classList.add('show');
-      var b=g('btnSubmitDocUp'); b.disabled=false; b.style.opacity='1'; b.style.cursor='pointer';
-    };
-    reader.readAsDataURL(f);
   };
 
   /* ── ANALYZING ── */
@@ -576,8 +447,8 @@
       console.log('[face-api] Idade estimada:', age);
       hideAnalyzing();
       if(age>=AMBIGUOUS_MIN && age<AMBIGUOUS_MAX){
-        err('Não foi possível confirmar a maioridade apenas pelo rosto. Por favor, use a opção de documento.');
-        goStep1(); setTimeout(function(){ selectMethod('doc'); },300);
+        hideAnalyzing();
+        err('Não foi possível confirmar a maioridade pelo rosto. Tente com melhor iluminação ou refaça a selfie.');
         return;
       }
       if(age<MIN_AGE){ showDenied('A verificação indica que você pode ser menor de idade.'); return; }
@@ -587,80 +458,6 @@
       err('Erro na análise. Verifique se os modelos carregaram e tente novamente.');
     }
   };
-
-  /* ── SUBMIT DOCUMENTO (OCR.space) ── */
-  window.submitDocument = async function(source) {
-    if(!docDataUrl){ err('Capture ou envie o documento primeiro.'); return; }
-    noErr();
-    showAnalyzing(['Enviando documento para OCR…','Extraindo dados…','Buscando data de nascimento…']);
-
-    try {
-      advanceAnalyzing(2);
-
-      // Converte dataUrl para Blob e envia como arquivo
-      var fetchRes = await fetch(docDataUrl);
-      var blob     = await fetchRes.blob();
-      var form     = new FormData();
-      form.append('file',              blob, 'documento.jpg');
-      form.append('language',          'por');
-      form.append('isOverlayRequired', 'false');
-      form.append('detectOrientation', 'true');
-      form.append('scale',             'true');
-      form.append('OCREngine',         '2');
-
-      var ocrRes  = await fetch('https://api.ocr.space/parse/image', {
-        method:  'POST',
-        headers: { 'apikey': OCR_API_KEY },
-        body:    form
-      });
-      var ocrData = await ocrRes.json();
-      console.log('[OCR.space] Resposta completa:', ocrData);
-
-      advanceAnalyzing(3);
-
-      if(ocrData.IsErroredOnProcessing){ hideAnalyzing(); err('Erro no OCR: ' + (ocrData.ErrorMessage||'tente com foto mais nítida.')); return; }
-
-      var text = (ocrData.ParsedResults||[]).map(function(r){ return r.ParsedText||''; }).join(' ').toUpperCase();
-      console.log('[OCR.space] Texto extraído:\n', text);
-
-      if(!text.trim()){ hideAnalyzing(); err('OCR não conseguiu ler o documento. Tente com melhor iluminação e sem reflexos.'); return; }
-
-      var birthDate = extractBirthDate(text);
-      hideAnalyzing();
-
-      if(!birthDate){ err('Data de nascimento não encontrada. Certifique-se que a frente do documento está legível.'); return; }
-
-      var age = calcAge(birthDate);
-      console.log('[OCR] Data:', birthDate, '| Idade:', age);
-
-      if(age<MIN_AGE){ showDenied('O documento indica que você tem '+age+' anos.'); return; }
-      aprovado('document', age);
-
-    } catch(e) {
-      hideAnalyzing(); console.error('[OCR]',e);
-      err('Erro na leitura do documento. Verifique sua conexão e tente novamente.');
-    }
-  };
-
-  /* ── EXTRAÇÃO DE DATA ── */
-  function extractBirthDate(text) {
-    text = text.toUpperCase().replace(/\s+/g,' ');
-    var DATE_RE = '(\\d{1,2})[\\.\\/\\-](\\d{1,2})[\\.\\/\\-](\\d{4})';
-    var labelPattern = new RegExp(
-      '(?:DATA\\s*(?:DE\\s*)?NASC(?:IMENTO|TO)?\\.?|D\\.?\\s*NASC\\.?|DT\\.?\\s*NASC\\.?|\\bDN\\b|NASCIMENTO|NASC\\.?)' +
-      '[^\\d]{0,15}' + DATE_RE, 'i'
-    );
-    var m = text.match(labelPattern);
-    if(m){ var d=parseInt(m[1]),mo=parseInt(m[2]),y=parseInt(m[3]); if(isValidDate(d,mo,y)) return new Date(y,mo-1,d); }
-    var all, re=new RegExp(DATE_RE,'g');
-    while((all=re.exec(text))!==null){
-      var dd=parseInt(all[1]),mm=parseInt(all[2]),yy=parseInt(all[3]);
-      if(isValidDate(dd,mm,yy)&&yy>=1900&&yy<=2010){ return new Date(yy,mm-1,dd); }
-    }
-    return null;
-  }
-  function isValidDate(d,m,y){ if(m<1||m>12||d<1||d>31) return false; var dt=new Date(y,m-1,d); return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d; }
-  function calcAge(birthDate){ var t=new Date(),age=t.getFullYear()-birthDate.getFullYear(),mo=t.getMonth()-birthDate.getMonth(); if(mo<0||(mo===0&&t.getDate()<birthDate.getDate())) age--; return age; }
 
   /* ── DENIED ── */
   function showDenied(msg) {
