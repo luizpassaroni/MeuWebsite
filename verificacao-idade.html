@@ -531,8 +531,6 @@
         faceapi.nets.ageGenderNet.loadFromUri(FACE_MODEL_URL)
       ]);
       modelsReady = true;
-      var btn = g('btnContinue');
-      btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
     } catch (e) {
       console.error('[Models]', e);
     }
@@ -625,6 +623,9 @@
     method = m; noErr();
     g('mFace').classList.toggle('selected', m === 'face');
     g('mDoc').classList.toggle('selected',  m === 'doc');
+    // Habilita o botão assim que um método é selecionado
+    var btn = g('btnContinue');
+    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
   };
 
   ['mFace','mDoc'].forEach(function (id) {
@@ -637,9 +638,8 @@
      NAVEGAÇÃO
   ══════════════════════════════════════════════════════════ */
   window.goStep2 = function () {
-    if (!modelsReady) { err('Os modelos de IA ainda estão carregando. Aguarde.'); return; }
     if (!method) { err('Selecione um método de verificação.'); return; }
-    if (sessionExpired) return;
+    if (method === 'face' && !modelsReady) { err('Os modelos de IA ainda estão carregando. Aguarde alguns segundos.'); return; }
     noErr(); clearTips();
 
     if (method === 'face') {
@@ -1089,6 +1089,10 @@
 
     setStep(3); showPanel('panelOk');
     announce('Maioridade confirmada. Você já pode continuar.');
+
+    setTimeout(function () {
+      window.location.href = '/';
+    }, 2500);
   }
 
   /* ══════════════════════════════════════════════════════════
