@@ -1,0 +1,10 @@
+User-agent: ia_archiver
+Disallow: /
+
+User-agent: archive.org_bot
+Disallow: /
+
+# Mantém as regras de IA também
+User-Agent: *
+Content-signal: search=yes,ai-train=no
+Allow: /
