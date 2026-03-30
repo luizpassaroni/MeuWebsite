@@ -82,71 +82,6 @@
       .ios-lang-selector option { background: #1c1c1e; color: white; }
     }
 
-    /* CARD DE APOIO (PIX) */
-    .support-card {
-      background: linear-gradient(135deg, rgba(0, 199, 190, 0.08), rgba(255, 255, 255, 0.03));
-      border: 1px solid rgba(0, 199, 190, 0.25) !important;
-      display: flex; flex-direction: row; align-items: center; justify-content: space-between;
-      padding: 1.25rem !important; transition: all 0.3s ease;
-      text-decoration: none !important; cursor: pointer;
-    }
-    .support-card:hover {
-      background: linear-gradient(135deg, rgba(0, 199, 190, 0.12), rgba(255, 255, 255, 0.05));
-      transform: scale(1.005);
-    }
-    .support-content { display: flex; align-items: center; gap: 14px; }
-    .support-icon {
-      width: 44px; height: 44px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 10px;
-      background: #ffffff;
-      padding: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      .support-icon { background: rgba(255, 255, 255, 0.1); }
-    }
-
-    .pix-logo-svg { width: 100%; height: 100%; }
-    .support-text h4 { margin: 0; font-size: 15px; font-weight: 600; color: var(--ios-text); }
-    .support-text p { margin: 0; font-size: 12px; color: var(--ios-text-secondary); line-height: 1.3; }
-    
-    /* BOTÃO ADAPTATIVO */
-    .support-button {
-      background: #32BCAD; color: white !important;
-      padding: 6px 14px; border-radius: 18px;
-      font-size: 12px; font-weight: 600; flex-shrink: 0;
-      transition: all 0.3s ease;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .support-button {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(5px);
-      }
-      .support-button:hover { background: rgba(255, 255, 255, 0.2); }
-    }
-
-    /* TOAST DO PIX */
-    #pix-toast {
-      position: fixed; bottom: 30px; left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(28, 28, 30, 0.95); color: white;
-      padding: 12px 24px; border-radius: 25px;
-      font-size: 14px; font-weight: 500;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 9999; backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-    }
-    #pix-toast.show { transform: translateX(-50%) translateY(0); }
-
-    @media (max-width: 480px) {
-      .support-card { flex-direction: column; text-align: center; gap: 12px; }
-      .support-content { flex-direction: column; gap: 8px; }
-    }
-
     .tech-box { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
     .tech-img { max-width: 42px; max-height: 42px; object-fit: contain; }
   </style>
@@ -224,25 +159,6 @@
           <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Git</span></div>
           <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://developer.apple.com/assets/elements/icons/xcode/xcode-128x128_2x.png" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Xcode</span></div>
           <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box" style="background:white;border-radius:10px;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Photoshop</span></div>
-        </div>
-      </section>
-
-      <section class="space-y-2 pt-2">
-        <h2 class="ios-section-label pl-4" style="opacity: 0.5; font-size: 11px;" data-i18n="support_label">APOIO</h2>
-        <div class="ios-widget-glass support-card" onclick="copyPix()">
-          <div class="support-content">
-            <div class="support-icon">
-              <svg class="pix-logo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                <path d="M72.3 22.3L59.7 35l-12.6-12.7c-5-5-13.1-5-18.1 0l-6.7 6.7c-5 5-5 13.1 0 18.1l12.7 12.6-12.7 12.6c-5 5-5 13.1 0 18.1l6.7 6.7c5 5 13.1 5 18.1 0l12.6-12.7 12.6 12.7c5 5 13.1 5 18.1 0l6.7-6.7c5-5 5-13.1 0-18.1L72.4 59.7l12.7-12.6c5-5 5-13.1 0-18.1l-6.7-6.7c-5-5-13.1-5-18.1 0z" fill="#32BCAD"/>
-                <path d="M59.7 94.6c-19.3 0-35-15.7-35-35s15.7-35 35-35 35 15.7 35 35-15.7 35-35 35zm0-63.1c-15.5 0-28.1 12.6-28.1 28.1s12.6 28.1 28.1 28.1 28.1-12.6 28.1-28.1-12.6-28.1-28.1-28.1z" fill="#32BCAD"/>
-              </svg>
-            </div>
-            <div class="support-text">
-              <h4 data-i18n="support_title">Pote de Gorjetas</h4>
-              <p data-i18n="support_subtitle">Gostou do portfólio? Fortaleça com um PIX.</p>
-            </div>
-          </div>
-          <div class="support-button" data-i18n="support_btn">Apoiar</div>
         </div>
       </section>
 
@@ -342,8 +258,6 @@
     </section>
   </main>
 
-  <div id="pix-toast" data-i18n="pix_copied">Chave PIX copiada! 🚀</div>
-
   <script>
     const translations = {
       pt: {
@@ -356,8 +270,7 @@
         native: "Língua nativa", native_badge: "Nativo", english: "Inglês", us_time: "2 anos morando nos EUA — Maryland",
         advanced_badge: "Avançado", project_title: "Projeto em Destaque",
         quiz_desc: "Quiz interativo sobre a Força Aérea Brasileira — desenvolvido para o WWDC Student Challenge.",
-        support_label: "APOIO", support_title: "Pote de Gorjetas", support_subtitle: "Gostou do portfólio? Fortaleça com um PIX.", support_btn: "Apoiar",
-        pix_copied: "Chave PIX copiada! 🚀", mail_label: "E-mail"
+        mail_label: "E-mail"
       },
       en: {
         role: "iOS Developer & CS Student",
@@ -369,8 +282,7 @@
         native: "Native speaker", native_badge: "Native", english: "English", us_time: "2 years living in the USA — Maryland",
         advanced_badge: "Advanced", project_title: "Featured Project",
         quiz_desc: "Interactive quiz about the Brazilian Air Force — developed for the WWDC Student Challenge.",
-        support_label: "TIP JAR", support_title: "Support the Project", support_subtitle: "Like the portfolio? Support with a tip.", support_btn: "Support",
-        pix_copied: "PIX Key copied! 🚀", mail_label: "Mail"
+        mail_label: "Mail"
       }
     };
 
@@ -382,15 +294,6 @@
       });
       document.getElementById('langSelect').value = lang;
       localStorage.setItem('preferredLang', lang);
-    }
-
-    function copyPix() {
-      const pixKey = "aguiarpassaroni@gmail.com";
-      navigator.clipboard.writeText(pixKey).then(() => {
-        const toast = document.getElementById('pix-toast');
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-      });
     }
 
     document.addEventListener('DOMContentLoaded', function () {
