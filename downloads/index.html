@@ -223,6 +223,34 @@
       return `há ${days} dias`;
     }
 
+    function renderFile(file) {
+      const type = file.fileType || getFileType(file.mimeType, file.name);
+      return `
+        <a href="${file.url}" target="_blank" class="dl-item ios-tappable">
+          <div class="dl-icon">${makeFileIcon(type)}</div>
+          <div class="dl-info">
+            <div class="dl-name">${file.name}</div>
+            <div class="dl-meta">${file.size || 'Google Drive'}</div>
+          </div>
+          <div class="dl-right">
+            <svg class="dl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 13l5 5 5-5M12 18V6"/>
+            </svg>
+          </div>
+        </a>`;
+    }
+
+    function renderGroup(group) {
+      const label = group.name
+        ? `<p class="category-label" style="margin-top: 8px;">${group.name}</p>`
+        : `<p class="category-label">${t('files_label')}</p>`;
+      return `
+        ${label}
+        <div class="ios-widget-glass">
+          ${group.files.map(renderFile).join('')}
+        </div>`;
+    }
+
     async function loadDownloads() {
       const container = document.getElementById('downloads-container');
 
@@ -231,42 +259,38 @@
         if (!response.ok) throw new Error('Falha');
         const data = await response.json();
 
-        const files = Array.isArray(data) ? data : data.files;
-        const updatedAt = Array.isArray(data) ? null : data.updatedAt;
+        // Suporte a formato antigo (array ou { files }) e novo ({ groups })
+        let groups;
+        let updatedAt = data.updatedAt || null;
+
+        if (Array.isArray(data)) {
+          groups = [{ name: null, files: data }];
+        } else if (data.groups) {
+          groups = data.groups;
+        } else if (data.files) {
+          groups = [{ name: null, files: data.files }];
+        } else {
+          groups = [];
+        }
+
+        const totalFiles = groups.reduce((acc, g) => acc + g.files.length, 0);
         const syncLabel = updatedAt ? `${t('synced')} ${formatRelativeDateI18n(updatedAt)}` : '';
 
-        if (!files || files.length === 0) {
-          container.innerHTML = `<div class="ios-widget-glass"><div class="empty-state">A pasta do Drive está vazia.</div></div>`;
+        if (totalFiles === 0) {
+          container.innerHTML = `<div class="ios-widget-glass"><div class="empty-state">${t('empty')}</div></div>`;
           return;
         }
 
         container.innerHTML = `
-          <p class="category-label">${t('files_label')}</p>
           ${syncLabel ? `<p class="sync-label">${syncLabel}</p>` : ''}
-          <div class="ios-widget-glass">
-            ${files.map(file => {
-              const type = file.fileType || getFileType(file.mimeType, file.name);
-              return `
-                <a href="${file.url}" target="_blank" class="dl-item ios-tappable">
-                  <div class="dl-icon">${makeFileIcon(type)}</div>
-                  <div class="dl-info">
-                    <div class="dl-name">${file.name}</div>
-                    <div class="dl-meta">${file.size || 'Google Drive'}</div>
-                  </div>
-                  <div class="dl-right">
-                    <svg class="dl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M7 13l5 5 5-5M12 18V6"/>
-                    </svg>
-                  </div>
-                </a>`;
-            }).join('')}
-          </div>`;
+          ${groups.map(renderGroup).join('')}
+        `;
       } catch (e) {
         container.innerHTML = `
           <div class="ios-widget-glass">
             <div class="empty-state">
-              Aguardando sincronização inicial...<br>
-              <small style="font-size: 11px">Execute o workflow no GitHub Actions.</small>
+              ${t('loading')}<br>
+              <small style="font-size: 11px">${t('loading_sub')}</small>
             </div>
           </div>`;
       }

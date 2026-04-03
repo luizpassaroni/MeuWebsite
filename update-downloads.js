@@ -10,13 +10,13 @@ try {
 }
 
 const FOLDER_ID = '1Yp2dr9832tOuheqvvMZ6iMrNKgH1T5l1';
+const FOLDER_MIME = 'application/vnd.google-apps.folder';
 
-// Mapeamento completo de mimeType → fileType
 const MIME_TO_TYPE = {
     'application/pdf': 'pdf',
     'application/x-apple-diskimage': 'dmg',
     'application/x-diskcopy': 'dmg',
-    'application/octet-stream': 'dmg', // Drive usa isso para .dmg desconhecido
+    'application/octet-stream': 'dmg',
     'application/vnd.android.package-archive': 'apk',
     'application/x-msdownload': 'exe',
     'application/x-msdos-program': 'exe',
@@ -48,12 +48,9 @@ const EXT_TO_TYPE = {
 };
 
 function resolveFileType(name, mimeType) {
-    // 1. Tenta pela extensão — aceita extensão pura ("dmg") ou nome com extensão ("file.dmg")
     const ext = (name || '').split('.').pop().toLowerCase();
     if (EXT_TO_TYPE[ext]) return EXT_TO_TYPE[ext];
-    // 2. Tenta pelo mimeType
     if (mimeType && MIME_TO_TYPE[mimeType]) return MIME_TO_TYPE[mimeType];
-    // 3. Tenta por prefixo de mimeType
     if (mimeType) {
         if (mimeType.startsWith('image/')) return 'image';
         if (mimeType.startsWith('video/')) return 'video';
@@ -70,6 +67,25 @@ function formatSize(bytes) {
     return Math.round(bytes / 1024) + ' KB';
 }
 
+function mapFile(f) {
+    return {
+        name: f.name,
+        url: `https://drive.google.com/uc?id=${f.id}&export=download&confirm=t`,
+        size: formatSize(f.size),
+        mimeType: f.mimeType || 'application/octet-stream',
+        fileType: resolveFileType(f.fileExtension || f.name, f.mimeType),
+    };
+}
+
+async function listFiles(drive, folderId) {
+    const res = await drive.files.list({
+        q: `'${folderId}' in parents and trashed = false`,
+        fields: 'files(id, name, mimeType, size, fileExtension)',
+        orderBy: 'name',
+    });
+    return res.data.files || [];
+}
+
 async function syncDrive() {
     try {
         const auth = new google.auth.GoogleAuth({
@@ -78,28 +94,44 @@ async function syncDrive() {
         });
         const drive = google.drive({ version: 'v3', auth });
 
-        const res = await drive.files.list({
-            q: `'${FOLDER_ID}' in parents and trashed = false`,
-            fields: 'files(id, name, mimeType, size, fileExtension)',
-        });
+        const rootItems = await listFiles(drive, FOLDER_ID);
 
-        const files = res.data.files.map(f => ({
-            name: f.name,
-            url: `https://drive.google.com/uc?id=${f.id}&export=download&confirm=t`,
-            size: formatSize(f.size),
-            mimeType: f.mimeType || 'application/octet-stream',
-            fileType: resolveFileType(f.fileExtension || f.name, f.mimeType),
-        }));
+        const rootFiles = rootItems.filter(f => f.mimeType !== FOLDER_MIME);
+        const subFolders = rootItems.filter(f => f.mimeType === FOLDER_MIME);
+
+        // Grupos: arquivos da raiz sem grupo nomeado
+        const groups = [];
+
+        if (rootFiles.length > 0) {
+            groups.push({
+                name: null, // null = sem título (raiz)
+                files: rootFiles.map(mapFile),
+            });
+        }
+
+        // Arquivos de cada subpasta
+        for (const folder of subFolders) {
+            const items = await listFiles(drive, folder.id);
+            const files = items.filter(f => f.mimeType !== FOLDER_MIME).map(mapFile);
+            if (files.length > 0) {
+                groups.push({
+                    name: folder.name,
+                    files,
+                });
+            }
+        }
+
+        const totalFiles = groups.reduce((acc, g) => acc + g.files.length, 0);
 
         const output = {
             updatedAt: new Date().toISOString(),
-            files,
+            groups,
         };
 
         if (!existsSync('./downloads')) mkdirSync('./downloads');
         writeFileSync('./downloads/arquivos.json', JSON.stringify(output, null, 2));
 
-        console.log(`✅ Sincronizado: ${files.length} arquivos encontrados.`);
+        console.log(`✅ Sincronizado: ${totalFiles} arquivos em ${groups.length} grupo(s).`);
     } catch (error) {
         console.error('❌ Erro ao acessar o Drive:', error.message);
         process.exit(1);
