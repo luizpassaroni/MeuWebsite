@@ -32,7 +32,7 @@
       align-items: center;
       gap: 14px;
       padding: 14px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(128, 128, 128, 0.15);
       text-decoration: none;
       color: inherit;
       transition: background 0.15s ease;
@@ -48,12 +48,7 @@
     .dl-icon {
       width: 44px;
       height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       flex-shrink: 0;
-      background: linear-gradient(135deg, #007AFF, #34AADC);
     }
 
     .dl-info { flex: 1; min-width: 0; }
@@ -76,8 +71,50 @@
 
     .section-group { display: flex; flex-direction: column; gap: 8px; }
     .category-label { font-size: 12px; font-weight: 600; text-transform: uppercase; opacity: 0.45; padding-left: 6px; }
-    
+    .sync-label { font-size: 11px; opacity: 0.4; padding-left: 6px; margin-top: -4px; }
     .empty-state { padding: 48px 24px; text-align: center; opacity: 0.5; }
+
+    .skeleton-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(128,128,128,0.15);
+    }
+    .skeleton-item:last-child { border-bottom: none; }
+    .skeleton-box {
+      border-radius: 8px;
+      background: rgba(128,128,128,0.12);
+      animation: shimmer 1.4s infinite ease-in-out;
+    }
+    .skeleton-icon { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; }
+    .skeleton-lines { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .skeleton-title { height: 14px; width: 60%; }
+    .skeleton-sub   { height: 11px; width: 35%; }
+
+    .drive-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 204, 0, 0.15);
+      border: 1px solid rgba(255, 204, 0, 0.35);
+    }
+    @media (prefers-color-scheme: dark) {
+      .drive-warning { background: rgba(255, 204, 0, 0.1); border-color: rgba(255, 204, 0, 0.25); }
+    }
+    .drive-warning-icon { font-size: 16px; line-height: 1.4; flex-shrink: 0; }
+    .drive-warning-text { font-size: 12px; line-height: 1.5; color: #7A5C00; }
+    @media (prefers-color-scheme: dark) {
+      .drive-warning-text { color: #FFD60A; }
+    }
+    .drive-warning-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
   </style>
 </head>
 
@@ -89,7 +126,7 @@
         <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
           <path d="M8.5 1.5L1.5 8L8.5 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Luiz Passaroni
+        Voltar
       </a>
 
       <div>
@@ -99,9 +136,20 @@
         </p>
       </div>
 
-      <div id="downloads-container" class="section-group">
+      <div class="drive-warning">
+        <span class="drive-warning-icon">&#9888;&#65039;</span>
+        <p class="drive-warning-text">
+          <strong>Aviso do Google Drive</strong>
+          Arquivos executaveis (.dmg, .exe, .apk) podem exibir uma tela de aviso do Google antes do download. Isso e normal — clique em "Baixar assim mesmo" para continuar. O Google nao consegue verificar virus em arquivos grandes.
+        </p>
+      </div>
+
+            <div id="downloads-container" class="section-group">
+        <p class="category-label">Arquivos Disponíveis</p>
         <div class="ios-widget-glass">
-          <div class="empty-state">A carregar ficheiros...</div>
+          <div class="skeleton-item"><div class="skeleton-box skeleton-icon"></div><div class="skeleton-lines"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-sub"></div></div></div>
+          <div class="skeleton-item"><div class="skeleton-box skeleton-icon"></div><div class="skeleton-lines"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-sub"></div></div></div>
+          <div class="skeleton-item"><div class="skeleton-box skeleton-icon"></div><div class="skeleton-lines"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-sub"></div></div></div>
         </div>
       </div>
 
@@ -109,43 +157,109 @@
   </main>
 
   <script>
+    const FILE_TYPES = {
+      pdf:   { bg: '#FF3B30', fold: '#C0392B', label: 'PDF' },
+      image: { bg: '#34C759', fold: '#239A3B', label: 'IMG' },
+      video: { bg: '#FF9500', fold: '#CC7700', label: 'VID' },
+      audio: { bg: '#AF52DE', fold: '#8944B0', label: 'AUD' },
+      zip:   { bg: '#FF6B35', fold: '#CC4A10', label: 'ZIP' },
+      doc:   { bg: '#007AFF', fold: '#005CC5', label: 'DOC' },
+      sheet: { bg: '#28A745', fold: '#1A7A32', label: 'XLS' },
+      dmg:   { bg: '#636366', fold: '#3A3A3C', label: 'DMG' },
+      exe:   { bg: '#0078D4', fold: '#005A9E', label: 'EXE' },
+      apk:   { bg: '#3DDC84', fold: '#1FA85A', label: 'APK' },
+      file:  { bg: '#8E8E93', fold: '#636366', label: 'FILE' },
+    };
+
+    function getFileType(mimeType, name) {
+      const ext = (name || '').split('.').pop().toLowerCase();
+      const mt = mimeType || '';
+      if (ext === 'pdf' || mt.includes('pdf')) return 'pdf';
+      if (ext === 'dmg') return 'dmg';
+      if (ext === 'exe') return 'exe';
+      if (ext === 'apk') return 'apk';
+      if (['jpg','jpeg','png','gif','webp','svg','heic'].includes(ext) || mt.includes('image')) return 'image';
+      if (['mp4','mov','avi','mkv','m4v'].includes(ext) || mt.includes('video')) return 'video';
+      if (['mp3','wav','aac','m4a','flac','ogg'].includes(ext) || mt.includes('audio')) return 'audio';
+      if (['zip','rar','7z','tar','gz','bz2'].includes(ext) || mt.includes('zip') || mt.includes('compressed')) return 'zip';
+      if (['doc','docx'].includes(ext) || mt.includes('document') || mt.includes('word')) return 'doc';
+      if (['xls','xlsx','csv'].includes(ext) || mt.includes('spreadsheet')) return 'sheet';
+      return 'file';
+    }
+
+    function makeFileIcon(type) {
+      const c = FILE_TYPES[type] || FILE_TYPES.file;
+      // Página com dobra no canto superior direito, estilo macOS
+      // Corpo: polígono sem o canto dobrado
+      // Dobra: triângulo no canto
+      const body = 'M3,3 L31,3 L31,10 L38,10 L38,41 L3,41 Z';
+      const fold = 'M31,3 L38,10 L31,10 Z';
+
+      return `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="${body}" fill="${c.bg}" rx="3"/>
+        <path d="${fold}" fill="${c.fold}"/>
+        <rect x="7" y="17" width="24" height="8" rx="2" fill="white" opacity="0.2"/>
+        <text
+          x="20" y="23"
+          font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Helvetica, sans-serif"
+          font-size="6" font-weight="800" fill="white"
+          text-anchor="middle" dominant-baseline="middle"
+          letter-spacing="0.5">${c.label}</text>
+        <line x1="7" y1="29" x2="37" y2="29" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+        <line x1="7" y1="33" x2="28" y2="33" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+      </svg>`;
+    }
+
+    function formatRelativeDate(isoString) {
+      if (!isoString) return null;
+      const diff = Date.now() - new Date(isoString).getTime();
+      const minutes = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      if (minutes < 1) return 'agora mesmo';
+      if (minutes < 60) return `há ${minutes} min`;
+      if (hours < 24) return `há ${hours}h`;
+      if (days === 1) return 'ontem';
+      return `há ${days} dias`;
+    }
+
     async function loadDownloads() {
       const container = document.getElementById('downloads-container');
-      
+
       try {
         const response = await fetch('arquivos.json');
-        if (!response.ok) throw new Error();
-        const files = await response.json();
+        if (!response.ok) throw new Error('Falha');
+        const data = await response.json();
 
-        if (files.length === 0) {
-          container.innerHTML = `
-            <div class="ios-widget-glass">
-              <div class="empty-state">A pasta do Drive está vazia.</div>
-            </div>`;
+        const files = Array.isArray(data) ? data : data.files;
+        const updatedAt = Array.isArray(data) ? null : data.updatedAt;
+        const syncLabel = updatedAt ? `Sincronizado ${formatRelativeDate(updatedAt)}` : '';
+
+        if (!files || files.length === 0) {
+          container.innerHTML = `<div class="ios-widget-glass"><div class="empty-state">A pasta do Drive está vazia.</div></div>`;
           return;
         }
 
         container.innerHTML = `
           <p class="category-label">Arquivos Disponíveis</p>
+          ${syncLabel ? `<p class="sync-label">${syncLabel}</p>` : ''}
           <div class="ios-widget-glass">
-            ${files.map(file => `
-              <a href="${file.url}" target="_blank" class="dl-item ios-tappable">
-                <div class="dl-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-                  </svg>
-                </div>
-                <div class="dl-info">
-                  <div class="dl-name">${file.name}</div>
-                  <div class="dl-meta">${file.size || 'Google Drive'}</div>
-                </div>
-                <div class="dl-right">
-                  <svg class="dl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M7 13l5 5 5-5M12 18V6"/>
-                  </svg>
-                </div>
-              </a>
-            `).join('')}
+            ${files.map(file => {
+              const type = getFileType(file.mimeType, file.name);
+              return `
+                <a href="${file.url}" target="_blank" class="dl-item ios-tappable">
+                  <div class="dl-icon">${makeFileIcon(type)}</div>
+                  <div class="dl-info">
+                    <div class="dl-name">${file.name}</div>
+                    <div class="dl-meta">${file.size || 'Google Drive'}</div>
+                  </div>
+                  <div class="dl-right">
+                    <svg class="dl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M7 13l5 5 5-5M12 18V6"/>
+                    </svg>
+                  </div>
+                </a>`;
+            }).join('')}
           </div>`;
       } catch (e) {
         container.innerHTML = `
