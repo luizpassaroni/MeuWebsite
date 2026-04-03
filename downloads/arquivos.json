@@ -1,4 +1,43 @@
 {
-  "updatedAt": "2026-04-03T20:25:39.512Z",
-  "groups": []
+  "updatedAt": "2026-04-03T21:57:22.952Z",
+  "groups": [
+    {
+      "name": null,
+      "files": [
+        {
+          "name": "brModelo java.jar",
+          "url": "https://drive.google.com/uc?id=1qKbkWpfb8HisyaXaKh7GXkpECMrgVXlL&export=download&confirm=t",
+          "size": "1 MB",
+          "mimeType": "application/java-archive",
+          "fileType": "file"
+        }
+      ]
+    },
+    {
+      "name": "MacOS Recomendados",
+      "files": [
+        {
+          "name": "Claude.dmg",
+          "url": "https://drive.google.com/uc?id=1SnQ4h15_SVPWLk0iXiCNS95zZe9ISfVA&export=download&confirm=t",
+          "size": "253 MB",
+          "mimeType": "application/x-apple-diskimage",
+          "fileType": "dmg"
+        },
+        {
+          "name": "Notion-7.8.0-arm64.dmg",
+          "url": "https://drive.google.com/uc?id=1hlA8s58vQ1MMhSi50ggmcjGuQi6WcQMl&export=download&confirm=t",
+          "size": "108 MB",
+          "mimeType": "application/x-apple-diskimage",
+          "fileType": "dmg"
+        },
+        {
+          "name": "Wondershare_Filmora_Installer.dmg",
+          "url": "https://drive.google.com/uc?id=1JQ5-QWggcUIxWDe6C9Zt1OmHDquiwovH&export=download&confirm=t",
+          "size": "2 MB",
+          "mimeType": "application/x-apple-diskimage",
+          "fileType": "dmg"
+        }
+      ]
+    }
+  ]
 }
