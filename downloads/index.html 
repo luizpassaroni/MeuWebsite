@@ -32,24 +32,17 @@
       align-items: center;
       gap: 14px;
       padding: 14px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       text-decoration: none;
       color: inherit;
       transition: background 0.15s ease;
     }
 
-    .dl-item:last-child {
-      border-bottom: none;
-    }
-
-    .dl-item:active {
-      background: rgba(0,0,0,0.04);
-    }
+    .dl-item:last-child { border-bottom: none; }
+    .dl-item:active { background: rgba(0, 0, 0, 0.04); }
 
     @media (prefers-color-scheme: dark) {
-      .dl-item:active {
-        background: rgba(255,255,255,0.05);
-      }
+      .dl-item:active { background: rgba(255, 255, 255, 0.05); }
     }
 
     .dl-icon {
@@ -60,36 +53,14 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      background: linear-gradient(135deg, #007AFF, #34AADC);
     }
 
     .dl-info { flex: 1; min-width: 0; }
-
-    .dl-name {
-      font-size: 15px;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .dl-meta {
-      font-size: 12px;
-      margin-top: 2px;
-      opacity: 0.5;
-    }
-
-    .dl-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .dl-arrow {
-      width: 18px;
-      height: 18px;
-      opacity: 0.35;
-    }
+    .dl-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dl-meta { font-size: 12px; margin-top: 2px; opacity: 0.5; }
+    .dl-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .dl-arrow { width: 18px; height: 18px; opacity: 0.35; }
 
     .back-btn {
       display: inline-flex;
@@ -101,46 +72,12 @@
       text-decoration: none;
       padding: 6px 0;
       opacity: 0.9;
-      transition: opacity 0.15s;
     }
 
-    .back-btn:active { opacity: 0.6; }
-
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 24px;
-      gap: 12px;
-      opacity: 0.4;
-    }
-
-    .empty-icon {
-      width: 52px;
-      height: 52px;
-    }
-
-    .empty-text {
-      font-size: 15px;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    .section-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .category-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      opacity: 0.45;
-      padding-left: 6px;
-    }
+    .section-group { display: flex; flex-direction: column; gap: 8px; }
+    .category-label { font-size: 12px; font-weight: 600; text-transform: uppercase; opacity: 0.45; padding-left: 6px; }
+    
+    .empty-state { padding: 48px 24px; text-align: center; opacity: 0.5; }
   </style>
 </head>
 
@@ -148,136 +85,80 @@
   <main class="flex-1 flex flex-col pt-8 pb-16">
     <section class="mx-auto w-full max-w-3xl px-4 space-y-6">
 
-      <!-- Voltar -->
-      <a href="../index.html" class="back-btn">
+      <a href="../index.html" class="back-btn ios-tappable">
         <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
           <path d="M8.5 1.5L1.5 8L8.5 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         Luiz Passaroni
       </a>
 
-      <!-- Header -->
       <div>
         <h1 class="ios-title1">Downloads</h1>
-        <p class="ios-subheadline ios-text-secondary" style="margin-top: 4px; line-height: 1.5;">
-          Arquivos disponibilizados para download.
+        <p class="ios-subheadline ios-text-secondary" style="margin-top: 4px;">
+          Arquivos sincronizados do Google Drive.
         </p>
       </div>
 
-      <!-- =============================================
-           EDITE AQUI: adicione ou remova categorias
-           e arquivos como quiser.
-           
-           Para cada categoria, copie o bloco:
-           <div class="section-group"> ... </div>
-           
-           Para cada arquivo dentro da categoria,
-           copie um bloco <a class="dl-item" ...>
-      ============================================= -->
-
-      <!-- CATEGORIA: Currículos -->
-      <div class="section-group">
-        <p class="category-label">Currículos</p>
+      <div id="downloads-container" class="section-group">
         <div class="ios-widget-glass">
-
-          <a class="dl-item ios-tappable"
-             href="https://drive.google.com/file/d/SEU_ID_AQUI/view?usp=sharing"
-             target="_blank">
-            <div class="dl-icon" style="background: linear-gradient(135deg, #FF3B30, #FF6060);">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-                <polyline points="10 9 9 9 8 9"/>
-              </svg>
-            </div>
-            <div class="dl-info">
-              <div class="dl-name">Currículo — Português</div>
-              <div class="dl-meta">PDF · Google Drive</div>
-            </div>
-            <div class="dl-right">
-              <span class="ios-badge ios-badge-green">PDF</span>
-              <svg class="dl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-            </div>
-          </a>
-
-          <a class="dl-item ios-tappable"
-             href="https://drive.google.com/file/d/SEU_ID_AQUI/view?usp=sharing"
-             target="_blank">
-            <div class="dl-icon" style="background: linear-gradient(135deg, #007AFF, #34AADC);">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-                <polyline points="10 9 9 9 8 9"/>
-              </svg>
-            </div>
-            <div class="dl-info">
-              <div class="dl-name">Resume — English</div>
-              <div class="dl-meta">PDF · Google Drive</div>
-            </div>
-            <div class="dl-right">
-              <span class="ios-badge ios-badge-blue">PDF</span>
-              <svg class="dl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-            </div>
-          </a>
-
+          <div class="empty-state">A carregar ficheiros...</div>
         </div>
       </div>
-
-      <!-- CATEGORIA: Projetos — adicione mais categorias copiando este bloco -->
-      <div class="section-group">
-        <p class="category-label">Projetos</p>
-        <div class="ios-widget-glass">
-
-          <a class="dl-item ios-tappable"
-             href="https://drive.google.com/file/d/SEU_ID_AQUI/view?usp=sharing"
-             target="_blank">
-            <div class="dl-icon" style="background: linear-gradient(135deg, #34C759, #30D158);">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="16 18 22 12 16 6"/>
-                <polyline points="8 6 2 12 8 18"/>
-              </svg>
-            </div>
-            <div class="dl-info">
-              <div class="dl-name">FabTheQuiz — Código Fonte</div>
-              <div class="dl-meta">ZIP · Google Drive</div>
-            </div>
-            <div class="dl-right">
-              <span class="ios-badge ios-badge-green">ZIP</span>
-              <svg class="dl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-            </div>
-          </a>
-
-        </div>
-      </div>
-
-      <!-- 
-        PARA ADICIONAR MAIS CATEGORIAS:
-        Copie o bloco <div class="section-group"> acima e cole aqui.
-        Troque o texto da category-label e os itens dentro do ios-widget-glass.
-
-        CORES DOS ÍCONES DISPONÍVEIS (linear-gradient):
-        Vermelho:   #FF3B30, #FF6060
-        Azul:       #007AFF, #34AADC  
-        Verde:      #34C759, #30D158
-        Laranja:    #FF9500, #FFAD30
-        Roxo:       #AF52DE, #BF5AF2
-        Rosa:       #FF2D55, #FF6B6B
-
-        BADGES DISPONÍVEIS:
-        ios-badge-green / ios-badge-blue / ios-badge-orange / ios-badge-red
-      -->
 
     </section>
   </main>
+
+  <script>
+    async function loadDownloads() {
+      const container = document.getElementById('downloads-container');
+      
+      try {
+        const response = await fetch('arquivos.json');
+        if (!response.ok) throw new Error();
+        const files = await response.json();
+
+        if (files.length === 0) {
+          container.innerHTML = `
+            <div class="ios-widget-glass">
+              <div class="empty-state">A pasta do Drive está vazia.</div>
+            </div>`;
+          return;
+        }
+
+        container.innerHTML = `
+          <p class="category-label">Arquivos Disponíveis</p>
+          <div class="ios-widget-glass">
+            ${files.map(file => `
+              <a href="${file.url}" target="_blank" class="dl-item ios-tappable">
+                <div class="dl-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                  </svg>
+                </div>
+                <div class="dl-info">
+                  <div class="dl-name">${file.name}</div>
+                  <div class="dl-meta">${file.size || 'Google Drive'}</div>
+                </div>
+                <div class="dl-right">
+                  <svg class="dl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 13l5 5 5-5M12 18V6"/>
+                  </svg>
+                </div>
+              </a>
+            `).join('')}
+          </div>`;
+      } catch (e) {
+        container.innerHTML = `
+          <div class="ios-widget-glass">
+            <div class="empty-state">
+              Aguardando sincronização inicial...<br>
+              <small style="font-size: 11px">Execute o workflow no GitHub Actions.</small>
+            </div>
+          </div>`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadDownloads);
+  </script>
 </body>
 </html>

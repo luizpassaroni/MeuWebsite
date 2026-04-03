@@ -1,0 +1,27 @@
+name: Sincronizar Google Drive
+on:
+  schedule:
+    - cron: '0 * * * *' # Roda a cada 1 hora (você pode diminuir se quiser)
+  workflow_dispatch: # Permite que você clique num botão para rodar na hora
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalar Dependências
+        run: npm install googleapis
+
+      - name: Rodar Script de Sincronização
+        run: node update-downloads.js
+        env:
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+
+      - name: Salvar Mudanças no Repositório
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add downloads/arquivos.json
+          git commit -m "update: lista de downloads atualizada via drive" || exit 0
+          git push
