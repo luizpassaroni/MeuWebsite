@@ -126,21 +126,21 @@
         <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
           <path d="M8.5 1.5L1.5 8L8.5 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Voltar
+        <span data-i18n="back_btn">Voltar</span>
       </a>
 
       <div>
-        <h1 class="ios-title1">Downloads</h1>
+        <h1 class="ios-title1" data-i18n="page_title">Downloads</h1>
         <p class="ios-subheadline ios-text-secondary" style="margin-top: 4px;">
-          Arquivos sincronizados do Google Drive.
+          <span data-i18n="page_sub">Arquivos sincronizados do Google Drive.</span>
         </p>
       </div>
 
       <div class="drive-warning">
         <span class="drive-warning-icon">&#9888;&#65039;</span>
         <p class="drive-warning-text">
-          <strong>Aviso do Google Drive</strong>
-          Arquivos executáveis (.dmg, .exe, .apk) podem exibir uma tela de aviso do Google antes do download. Isso é normal — clique em "Baixar assim mesmo" para continuar. O Google não consegue verificar vírus em arquivos grandes.
+          <strong data-i18n="warning_title">Aviso do Google Drive</strong>
+          <span data-i18n="warning_body">Arquivos executáveis (.dmg, .exe, .apk) podem exibir uma tela de aviso do Google antes do download. Isso é normal — clique em "Baixar assim mesmo" para continuar. O Google não consegue verificar vírus em arquivos grandes.</span>
         </p>
       </div>
 
@@ -233,7 +233,7 @@
 
         const files = Array.isArray(data) ? data : data.files;
         const updatedAt = Array.isArray(data) ? null : data.updatedAt;
-        const syncLabel = updatedAt ? `Sincronizado ${formatRelativeDate(updatedAt)}` : '';
+        const syncLabel = updatedAt ? `${t('synced')} ${formatRelativeDateI18n(updatedAt)}` : '';
 
         if (!files || files.length === 0) {
           container.innerHTML = `<div class="ios-widget-glass"><div class="empty-state">A pasta do Drive está vazia.</div></div>`;
@@ -241,11 +241,11 @@
         }
 
         container.innerHTML = `
-          <p class="category-label">Arquivos Disponíveis</p>
+          <p class="category-label" data-i18n="files_label">Arquivos Disponíveis</p>
           ${syncLabel ? `<p class="sync-label">${syncLabel}</p>` : ''}
           <div class="ios-widget-glass">
             ${files.map(file => {
-              const type = getFileType(file.mimeType, file.name);
+              const type = file.fileType || getFileType(file.mimeType, file.name);
               return `
                 <a href="${file.url}" target="_blank" class="dl-item ios-tappable">
                   <div class="dl-icon">${makeFileIcon(type)}</div>
@@ -272,7 +272,70 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', loadDownloads);
+    const i18n = {
+      pt: {
+        back_btn: 'Voltar',
+        page_title: 'Downloads',
+        page_sub: 'Arquivos sincronizados do Google Drive.',
+        warning_title: 'Aviso do Google Drive',
+        warning_body: 'Arquivos executáveis (.dmg, .exe, .apk) podem exibir uma tela de aviso do Google antes do download. Isso é normal — clique em "Baixar assim mesmo" para continuar. O Google não consegue verificar vírus em arquivos grandes.',
+        files_label: 'Arquivos Disponíveis',
+        synced: 'Sincronizado',
+        empty: 'A pasta do Drive está vazia.',
+        loading: 'Aguardando sincronização inicial...',
+        loading_sub: 'Execute o workflow no GitHub Actions.',
+        time_now: 'agora mesmo', time_min: 'há {n} min', time_h: 'há {n}h', time_yesterday: 'ontem', time_days: 'há {n} dias',
+      },
+      en: {
+        back_btn: 'Back',
+        page_title: 'Downloads',
+        page_sub: 'Files synced from Google Drive.',
+        warning_title: 'Google Drive Warning',
+        warning_body: 'Executable files (.dmg, .exe, .apk) may show a Google warning screen before downloading. This is normal — click "Download anyway" to continue. Google cannot scan large files for viruses.',
+        files_label: 'Available Files',
+        synced: 'Synced',
+        empty: 'The Drive folder is empty.',
+        loading: 'Waiting for initial sync...',
+        loading_sub: 'Run the workflow in GitHub Actions.',
+        time_now: 'just now', time_min: '{n} min ago', time_h: '{n}h ago', time_yesterday: 'yesterday', time_days: '{n} days ago',
+      }
+    };
+
+    function getLang() {
+      return localStorage.getItem('preferredLang') || (navigator.language.startsWith('en') ? 'en' : 'pt');
+    }
+
+    function t(key, n) {
+      const lang = getLang();
+      const str = (i18n[lang] || i18n.pt)[key] || key;
+      return n !== undefined ? str.replace('{n}', n) : str;
+    }
+
+    function applyStaticTranslations() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = t(key);
+        if (val) el.textContent = val;
+      });
+    }
+
+    function formatRelativeDateI18n(isoString) {
+      if (!isoString) return null;
+      const diff = Date.now() - new Date(isoString).getTime();
+      const minutes = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      if (minutes < 1) return t('time_now');
+      if (minutes < 60) return t('time_min', minutes);
+      if (hours < 24) return t('time_h', hours);
+      if (days === 1) return t('time_yesterday');
+      return t('time_days', days);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      applyStaticTranslations();
+      loadDownloads();
+    });
   </script>
 </body>
 </html>
