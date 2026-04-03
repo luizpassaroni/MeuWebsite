@@ -1,17 +1,22 @@
 name: Sincronizar Google Drive
 on:
   schedule:
-    - cron: '0 * * * *' # Roda a cada 1 hora (você pode diminuir se quiser)
-  workflow_dispatch: # Permite que você clique num botão para rodar na hora
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Atualizado para v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Adicionado para garantir a versão correta
+        with:
+          node-version: '20' # Mantendo 20 por estabilidade ou 24 se preferir
 
       - name: Instalar Dependências
-        run: npm install googleapis
+        run: npm install googleapis axios
 
       - name: Rodar Script de Sincronização
         run: node update-downloads.js
