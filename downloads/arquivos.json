@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-03T21:57:22.952Z",
+  "updatedAt": "2026-04-03T22:02:37.766Z",
   "groups": [
     {
       "name": null,
@@ -22,6 +22,13 @@
           "size": "253 MB",
           "mimeType": "application/x-apple-diskimage",
           "fileType": "dmg"
+        },
+        {
+          "name": "logioptionsplus_installer.app.zip",
+          "url": "https://drive.google.com/uc?id=1b24seOkJ52IYb1KH50013I7BBWIx6MOl&export=download&confirm=t",
+          "size": "19 MB",
+          "mimeType": "application/zip",
+          "fileType": "zip"
         },
         {
           "name": "Notion-7.8.0-arm64.dmg",
