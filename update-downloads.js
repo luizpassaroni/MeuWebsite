@@ -1,5 +1,5 @@
-const fs = require('fs');
-const { google } = require('googleapis');
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { google } from 'googleapis';
 
 // 1. Tenta carregar a chave que você salvou no GitHub Secrets
 let serviceAccount;
@@ -36,8 +36,8 @@ async function syncDrive() {
         }));
 
         // Cria a pasta downloads se não existir e salva o resultado
-        if (!fs.existsSync('./downloads')) fs.mkdirSync('./downloads');
-        fs.writeFileSync('./downloads/arquivos.json', JSON.stringify(files, null, 2));
+        if (!existsSync('./downloads')) mkdirSync('./downloads');
+        writeFileSync('./downloads/arquivos.json', JSON.stringify(files, null, 2));
         
         console.log(`✅ Sincronizado: ${files.length} arquivos encontrados.`);
     } catch (error) {
