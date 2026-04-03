@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <link rel="icon" href="../favicon.png" type="image/png" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Downloads — Luiz Passaroni</title>
+  <meta name="description" content="Arquivos disponibilizados por Luiz Passaroni.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    /* Estilo do Container de Vidro */
+    .ios-widget-glass {
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-radius: 1.5rem !important;
+      background: rgba(255, 255, 255, 0.7);
+      overflow: hidden;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .ios-widget-glass {
+        background: rgba(28, 28, 30, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      }
+    }
+
+    /* Botão Voltar */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--ios-blue, #007AFF);
+      text-decoration: none;
+      padding: 6px 0;
+      transition: opacity 0.15s;
+    }
+
+    .back-btn:active { opacity: 0.6; }
+
+    /* Estado Vazio (Empty State) */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      font-size: 50px;
+      margin-bottom: 16px;
+      filter: grayscale(1) opacity(0.5);
+    }
+
+    .empty-text {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ios-text);
+      margin: 0;
+    }
+
+    .empty-subtext {
+      font-size: 14px;
+      color: var(--ios-secondary-label);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+  <main class="flex-1 flex flex-col pt-8 pb-16">
+    <section class="mx-auto w-full max-w-3xl px-4 space-y-6">
+
+      <a href="../index.html" class="back-btn ios-tappable">
+        <svg width="12" height="21" viewBox="0 0 12 21" fill="none">
+          <path d="M10.5 1.5L1.5 10.5L10.5 19.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Luiz Passaroni
+      </a>
+
+      <div>
+        <h1 class="ios-title1">Downloads</h1>
+        <p class="ios-subheadline ios-text-secondary" style="margin-top: 4px;">
+          Repositório de arquivos e documentos.
+        </p>
+      </div>
+
+      <div class="ios-widget-glass">
+        <div class="empty-state">
+          <div class="empty-icon">📁</div>
+          <p class="empty-text">Nenhum arquivo disponível</p>
+          <p class="empty-subtext">Novos itens serão listados aqui em breve.</p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</body>
+</html>
