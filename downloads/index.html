@@ -122,7 +122,7 @@
   <main class="flex-1 flex flex-col pt-8 pb-16">
     <section class="mx-auto w-full max-w-3xl px-4 space-y-6">
 
-      <a href="../index.html" class="back-btn ios-tappable">
+      <a href="https://luizpassaroni.com" class="back-btn ios-tappable">
         <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
           <path d="M8.5 1.5L1.5 8L8.5 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -145,7 +145,7 @@
       </div>
 
             <div id="downloads-container" class="section-group">
-        <p class="category-label">Arquivos Disponíveis</p>
+        <p class="category-label" data-i18n="files_label">Arquivos Disponíveis</p>
         <div class="ios-widget-glass">
           <div class="skeleton-item"><div class="skeleton-box skeleton-icon"></div><div class="skeleton-lines"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-sub"></div></div></div>
           <div class="skeleton-item"><div class="skeleton-box skeleton-icon"></div><div class="skeleton-lines"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-sub"></div></div></div>
@@ -241,7 +241,7 @@
         }
 
         container.innerHTML = `
-          <p class="category-label" data-i18n="files_label">Arquivos Disponíveis</p>
+          <p class="category-label">${t('files_label')}</p>
           ${syncLabel ? `<p class="sync-label">${syncLabel}</p>` : ''}
           <div class="ios-widget-glass">
             ${files.map(file => {
