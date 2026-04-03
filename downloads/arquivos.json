@@ -1,40 +1,4 @@
 {
-  "updatedAt": "2026-04-03T20:17:19.820Z",
-  "files": [
-    {
-      "name": "MacOS Recomendados",
-      "url": "https://drive.google.com/uc?id=10ItTZnKCsy1cWNTE_-rxqt_f0f4tvAsO&export=download&confirm=t",
-      "size": "N/A",
-      "mimeType": "application/vnd.google-apps.folder",
-      "fileType": "file"
-    },
-    {
-      "name": "Notion MacOS (dmg)",
-      "url": "https://drive.google.com/uc?id=1xUAj2VR75ZrFoxwcYKTQ73YrvavLB5Ul&export=download&confirm=t",
-      "size": "108 MB",
-      "mimeType": "application/x-apple-diskimage",
-      "fileType": "dmg"
-    },
-    {
-      "name": "brModelo java",
-      "url": "https://drive.google.com/uc?id=1Wal8-zre9T8D3WTtT1z1aIUcspBMgUWv&export=download&confirm=t",
-      "size": "1 MB",
-      "mimeType": "application/java-archive",
-      "fileType": "file"
-    },
-    {
-      "name": "Claude MacOS (dmg)",
-      "url": "https://drive.google.com/uc?id=19VFwvSAhaUk-C_ODXy5Yc5x9FZv21WNa&export=download&confirm=t",
-      "size": "253 MB",
-      "mimeType": "application/x-apple-diskimage",
-      "fileType": "dmg"
-    },
-    {
-      "name": "5ca0e9_a13ff30f4d8e43589fa37fdc2501e615.pdf",
-      "url": "https://drive.google.com/uc?id=1d437FBlsUP8XBMMVElP8P1mL0hRG0OS9&export=download&confirm=t",
-      "size": "3 MB",
-      "mimeType": "application/pdf",
-      "fileType": "pdf"
-    }
-  ]
+  "updatedAt": "2026-04-03T20:25:39.512Z",
+  "groups": []
 }
