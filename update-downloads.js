@@ -31,7 +31,7 @@ async function syncDrive() {
         const files = res.data.files.map(f => ({
             name: f.name,
             // Gera link de download direto
-            url: `https://drive.google.com/uc?id=${f.id}&export=download`,
+            url: `https://drive.google.com/uc?id=${f.id}&export=download&confirm=t`,
             size: f.size ? (f.size / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'
         }));
 
