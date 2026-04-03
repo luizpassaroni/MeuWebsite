@@ -136,7 +136,7 @@
         </p>
       </div>
 
-      <div class="drive-warning">
+      <div class="drive-warning" style="margin-bottom: 8px;">
         <span class="drive-warning-icon">&#9888;&#65039;</span>
         <p class="drive-warning-text">
           <strong data-i18n="warning_title">Aviso do Google Drive</strong>
@@ -240,13 +240,16 @@
         </a>`;
     }
 
-    function renderGroup(group) {
-      const label = group.name
-        ? `<p class="category-label" style="margin-top: 8px;">${group.name}</p>`
-        : `<p class="category-label">${t('files_label')}</p>`;
+    function renderGroup(group, hasNamedGroups) {
+      let label = '';
+      if (group.name) {
+        label = `<p class="category-label" style="margin-top: 8px;">${group.name}</p>`;
+      } else if (!hasNamedGroups) {
+        label = `<p class="category-label">${t('files_label')}</p>`;
+      }
       return `
         ${label}
-        <div class="ios-widget-glass">
+        <div class="ios-widget-glass" style="${label ? '' : 'margin-top: 0;'}">
           ${group.files.map(renderFile).join('')}
         </div>`;
     }
@@ -283,7 +286,7 @@
 
         container.innerHTML = `
           ${syncLabel ? `<p class="sync-label">${syncLabel}</p>` : ''}
-          ${groups.map(renderGroup).join('')}
+          ${groups.map(g => renderGroup(g, groups.some(x => x.name))).join('')}
         `;
       } catch (e) {
         container.innerHTML = `
