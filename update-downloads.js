@@ -1,7 +1,6 @@
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { google } from 'googleapis';
 
-// 1. Tenta carregar a chave que você salvou no GitHub Secrets
 let serviceAccount;
 try {
     serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
@@ -10,8 +9,15 @@ try {
     process.exit(1);
 }
 
-// 2. COLOQUE O ID DA SUA PASTA AQUI
 const FOLDER_ID = '1Yp2dr9832tOuheqvvMZ6iMrNKgH1T5l1';
+
+function formatSize(bytes) {
+    if (!bytes) return 'N/A';
+    const mb = bytes / 1024 / 1024;
+    if (mb >= 1000) return (mb / 1024).toFixed(1) + ' GB';
+    if (mb >= 1) return Math.round(mb) + ' MB';
+    return Math.round(bytes / 1024) + ' KB';
+}
 
 async function syncDrive() {
     try {
@@ -19,10 +25,8 @@ async function syncDrive() {
             credentials: serviceAccount,
             scopes: ['https://www.googleapis.com/auth/drive.readonly'],
         });
-
         const drive = google.drive({ version: 'v3', auth });
 
-        // Busca arquivos que não estão na lixeira
         const res = await drive.files.list({
             q: `'${FOLDER_ID}' in parents and trashed = false`,
             fields: 'files(id, name, mimeType, size)',
@@ -30,15 +34,19 @@ async function syncDrive() {
 
         const files = res.data.files.map(f => ({
             name: f.name,
-            // Gera link de download direto
             url: `https://drive.google.com/uc?id=${f.id}&export=download&confirm=t`,
-            size: f.size ? (f.size / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'
+            size: formatSize(f.size),
+            mimeType: f.mimeType || 'application/octet-stream',
         }));
 
-        // Cria a pasta downloads se não existir e salva o resultado
+        const output = {
+            updatedAt: new Date().toISOString(),
+            files,
+        };
+
         if (!existsSync('./downloads')) mkdirSync('./downloads');
-        writeFileSync('./downloads/arquivos.json', JSON.stringify(files, null, 2));
-        
+        writeFileSync('./downloads/arquivos.json', JSON.stringify(output, null, 2));
+
         console.log(`✅ Sincronizado: ${files.length} arquivos encontrados.`);
     } catch (error) {
         console.error('❌ Erro ao acessar o Drive:', error.message);
