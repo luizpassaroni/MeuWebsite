@@ -1,9 +1,16 @@
 {
-  "updatedAt": "2026-04-10T07:18:46.873Z",
+  "updatedAt": "2026-04-10T12:31:31.536Z",
   "groups": [
     {
       "name": null,
       "files": [
+        {
+          "name": "apple-logo-minimal-3840x2160-9997.jpg",
+          "url": "https://drive.google.com/uc?id=1yqijqs1hwatPAWFeWdoGYegQMyVXVe1V&export=download&confirm=t",
+          "size": "140 KB",
+          "mimeType": "image/jpeg",
+          "fileType": "image"
+        },
         {
           "name": "brModelo java.jar",
           "url": "https://drive.google.com/uc?id=1qKbkWpfb8HisyaXaKh7GXkpECMrgVXlL&export=download&confirm=t",
