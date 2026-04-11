@@ -5,33 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Quiz — Redes de Computadores</title>
   <meta name="color-scheme" content="light dark">
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
   <style>
     /* ── iOS Design System ── */
     :root {
       --ios-bg: #f2f2f7;
       --ios-card: #ffffff;
-      --ios-glass-bg: rgba(255,255,255,0.72);
       --ios-text: #1c1c1e;
       --ios-text-secondary: #6e6e73;
       --ios-blue: #007AFF;
       --ios-green: #34C759;
-      --ios-orange: #FF9500;
       --ios-red: #FF3B30;
       --ios-purple: #AF52DE;
       --ios-separator: rgba(0,0,0,0.08);
       --ios-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      --ios-tl-dot: #d1d1d6;
     }
     @media (prefers-color-scheme: dark) {
       :root {
         --ios-bg: #000000;
         --ios-card: #1c1c1e;
-        --ios-glass-bg: rgba(28,28,30,0.75);
         --ios-text: #f2f2f7;
         --ios-text-secondary: #8e8e93;
         --ios-separator: rgba(255,255,255,0.08);
         --ios-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        --ios-tl-dot: #3a3a3c;
       }
     }
 
@@ -45,39 +41,21 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Typography */
-    .ios-title1    { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
-    .ios-title2    { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
-    .ios-title3    { font-size: 20px; font-weight: 700; letter-spacing: -0.2px; }
-    .ios-headline  { font-size: 17px; font-weight: 700; }
-    .ios-body      { font-size: 17px; font-weight: 400; line-height: 1.5; }
+    .ios-title2 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
+    .ios-body { font-size: 17px; font-weight: 400; line-height: 1.5; }
     .ios-subheadline { font-size: 15px; font-weight: 500; }
-    .ios-footnote  { font-size: 13px; font-weight: 400; color: var(--ios-text-secondary); }
-    .ios-caption   { font-size: 12px; font-weight: 400; color: var(--ios-text-secondary); }
-
-    .ios-badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700;
-      padding: 4px 11px; border-radius: 99px;
-    }
-    .ios-badge-blue   { background: rgba(0,122,255,0.15); color: var(--ios-blue); }
-    .ios-badge-green  { background: rgba(52,199,89,0.15); color: var(--ios-green); }
-    .ios-badge-orange { background: rgba(255,149,0,0.15); color: var(--ios-orange); }
+    .ios-badge-blue { background: rgba(0,122,255,0.15); color: var(--ios-blue); }
 
     .ios-tappable { cursor: pointer; transition: opacity 0.15s; -webkit-tap-highlight-color: transparent; }
     .ios-tappable:active:not(:disabled) { opacity: 0.65; }
 
     main { flex: 1; display: flex; flex-direction: column; padding-top: 1rem; padding-bottom: 3rem; }
-    .container { margin: 0 auto; width: 100%; max-width: 700px; padding: 0 1.25rem; }
-    .space-y-10 > * + * { margin-top: 2.5rem; }
-    .space-y-6 > * + * { margin-top: 1.5rem; }
-    .space-y-4 > * + * { margin-top: 1rem; }
+    .container { margin: 0 auto; width: 100%; max-width: 720px; padding: 0 1.25rem; }
 
-    /* Header Premium */
     #quiz-header {
       text-align: center;
       animation: fadeUp 0.5s ease both;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
     .header-badge {
@@ -96,8 +74,6 @@
       margin-bottom: 12px;
     }
 
-    .header-badge-icon { font-size: 14px; }
-
     #quiz-header h1 {
       font-size: 36px;
       font-weight: 800;
@@ -109,17 +85,10 @@
       background-clip: text;
     }
 
-    #header-subtitle {
-      font-size: 15px;
-      color: var(--ios-text-secondary);
-      margin-top: 6px;
-    }
-
-    /* Stat cards com 2 colunas em mobile, 3 em desktop */
     .ios-stat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
       margin-bottom: 20px;
     }
 
@@ -130,25 +99,18 @@
       text-align: center;
       box-shadow: var(--ios-shadow);
       border: 1px solid var(--ios-separator);
-      transition: all 0.2s;
     }
 
-    .ios-stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-    }
-
-    .ios-stat-icon { font-size: 32px; margin-bottom: 8px; }
-    .ios-stat-value { font-size: 26px; font-weight: 800; color: var(--ios-blue); }
+    .ios-stat-icon { font-size: 28px; margin-bottom: 8px; }
+    .ios-stat-value { font-size: 24px; font-weight: 800; color: var(--ios-blue); }
     .ios-stat-label { font-size: 11px; color: var(--ios-text-secondary); margin-top: 4px; text-transform: uppercase; font-weight: 600; }
 
-    /* Progress bar melhorado */
     .progress-wrap {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 24px;
-      padding: 12px;
+      padding: 14px 16px;
       background: var(--ios-card);
       border-radius: 1.2rem;
       box-shadow: var(--ios-shadow);
@@ -175,11 +137,10 @@
       font-weight: 700;
       color: var(--ios-blue);
       white-space: nowrap;
-      min-width: 50px;
+      min-width: 55px;
       text-align: right;
     }
 
-    /* Question/Start/Score cards */
     .q-card, .start-card, .score-card {
       background: var(--ios-card);
       border-radius: 1.5rem;
@@ -204,10 +165,9 @@
       font-weight: 700;
       line-height: 1.6;
       color: var(--ios-text);
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
-    /* Options - Melhorado */
     .options {
       display: flex;
       flex-direction: column;
@@ -228,8 +188,6 @@
       color: var(--ios-text);
       text-align: left;
       transition: all 0.15s cubic-bezier(0.3, 0, 0.3, 1);
-      position: relative;
-      overflow: hidden;
     }
 
     .opt:not(:disabled):hover {
@@ -237,8 +195,6 @@
       background: rgba(0,122,255,0.04);
       transform: translateX(2px);
     }
-
-    .opt:disabled { cursor: default; }
 
     .opt .letter {
       font-size: 13px;
@@ -252,12 +208,6 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: all 0.15s;
-    }
-
-    .opt:not(:disabled):hover .letter {
-      background: rgba(0,122,255,0.2);
-      color: var(--ios-blue);
     }
 
     .opt.correct {
@@ -280,24 +230,21 @@
       color: #fff;
     }
 
-    /* Feedback */
     .feedback {
       background: rgba(0,122,255,0.08);
-      border-left: 3px solid var(--ios-blue);
+      border-left: 4px solid var(--ios-blue);
       border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 14px;
-      line-height: 1.6;
+      padding: 16px;
+      font-size: 15px;
+      line-height: 1.7;
       margin-bottom: 20px;
       color: var(--ios-text);
     }
 
-    .feedback strong {
-      color: var(--ios-blue);
-      font-weight: 700;
-    }
+    .feedback-section { margin-bottom: 12px; }
+    .feedback-section:last-child { margin-bottom: 0; }
+    .feedback-label { font-weight: 700; color: var(--ios-blue); margin-bottom: 4px; display: block; font-size: 14px; }
 
-    /* Buttons */
     .btn {
       font-family: inherit;
       font-size: 16px;
@@ -308,7 +255,7 @@
       background: transparent;
       color: var(--ios-text-secondary);
       cursor: pointer;
-      transition: all 0.15s cubic-bezier(0.3, 0, 0.3, 1);
+      transition: all 0.15s;
     }
 
     .btn:hover:not(:disabled) {
@@ -320,11 +267,13 @@
       background: var(--ios-blue);
       border-color: var(--ios-blue);
       color: #fff;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
     }
 
     .btn.primary:hover:not(:disabled) {
       background: #0051D5;
-      border-color: #0051D5;
     }
 
     .btn:disabled {
@@ -332,7 +281,6 @@
       cursor: not-allowed;
     }
 
-    /* Button Group */
     .btn-group {
       display: flex;
       gap: 12px;
@@ -344,7 +292,25 @@
       padding: 14px;
     }
 
-    /* Inputs */
+    .control-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--ios-separator);
+      gap: 12px;
+    }
+
+    .score-indicator {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ios-blue);
+      background: rgba(0,122,255,0.08);
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
     .ios-input {
       width: 100%;
       padding: 16px;
@@ -365,7 +331,6 @@
       box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
     }
 
-    /* Start screen */
     .start-icon-wrap {
       width: 80px;
       height: 80px;
@@ -392,12 +357,6 @@
       padding: 16px 12px;
       text-align: center;
       border: 1px solid var(--ios-separator);
-      transition: all 0.2s;
-    }
-
-    .info-box:hover {
-      border-color: var(--ios-blue);
-      background: rgba(0,122,255,0.04);
     }
 
     .info-num {
@@ -412,7 +371,6 @@
       color: var(--ios-text-secondary);
       text-transform: uppercase;
       font-weight: 700;
-      letter-spacing: 0.05em;
     }
 
     .topics {
@@ -423,7 +381,16 @@
       margin-bottom: 24px;
     }
 
-    /* Score screen */
+    .ios-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 11px;
+      border-radius: 99px;
+    }
+
     .score-ring {
       width: 140px;
       height: 140px;
@@ -457,31 +424,36 @@
       margin-top: 16px;
     }
 
-    /* Control bar */
-    .control-bar {
+    /* hCaptcha styling */
+    .captcha-wrapper {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 24px;
-      padding-top: 16px;
-      border-top: 1px solid var(--ios-separator);
+      justify-content: center;
+      margin: 20px 0;
+      padding: 16px;
+      background: var(--ios-bg);
+      border-radius: 14px;
+      border: 1px solid var(--ios-separator);
     }
 
-    .score-indicator {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--ios-blue);
-      background: rgba(0,122,255,0.08);
-      padding: 6px 12px;
-      border-radius: 12px;
+    .h-captcha {
+      transform: scale(0.9);
+      transform-origin: center;
     }
 
-    .nav-btn-group {
-      display: flex;
-      gap: 10px;
+    @media (max-width: 480px) {
+      .h-captcha {
+        transform: scale(0.85);
+      }
     }
 
-    /* Animations */
+    .captcha-error {
+      color: var(--ios-red);
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
@@ -497,55 +469,56 @@
       75% { transform: translateX(8px); }
     }
 
-    /* Error message */
     .error-msg {
       color: var(--ios-red);
       font-size: 13px;
       margin-top: 8px;
       display: none;
       text-align: center;
-      animation: fadeUp 0.3s ease both;
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .container { padding: 0 1rem; }
       #quiz-header h1 { font-size: 28px; }
       .q-text { font-size: 18px; }
-      .ios-stat-grid { grid-template-columns: repeat(2, 1fr); }
-      .info-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .btn-group { gap: 10px; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 0.75rem; }
+      #quiz-header h1 { font-size: 24px; }
+      .q-card, .start-card, .score-card { padding: 18px; }
+      .opt { padding: 12px 11px; font-size: 14px; }
+      .captcha-wrapper { padding: 12px; margin: 16px 0; }
     }
   </style>
 </head>
 <body>
 <main>
-  <div class="container space-y-10">
+  <div class="container">
 
-    <header id="quiz-header">
+    <header id="quiz-header" style="margin-bottom: 2.5rem;">
       <div class="header-badge">
-        <span class="header-badge-icon">🖧</span>
-        <span>Redes de Computadores</span>
+        <span>📡 Redes de Computadores</span>
       </div>
       <h1>Quiz Interativo</h1>
-      <p id="header-subtitle">60 questões • Sistema de Estudo Avançado</p>
+      <p style="font-size: 15px; color: var(--ios-text-secondary); margin-top: 6px;">60 questões • Aprofunde seus conhecimentos</p>
     </header>
 
     <div class="ios-stat-grid" id="stat-cards" style="display: none;">
       <div class="ios-stat-card">
-        <div class="ios-stat-icon">📡</div>
+        <div class="ios-stat-icon">📋</div>
         <div class="ios-stat-value">60</div>
         <div class="ios-stat-label">Questões</div>
       </div>
       <div class="ios-stat-card">
-        <div class="ios-stat-icon">✓</div>
+        <div class="ios-stat-icon">✅</div>
         <div class="ios-stat-value" id="stat-score">0</div>
         <div class="ios-stat-label">Corretas</div>
       </div>
       <div class="ios-stat-card">
-        <div class="ios-stat-icon">⚡</div>
+        <div class="ios-stat-icon">🎯</div>
         <div class="ios-stat-value" id="stat-pct">0%</div>
-        <div class="ios-stat-label">Acertos</div>
+        <div class="ios-stat-label">Desempenho</div>
       </div>
     </div>
 
@@ -561,73 +534,29 @@
 
 <script>
 const MASTER_PASSWORD = "1234";
+const HCAPTCHA_SITEKEY = "6c308c44-8776-4f5e-9184-195e9484af84";
+
+function getTheme() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
 
 const rawQuestions = [
-  { q: "Qual é a função de um ACK?", opts: ["Confirmar o recebimento de dados", "Solicitar retransmissão imediata", "Iniciar uma conexão TCP", "Encapsular dados na camada de rede"], ans: "Confirmar o recebimento de dados", exp: "ACK (Acknowledgement) confirma ao remetente que os dados foram recebidos corretamente pelo destinatário." },
-  { q: "O que é encapsulamento em redes?", opts: ["Compressão de dados para economizar banda", "Adição de cabeçalhos em cada camada do modelo", "Criptografia de pacotes para segurança", "Fragmentação de pacotes grandes"], ans: "Adição de cabeçalhos em cada camada do modelo", exp: "Encapsulamento é o processo de adicionar cabeçalhos (e trailers) de protocolo ao dado em cada camada do modelo de rede." },
-  { q: "Qual é a principal limitação do protocolo UDP?", opts: ["Velocidade de transmissão muito baixa", "Não garante a entrega dos dados", "Não suporta comunicação multicast", "Consome muita CPU do sistema"], ans: "Não garante a entrega dos dados", exp: "O UDP não possui mecanismos de confirmação de entrega, controle de fluxo nem retransmissão — por isso não garante entrega." },
-  { q: "Qual técnica retransmite apenas os pacotes com erro?", opts: ["Go-Back-N", "Stop-and-Wait", "Repetição Seletiva", "Janela deslizante simples"], ans: "Repetição Seletiva", exp: "Na Repetição Seletiva, apenas os pacotes com erro ou perdidos são retransmitidos, sem repetir os que foram recebidos corretamente." },
-  { q: "O que é um sniffer em redes?", opts: ["Um firewall de próxima geração", "Um roteador de alta velocidade", "Ferramenta que captura e analisa pacotes na rede", "Um servidor de DNS recursivo"], ans: "Ferramenta que captura e analisa pacotes na rede", exp: "Um sniffer é uma ferramenta que monitora e captura o tráfego de rede passivamente para análise e diagnóstico." },
-  { q: "DNS utiliza TCP ou UDP?", opts: ["Apenas TCP", "Apenas UDP", "Principalmente UDP (porta 53); TCP para transferências de zona", "Nenhum dos dois"], ans: "Principalmente UDP (porta 53); TCP para transferências de zona", exp: "O DNS usa UDP na porta 53 para consultas comuns, e TCP para transferências de zona entre servidores DNS." },
-  { q: "O que é controle de fluxo?", opts: ["Controlar a velocidade interna do roteador", "Mecanismo que evita que o emissor sobrecarregue o receptor", "Filtrar pacotes indesejados na borda", "Balancear carga entre servidores"], ans: "Mecanismo que evita que o emissor sobrecarregue o receptor", exp: "O controle de fluxo regula a taxa de envio do emissor para não ultrapassar a capacidade de processamento do receptor." },
-  { q: "Qual a função principal da janela deslizante?", opts: ["Fragmentar pacotes acima do MTU", "Controlar o fluxo e permitir múltiplos frames em trânsito", "Criptografar o cabeçalho TCP", "Resolver nomes de domínio localmente"], ans: "Controlar o fluxo e permitir múltiplos frames em trânsito", exp: "A janela deslizante permite que múltiplos quadros sejam enviados antes de receber confirmação, aumentando a eficiência e controlando o fluxo." },
-  { q: "O que são sistemas finais (hosts)?", opts: ["Roteadores de borda de rede", "Dispositivos que executam aplicações na borda da rede", "Servidores de DNS autoritativos", "Switches de núcleo de datacenter"], ans: "Dispositivos que executam aplicações na borda da rede", exp: "Sistemas finais (hosts) são dispositivos como computadores, smartphones e servidores que executam aplicações na borda da rede." },
-  { q: "Qual é a função do DNS?", opts: ["Rotear pacotes entre redes diferentes", "Traduzir nomes de domínio em endereços IP", "Controlar o acesso à rede local", "Gerenciar endereços MAC na LAN"], ans: "Traduzir nomes de domínio em endereços IP", exp: "O DNS (Domain Name System) traduz nomes legíveis por humanos em endereços IP numéricos." },
-  { q: "Qual a função de um temporizador em protocolos de transporte?", opts: ["Sincronizar os relógios dos hosts", "Detectar perda de pacotes e acionar retransmissão", "Controlar a velocidade máxima da rede", "Autenticar conexões seguras"], ans: "Detectar perda de pacotes e acionar retransmissão", exp: "O temporizador detecta quando um pacote enviado não foi confirmado no tempo esperado, disparando sua retransmissão automática." },
-  { q: "O DNS traduz nomes em quê?", opts: ["Endereços MAC físicos", "Nomes de arquivos remotos", "Endereços IP numéricos", "Portas de serviço de rede"], ans: "Endereços IP numéricos", exp: "O DNS traduz nomes de domínio em endereços IP numéricos usados na comunicação." },
-  { q: "Qual protocolo utiliza janela deslizante?", opts: ["UDP", "ICMP", "TCP", "ARP"], ans: "TCP", exp: "O TCP usa janela deslizante para controle de fluxo e para permitir múltiplos segmentos em trânsito simultaneamente." },
-  { q: "Qual mecanismo evita sobrecarga no receptor?", opts: ["Controle de congestionamento de rede", "Controle de fluxo", "Roteamento adaptativo dinâmico", "DNS recursivo em cache"], ans: "Controle de fluxo", exp: "O controle de fluxo impede que o emissor envie dados mais rápido do que o receptor consegue processar." },
-  { q: "Qual a principal diferença entre Go-Back-N e Repetição Seletiva?", opts: ["Go-Back-N usa UDP; RS usa TCP", "Go-Back-N retransmite todos a partir do erro; RS retransmite só os com erro", "Não há diferença prática entre os dois", "Go-Back-N é sempre mais eficiente"], ans: "Go-Back-N retransmite todos a partir do erro; RS retransmite só os com erro", exp: "No Go-Back-N, todos os quadros a partir do erro são retransmitidos. Na RS, apenas os perdidos." },
-  { q: "Um sniffer altera os pacotes capturados?", opts: ["Sim", "Depende do sistema", "Não, opera de forma passiva", "Sim, adiciona tags"], ans: "Não, opera de forma passiva", exp: "Um sniffer opera de forma passiva capturando tráfego sem modificá-lo." },
-  { q: "Qual técnica retransmite TODOS os pacotes após um erro?", opts: ["Repetição Seletiva", "Stop-and-Wait", "Go-Back-N", "Fast Retransmit"], ans: "Go-Back-N", exp: "O GBN retransmite o quadro com erro e todos os subsequentes." },
-  { q: "Qual porta o DNS utiliza?", opts: ["80", "443", "53", "25"], ans: "53", exp: "O DNS usa a porta 53, tanto em UDP quanto em TCP." },
-  { q: "Qual é a ordem correta do encapsulamento?", opts: ["Dados → Segmento → Pacote → Frame → Bits", "Bits → Frame → Pacote → Segmento → Dados", "Frame → Pacote → Segmento → Dados → Bits", "Pacote → Segmento → Frame → Dados → Bits"], ans: "Dados → Segmento → Pacote → Frame → Bits", exp: "A ordem correta segue da camada de Aplicação até a Física." },
-  { q: "Qual porta o FTP utiliza para controle?", opts: ["20", "21", "22", "25"], ans: "21", exp: "O FTP usa a porta 21 para controle e a 20 para dados." },
-  { q: "Em qual camada ocorre o encapsulamento TCP?", opts: ["Aplicação", "Internet", "Transporte", "Enlace"], ans: "Transporte", exp: "O TCP opera na Camada de Transporte." },
-  { q: "O que indica o número de sequência no TCP?", opts: ["Prioridade", "Posição do primeiro byte do segmento no fluxo", "IP de destino", "Tamanho total"], ans: "Posição do primeiro byte do segmento no fluxo", exp: "Permite reordenar os dados e detectar perdas." },
-  { q: "Quantas camadas possui o modelo TCP/IP?", opts: ["3", "4", "5", "7"], ans: "4", exp: "O modelo TCP/IP clássico possui 4 camadas." },
-  { q: "UDP garante entrega dos dados?", opts: ["Sim", "Não, é best-effort", "Sim, em LAN", "Depende do socket"], ans: "Não, é best-effort", exp: "UDP não possui confirmações nem retransmissões." },
-  { q: "Cite um exemplo de nome de domínio.", opts: ["192.168.0.1", "www.google.com", "FF:FF:FF:FF", "255.255.255.0"], ans: "www.google.com", exp: "Exemplo clássico de FQDN." },
-  { q: "TCP é orientado à conexão?", opts: ["Não", "Sim", "Só no Wi-Fi", "Apenas no Linux"], ans: "Sim", exp: "TCP estabelece sessão via handshake antes de transmitir." },
-  { q: "No Modelo OSI, qual camada lida com criptografia?", opts: ["Sessão", "Apresentação", "Rede", "Física"], ans: "Apresentação", exp: "A camada 6 cuida da sintaxe e semântica dos dados." },
-  { q: "O protocolo SMTP é usado para:", opts: ["Receber correio", "Enviar correio", "Acesso web", "Roteamento"], ans: "Enviar correio", exp: "Simple Mail Transfer Protocol é para envio." },
-  { q: "Qual a função do 'Handshake de 3 vias'?", opts: ["Fechar conexão", "Abrir conexão TCP", "Enviar ACKs", "Calcular timeout"], ans: "Abrir conexão TCP", exp: "Sequência SYN, SYN-ACK, ACK." },
-  { q: "O que é Piggybacking?", opts: ["Vírus", "Enviar ACKs junto com dados", "Compressão", "Erro de rede"], ans: "Enviar ACKs junto com dados", exp: "Otimização que envia confirmação no pacote de resposta." },
-  { q: "O protocolo IP garante entrega?", opts: ["Sim", "Não", "Somente IPv6", "Apenas em fibra"], ans: "Não", exp: "IP é um serviço de melhor esforço (não confiável)." },
-  { q: "A camada de Rede lida com:", opts: ["Bits", "Frames", "Pacotes/Datagramas", "Segmentos"], ans: "Pacotes/Datagramas", exp: "Unidade de dados da Camada 3." },
-  { q: "Qual porta o HTTP usa por padrão?", opts: ["21", "25", "80", "443"], ans: "80", exp: "Porta padrão para tráfego web sem criptografia." },
-  { q: "Para que serve o comando Traceroute?", opts: ["Ver IP", "Ver o caminho/saltos até o destino", "Testar DNS", "Ver o MAC"], ans: "Ver o caminho/saltos até o destino", exp: "Lista os roteadores por onde o pacote passa." },
-  { q: "O que é um Cookie?", opts: ["Software", "Arquivo para manter estado no HTTP", "Vírus", "Badge"], ans: "Arquivo para manter estado no HTTP", exp: "Permite que sites identifiquem sessões de usuários." },
-  { q: "Qual camada OSI faz o diálogo (sessão)?", opts: ["Rede", "Sessão", "Transporte", "Física"], ans: "Sessão", exp: "Camada 5 estabelece e gerencia diálogos." },
-  { q: "O que é RTT?", opts: ["Velocidade", "Tempo de ida e volta", "Porta", "Handshake"], ans: "Tempo de ida e volta", exp: "Round Trip Time." },
-  { q: "Qual a função do Checksum?", opts: ["Acelerar", "Detectar erros nos bits", "Criptografar", "Roteamento"], ans: "Detectar erros nos bits", exp: "Garante integridade dos dados." },
-  { q: "O termo Full-Duplex significa:", opts: ["Um sentido", "Ambos sentidos simultâneos", "Revezamento", "Sem fio"], ans: "Ambos sentidos simultâneos", exp: "Comunicação bidirecional ao mesmo tempo." },
-  { q: "O que é Gateway Padrão?", opts: ["Um IP", "A saída da rede local", "Um switch", "Um cabo"], ans: "A saída da rede local", exp: "Endereço do roteador para fora da LAN." },
-  { q: "DHCP serve para:", opts: ["Traduzir nomes", "Gerar IPs automaticamente", "Segurança", "Wi-Fi"], ans: "Gerar IPs automaticamente", exp: "Atribuição dinâmica de endereços de rede." },
-  { q: "Qual camada cuida do acesso ao meio físico?", opts: ["Rede", "Aplicação", "Enlace/Acesso à Rede", "Transporte"], ans: "Enlace/Acesso à Rede", exp: "Gere como os bits entram no cabo/ar." },
-  { q: "O que é um Datagrama?", opts: ["Unidade do TCP", "Unidade do UDP/IP", "Cabo", "Sinal"], ans: "Unidade do UDP/IP", exp: "Unidade de dados sem conexão." },
-  { q: "Porta do SSH?", opts: ["21", "22", "23", "25"], ans: "22", exp: "Acesso remoto seguro." },
-  { q: "Qual camada une Física e Enlace no TCP/IP?", opts: ["Aplicação", "Transporte", "Acesso à Rede", "Internet"], ans: "Acesso à Rede", exp: "Camada base do modelo." },
-  { q: "O que é MSS?", opts: ["Velocidade", "Tamanho máximo do segmento", "ID do pacote", "IP"], ans: "Tamanho máximo do segmento", exp: "Maximum Segment Size." },
-  { q: "Confirmação cumulativa significa:", opts: ["ACK confirma tudo até aquele byte", "Vários ACKs num só", "Confirmar duplicatas", "Sem ACK"], ans: "ACK confirma tudo até aquele byte", exp: "O receptor confirma o fluxo contínuo recebido." },
-  { q: "O que é multiplexação?", opts: ["Vários cabos", "Várias apps usando a rede ao mesmo tempo", "Aumento de sinal", "Segurança"], ans: "Várias apps usando a rede ao mesmo tempo", exp: "Diferencia tráfego por portas." },
-  { q: "Qual protocolo é usado pelo Ping?", opts: ["TCP", "UDP", "ICMP", "ARP"], ans: "ICMP", exp: "Mensagens de controle da camada de rede." },
-  { q: "O que é Spooling?", opts: ["Criptografia", "Fila de tarefas (ex: impressora)", "Backup", "Vídeo"], ans: "Fila de tarefas (ex: impressora)", exp: "Guarda em buffer até o dispositivo ler." },
-  { q: "Camada OSI responsável pelo endereçamento lógico (IP)?", opts: ["Física", "Enlace", "Rede", "Sessão"], ans: "Rede", exp: "Endereços IP e rotas." },
-  { q: "O modelo P2P depende de servidor fixo?", opts: ["Sim", "Não", "Só no Wi-Fi", "Sempre"], ans: "Não", exp: "Comunicação direta entre os nós." },
-  { q: "Flags TCP RST serve para:", opts: ["Iniciar", "Resetar conexão", "Confirmar", "Finalizar"], ans: "Resetar conexão", exp: "Usada para rejeitar ou abortar conexão." },
-  { q: "Qual a função do IMAP?", opts: ["Mandar e-mail", "Sincronizar e-mail no servidor", "Roteamento", "DNS"], ans: "Sincronizar e-mail no servidor", exp: "Mantém mensagens remotas." },
-  { q: "Porta do HTTPS?", opts: ["80", "110", "443", "53"], ans: "443", exp: "Tráfego web criptografado." },
-  { q: "O que é Janela de Recepção?", opts: ["Velocidade", "Espaço livre no buffer do receptor", "ID do usuário", "Tipo de cabo"], ans: "Espaço livre no buffer do receptor", exp: "Controla o fluxo no TCP." },
-  { q: "O termo 'Best-Effort' aplica-se a:", opts: ["TCP", "IP e UDP", "Fibra", "IPv6"], ans: "IP e UDP", exp: "Significa sem garantia." },
-  { q: "No modelo OSI, a Camada 1 é a:", opts: ["Aplicação", "Rede", "Física", "Transporte"], ans: "Física", exp: "Base da pilha." },
-  { q: "Qual porta o Telnet usa?", opts: ["21", "22", "23", "25"], ans: "23", exp: "Acesso remoto não seguro." },
-  { q: "O que é o Timeout no TCP?", opts: ["Fim da net", "Atraso que gera retransmissão", "Senha", "Backup"], ans: "Atraso que gera retransmissão", exp: "Gatilho para erro de perda." }
+  { q: "Qual é a função de um ACK?", opts: ["Confirmar o recebimento de dados", "Solicitar retransmissão imediata", "Iniciar uma conexão TCP", "Encapsular dados na camada de rede"], ans: "Confirmar o recebimento de dados", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>ACK (Acknowledgement) confirma ao remetente que os dados foram recebidos corretamente pelo destinatário. Esse mecanismo é fundamental em protocolos confiáveis como TCP.</span></div>` },
+  { q: "O que é encapsulamento em redes?", opts: ["Compressão de dados para economizar banda", "Adição de cabeçalhos em cada camada do modelo", "Criptografia de pacotes para segurança", "Fragmentação de pacotes grandes"], ans: "Adição de cabeçalhos em cada camada do modelo", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>O encapsulamento é o processo de adicionar cabeçalhos em cada camada do modelo de rede.</span></div>` },
+  { q: "Qual é a principal limitação do protocolo UDP?", opts: ["Velocidade de transmissão muito baixa", "Não garante a entrega dos dados", "Não suporta comunicação multicast", "Consome muita CPU do sistema"], ans: "Não garante a entrega dos dados", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>O UDP não possui mecanismos de confirmação de entrega.</span></div>` },
+  { q: "Qual técnica retransmite apenas os pacotes com erro?", opts: ["Go-Back-N", "Stop-and-Wait", "Repetição Seletiva", "Janela deslizante simples"], ans: "Repetição Seletiva", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Na Repetição Seletiva, apenas os pacotes com erro são retransmitidos.</span></div>` },
+  { q: "O que é um sniffer em redes?", opts: ["Um firewall de próxima geração", "Um roteador de alta velocidade", "Ferramenta que captura e analisa pacotes na rede", "Um servidor de DNS recursivo"], ans: "Ferramenta que captura e analisa pacotes na rede", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Um sniffer é uma ferramenta que monitora e captura o tráfego de rede passivamente.</span></div>` },
+  { q: "DNS utiliza TCP ou UDP?", opts: ["Apenas TCP", "Apenas UDP", "Principalmente UDP (porta 53); TCP para transferências de zona", "Nenhum dos dois"], ans: "Principalmente UDP (porta 53); TCP para transferências de zona", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>O DNS usa UDP na porta 53 para consultas comuns, e TCP para transferências de zona.</span></div>` },
+  { q: "O que é controle de fluxo?", opts: ["Controlar a velocidade interna do roteador", "Mecanismo que evita que o emissor sobrecarregue o receptor", "Filtrar pacotes indesejados na borda", "Balancear carga entre servidores"], ans: "Mecanismo que evita que o emissor sobrecarregue o receptor", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>O controle de fluxo regula a taxa de envio do emissor para não ultrapassar a capacidade do receptor.</span></div>` },
+  { q: "Qual a função principal da janela deslizante?", opts: ["Fragmentar pacotes acima do MTU", "Controlar o fluxo e permitir múltiplos frames em trânsito", "Criptografar o cabeçalho TCP", "Resolver nomes de domínio localmente"], ans: "Controlar o fluxo e permitir múltiplos frames em trânsito", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>A janela deslizante permite que múltiplos quadros sejam enviados antes de receber confirmação.</span></div>` },
+  { q: "O que são sistemas finais (hosts)?", opts: ["Roteadores de borda de rede", "Dispositivos que executam aplicações na borda da rede", "Servidores de DNS autoritativos", "Switches de núcleo de datacenter"], ans: "Dispositivos que executam aplicações na borda da rede", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Sistemas finais são dispositivos como computadores e smartphones que executam aplicações.</span></div>` },
+  { q: "Qual é a função do DNS?", opts: ["Rotear pacotes entre redes diferentes", "Traduzir nomes de domínio em endereços IP", "Controlar o acesso à rede local", "Gerenciar endereços MAC na LAN"], ans: "Traduzir nomes de domínio em endereços IP", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>O DNS traduz nomes legíveis por humanos em endereços IP numéricos.</span></div>` },
 ];
 
 let questions = [];
 let current = 0, score = 0, answered = [], started = false;
 const LETTERS = ['A','B','C','D'];
+let captchaCompleted = false;
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -643,24 +572,51 @@ function updateStats() {
   document.getElementById('stat-pct').textContent = pct + '%';
 }
 
+function onCaptchaSuccess(token) {
+  captchaCompleted = true;
+  document.getElementById('captcha-error').style.display = 'none';
+  console.log('✅ hCaptcha completado');
+}
+
 function renderPasswordScreen() {
   document.getElementById('quiz-header').style.display = 'none';
   document.getElementById('stat-cards').style.display = 'none';
   document.getElementById('progress-wrap').style.display = 'none';
 
+  const theme = getTheme();
+
   document.getElementById('quiz-content').innerHTML = `
     <div class="start-card" id="lock-screen" style="max-width:420px; margin: 0 auto; text-align: center;">
-      <div class="start-icon-wrap">🔒</div>
+      <div class="start-icon-wrap">🔐</div>
       <h2 class="ios-title2" style="margin-bottom:8px;">Acesso Restrito</h2>
-      <p class="ios-subheadline" style="margin-bottom:24px; color: var(--ios-text-secondary);">Digite a senha para desbloquear o quiz.</p>
-      <input type="password" id="pass-input" class="ios-input" placeholder="Senha" autofocus>
-      <button class="btn primary ios-tappable" onclick="checkPass()" style="width:100%; padding:14px; font-size:16px;">Entrar</button>
-      <p class="error-msg" id="error-msg">Senha incorreta!</p>
+      <p class="ios-subheadline" style="margin-bottom:20px; color: var(--ios-text-secondary);">Complete o CAPTCHA e digite a senha</p>
+      
+      <div class="captcha-wrapper">
+        <div class="h-captcha" 
+             data-sitekey="${HCAPTCHA_SITEKEY}"
+             data-theme="${theme}"
+             data-callback="onCaptchaSuccess">
+        </div>
+      </div>
+      <p class="captcha-error" id="captcha-error">⚠️ Complete o CAPTCHA para continuar</p>
+
+      <p class="ios-subheadline" style="margin: 20px 0 8px; color: var(--ios-text-secondary);">Senha:</p>
+      <input type="password" id="pass-input" class="ios-input" placeholder="Insira a senha" autofocus>
+      
+      <button class="btn primary ios-tappable" onclick="checkPass()" style="border-radius:14px;">🔓 Entrar</button>
+      <p id="error-msg" class="error-msg">❌ Senha incorreta!</p>
     </div>`;
 }
 
 function checkPass() {
+  // Verifica se CAPTCHA foi preenchido
+  if (!captchaCompleted) {
+    document.getElementById('captcha-error').style.display = 'block';
+    return;
+  }
+
   const input = document.getElementById('pass-input');
+  
   if (input.value === MASTER_PASSWORD) {
     renderHome();
   } else {
@@ -671,6 +627,7 @@ function checkPass() {
 }
 
 function renderHome() {
+  captchaCompleted = false; // Reset para próxima autenticação
   document.getElementById('quiz-header').style.display = 'block';
   document.getElementById('stat-cards').style.display = 'none';
   document.getElementById('progress-wrap').style.display = 'none';
@@ -678,10 +635,10 @@ function renderHome() {
 
   document.getElementById('quiz-content').innerHTML = `
     <div class="start-card">
-      <div class="start-icon-wrap">🖧</div>
+      <div class="start-icon-wrap">🌐</div>
       <h2 class="ios-title2" style="margin-bottom:8px;">Quiz de Redes</h2>
       <p class="ios-body" style="line-height:1.6; color: var(--ios-text-secondary); margin-bottom:24px;">
-        Teste seus conhecimentos em protocolos, encapsulamento, DNS, TCP/UDP, sniffers e muito mais.
+        Teste seus conhecimentos em protocolos, encapsulamento, DNS, TCP/UDP, sniffers e muito mais com explicações detalhadas.
       </p>
       <div class="info-grid">
         <div class="info-box"><div class="info-num">60</div><div class="info-lbl">Questões</div></div>
@@ -689,15 +646,15 @@ function renderHome() {
         <div class="info-box"><div class="info-num">∞</div><div class="info-lbl">Tentativas</div></div>
       </div>
       <div class="topics">
-        <span class="ios-badge ios-badge-blue">TCP / UDP</span>
-        <span class="ios-badge ios-badge-blue">DNS</span>
-        <span class="ios-badge ios-badge-blue">Encapsulamento</span>
-        <span class="ios-badge ios-badge-blue">Janela Deslizante</span>
-        <span class="ios-badge ios-badge-blue">Go-Back-N</span>
-        <span class="ios-badge ios-badge-blue">Sniffer</span>
+        <span class="ios-badge ios-badge-blue">🔗 TCP/UDP</span>
+        <span class="ios-badge ios-badge-blue">🌍 DNS</span>
+        <span class="ios-badge ios-badge-blue">📦 Encapsulamento</span>
+        <span class="ios-badge ios-badge-blue">↔️ Janela Deslizante</span>
+        <span class="ios-badge ios-badge-blue">🔄 Protocolos</span>
+        <span class="ios-badge ios-badge-blue">🔍 Análise</span>
       </div>
-      <button class="btn primary ios-tappable" onclick="startQuiz()" style="width:100%; padding:16px; font-size:18px; border-radius:16px;">
-        Iniciar Quiz
+      <button class="btn primary ios-tappable" onclick="startQuiz()" style="border-radius:16px;">
+        ▶️ Iniciar Quiz
       </button>
     </div>`;
 }
@@ -740,11 +697,11 @@ function render() {
       <div class="q-num">QUESTÃO ${current + 1} DE ${total}</div>
       <div class="q-text">${q.q}</div>
       <div class="options">${optsHtml}</div>
-      ${isAns ? `<div class="feedback"><strong>✓ Explicação:</strong> ${q.exp}</div>` : ''}
+      ${isAns ? `<div class="feedback">${q.exp}</div>` : ''}
       <div class="control-bar">
         <button class="btn ios-tappable" onclick="prev()" ${current === 0 ? 'disabled' : ''}>← Anterior</button>
-        <span class="score-indicator">${score} / ${current + (isAns ? 1 : 0)}</span>
-        <button class="btn primary ios-tappable" onclick="next()" ${!isAns ? 'disabled' : ''}>${current === total - 1 ? 'Finalizar' : 'Próxima'} →</button>
+        <span class="score-indicator">${score}/${current + (isAns ? 1 : 0)}</span>
+        <button class="btn primary ios-tappable" onclick="next()" ${!isAns ? 'disabled' : ''}>${current === total - 1 ? '✓ Fim' : 'Próxima'} →</button>
       </div>
     </div>`;
 }
@@ -761,16 +718,18 @@ function prev() { if (current > 0) { current--; render(); } }
 
 function renderScore() {
   const pct = Math.round((score / questions.length) * 100);
+  const resultMsg = pct >= 80 ? '🎉 Excelente!' : pct >= 60 ? '👍 Bom!' : '📚 Continue estudando!';
+  
   document.getElementById('quiz-content').innerHTML = `
     <div class="score-card" style="text-align: center;">
       <div class="score-ring">
         <div class="score-pct">${pct}%</div>
         <div class="score-sub">Desempenho</div>
       </div>
-      <h2 class="ios-title2">Simulado Concluído!</h2>
+      <h2 class="ios-title2">${resultMsg}</h2>
       <p class="ios-body" style="margin-bottom:24px; color: var(--ios-text-secondary);">Você acertou <strong>${score} de ${questions.length}</strong> questões</p>
       <div class="btn-group">
-        <button class="btn ios-tappable" onclick="startQuiz()">↻ Reiniciar</button>
+        <button class="btn ios-tappable" onclick="location.reload()">🔄 Reiniciar</button>
         <button class="btn primary ios-tappable" onclick="renderHome()">🏠 Início</button>
       </div>
     </div>`;
