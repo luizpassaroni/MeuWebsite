@@ -798,7 +798,6 @@ function render() {
       ${isAns ? `<div class="feedback">${q.exp}</div>` : ''}
       <div class="control-bar">
         <button class="btn ios-tappable" onclick="prev()" ${current === 0 ? 'disabled' : ''}>← Anterior</button>
-        <span class="score-indicator">${score}/${current + (isAns ? 1 : 0)}</span>
         <button class="btn primary ios-tappable" onclick="next()" ${!isAns ? 'disabled' : ''}>${current === total - 1 ? '✓ Fim' : 'Próxima'} →</button>
       </div>
     </div>`;
