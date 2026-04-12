@@ -114,77 +114,79 @@ function getTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
+// GABARITO REMOVIDO DO FRONT-END!
+// Agora apenas os 'ids', 'perguntas' e 'opções' ficam aqui.
 const rawQuestions = [
-  { q: "Qual é a função de um ACK?", opts: ["Confirmar o recebimento de dados","Solicitar retransmissão imediata","Iniciar uma conexão TCP","Encapsular dados na camada de rede"], ans: "Confirmar o recebimento de dados", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>ACK confirma que os dados foram recebidos corretamente.</span></div>` },
-  { q: "O que é encapsulamento em redes?", opts: ["Compressão de dados","Adição de cabeçalhos em cada camada do modelo","Criptografia de pacotes","Fragmentação de pacotes"], ans: "Adição de cabeçalhos em cada camada do modelo", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>O encapsulamento adiciona cabeçalhos em cada camada do modelo.</span></div>` },
-  { q: "Qual é a principal limitação do protocolo UDP?", opts: ["Velocidade baixa","Não garante a entrega dos dados","Não suporta multicast","Consome muita CPU"], ans: "Não garante a entrega dos dados", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>UDP é um protocolo best-effort, sem confirmação de entrega.</span></div>` },
-  { q: "Qual técnica retransmite apenas os pacotes com erro?", opts: ["Go-Back-N","Stop-and-Wait","Repetição Seletiva","Janela simples"], ans: "Repetição Seletiva", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Na Repetição Seletiva, apenas os pacotes com erro são retransmitidos.</span></div>` },
-  { q: "O que é um sniffer em redes?", opts: ["Um firewall","Um roteador","Ferramenta que captura e analisa pacotes","Um servidor DNS"], ans: "Ferramenta que captura e analisa pacotes", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Sniffer monitora e captura tráfego de rede passivamente.</span></div>` },
-  { q: "DNS utiliza TCP ou UDP?", opts: ["Apenas TCP","Apenas UDP","Principalmente UDP; TCP para zonas","Nenhum dos dois"], ans: "Principalmente UDP; TCP para zonas", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>DNS usa UDP para consultas e TCP para transferências.</span></div>` },
-  { q: "O que é controle de fluxo?", opts: ["Velocidade do roteador","Evita sobrecarregar o receptor","Filtra pacotes","Balanceia carga"], ans: "Evita sobrecarregar o receptor", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Controle de fluxo regula a taxa de envio.</span></div>` },
-  { q: "Qual a função principal da janela deslizante?", opts: ["Fragmentar","Controlar fluxo e permitir múltiplos frames","Criptografar","Resolver nomes"], ans: "Controlar fluxo e permitir múltiplos frames", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Janela deslizante permite múltiplos frames simultâneos.</span></div>` },
-  { q: "O que são sistemas finais (hosts)?", opts: ["Roteadores","Dispositivos que executam aplicações na borda","Servidores DNS","Switches de datacenter"], ans: "Dispositivos que executam aplicações na borda", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Hosts são dispositivos que executam aplicações.</span></div>` },
-  { q: "Qual é a função do DNS?", opts: ["Rotear pacotes","Traduzir nomes em IPs","Controlar acesso","Gerenciar MAC"], ans: "Traduzir nomes em IPs", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>DNS traduz nomes legíveis em endereços IP.</span></div>` },
-  { q: "Qual a função de um temporizador em protocolos?", opts: ["Sincronizar relógios","Detectar perda e acionar retransmissão","Controlar velocidade","Autenticar conexões"], ans: "Detectar perda e acionar retransmissão", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Timeout dispara retransmissão se ACK não chega.</span></div>` },
-  { q: "O DNS traduz nomes em quê?", opts: ["Endereços MAC","Nomes de arquivos","Endereços IP","Portas"], ans: "Endereços IP", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>DNS converte nomes em IPs numéricos.</span></div>` },
-  { q: "Qual protocolo utiliza janela deslizante?", opts: ["UDP","ICMP","TCP","ARP"], ans: "TCP", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>TCP usa janela deslizante para controle de fluxo.</span></div>` },
-  { q: "Qual mecanismo evita sobrecarga no receptor?", opts: ["Controle de congestionamento","Controle de fluxo","Roteamento dinâmico","DNS em cache"], ans: "Controle de fluxo", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Controle de fluxo protege o receptor.</span></div>` },
-  { q: "Qual a principal diferença entre Go-Back-N e Repetição Seletiva?", opts: ["UDP vs TCP","GBN retransmite todos; RS só os com erro","Sem diferença","GBN é mais eficiente"], ans: "GBN retransmite todos; RS só os com erro", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>GBN: todos a partir do erro. RS: apenas os perdidos.</span></div>` },
-  { q: "Um sniffer altera os pacotes capturados?", opts: ["Sim","Depende","Não, opera passivamente","Sim, adiciona tags"], ans: "Não, opera passivamente", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Sniffer é passivo, não modifica dados.</span></div>` },
-  { q: "Qual técnica retransmite TODOS os pacotes após erro?", opts: ["Repetição Seletiva","Stop-and-Wait","Go-Back-N","Fast Retransmit"], ans: "Go-Back-N", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>GBN retransmite o erro e subsequentes.</span></div>` },
-  { q: "Qual porta o DNS utiliza?", opts: ["80","443","53","25"], ans: "53", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>DNS usa porta 53 (UDP e TCP).</span></div>` },
-  { q: "Qual é a ordem correta do encapsulamento?", opts: ["Dados → Segmento → Pacote → Frame → Bits","Bits → Frame → Pacote","Frame → Pacote","Pacote → Segmento"], ans: "Dados → Segmento → Pacote → Frame → Bits", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Ordem: de cima para baixo (Aplicação → Física).</span></div>` },
-  { q: "Qual porta o FTP utiliza para controle?", opts: ["20","21","22","25"], ans: "21", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>FTP: porta 21 (controle), 20 (dados).</span></div>` },
-  { q: "Em qual camada ocorre o encapsulamento TCP?", opts: ["Aplicação","Internet","Transporte","Enlace"], ans: "Transporte", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>TCP opera na Camada de Transporte.</span></div>` },
-  { q: "O que indica o número de sequência no TCP?", opts: ["Prioridade","Posição do primeiro byte","IP destino","Tamanho total"], ans: "Posição do primeiro byte", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Seq identifica posição no fluxo de dados.</span></div>` },
-  { q: "Quantas camadas possui o modelo TCP/IP?", opts: ["3","4","5","7"], ans: "4", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>TCP/IP tem 4 camadas (Aplicação, Transporte, Internet, Acesso).</span></div>` },
-  { q: "UDP garante entrega dos dados?", opts: ["Sim","Não, é best-effort","Sim em LAN","Depende do socket"], ans: "Não, é best-effort", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>UDP não garante entrega, confirmação ou ordem.</span></div>` },
-  { q: "Cite um exemplo de nome de domínio.", opts: ["192.168.0.1","www.google.com","FF:FF:FF:FF","255.255.255.0"], ans: "www.google.com", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>www.google.com é um FQDN válido.</span></div>` },
-  { q: "TCP é orientado à conexão?", opts: ["Não","Sim","Só no Wi-Fi","Apenas no Linux"], ans: "Sim", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>TCP estabelece conexão antes de transmitir.</span></div>` },
-  { q: "No Modelo OSI, qual camada lida com criptografia?", opts: ["Sessão","Apresentação","Rede","Física"], ans: "Apresentação", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Camada 6 (Apresentação) cuida de criptografia.</span></div>` },
-  { q: "O protocolo SMTP é usado para:", opts: ["Receber correio","Enviar correio","Acesso web","Roteamento"], ans: "Enviar correio", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>SMTP envia e-mails (POP3/IMAP recebem).</span></div>` },
-  { q: "Qual a função do 'Handshake de 3 vias'?", opts: ["Fechar","Abrir conexão TCP","Enviar ACKs","Calcular timeout"], ans: "Abrir conexão TCP", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>SYN, SYN-ACK, ACK estabelecem conexão.</span></div>` },
-  { q: "O que é Piggybacking?", opts: ["Vírus","Enviar ACKs com dados","Compressão","Erro"], ans: "Enviar ACKs com dados", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>ACK enviado no pacote de resposta (otimização).</span></div>` },
-  { q: "O protocolo IP garante entrega?", opts: ["Sim","Não","Só IPv6","Apenas fibra"], ans: "Não", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>IP é best-effort, sem garantias.</span></div>` },
-  { q: "A camada de Rede lida com:", opts: ["Bits","Frames","Pacotes/Datagramas","Segmentos"], ans: "Pacotes/Datagramas", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Camada 3: Pacotes/Datagramas.</span></div>` },
-  { q: "Qual porta o HTTP usa por padrão?", opts: ["21","25","80","443"], ans: "80", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>HTTP: 80 (HTTPS: 443).</span></div>` },
-  { q: "Para que serve o comando Traceroute?", opts: ["Ver IP","Ver caminho/saltos até destino","Testar DNS","Ver MAC"], ans: "Ver caminho/saltos até destino", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Traceroute lista roteadores no caminho.</span></div>` },
-  { q: "O que é um Cookie?", opts: ["Software","Arquivo para manter estado","Vírus","Badge"], ans: "Arquivo para manter estado", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Cookies mantêm sessão no HTTP.</span></div>` },
-  { q: "Qual camada OSI faz o diálogo (sessão)?", opts: ["Rede","Sessão","Transporte","Física"], ans: "Sessão", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Camada 5: Sessão (gerencia diálogos).</span></div>` },
-  { q: "O que é RTT?", opts: ["Velocidade","Tempo de ida e volta","Porta","Handshake"], ans: "Tempo de ida e volta", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Round Trip Time: tempo total ida + volta.</span></div>` },
-  { q: "Qual a função do Checksum?", opts: ["Acelerar","Detectar erros","Criptografar","Rotear"], ans: "Detectar erros", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Checksum detecta erros de transmissão.</span></div>` },
-  { q: "O termo Full-Duplex significa:", opts: ["Um sentido","Ambos sentidos simultâneos","Revezamento","Sem fio"], ans: "Ambos sentidos simultâneos", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Full-Duplex: transmissão bidirecional simultânea.</span></div>` },
-  { q: "O que é Gateway Padrão?", opts: ["Um IP","A saída da rede local","Um switch","Um cabo"], ans: "A saída da rede local", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Gateway: roteador para fora da LAN.</span></div>` },
-  { q: "DHCP serve para:", opts: ["Traduzir nomes","Gerar IPs automaticamente","Segurança","Wi-Fi"], ans: "Gerar IPs automaticamente", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>DHCP atribui IPs dinamicamente.</span></div>` },
-  { q: "Qual camada cuida do acesso ao meio físico?", opts: ["Rede","Aplicação","Enlace","Transporte"], ans: "Enlace", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Camada 2: Enlace (controla acesso ao meio).</span></div>` },
-  { q: "O que é um Datagrama?", opts: ["Unidade TCP","Unidade UDP/IP","Cabo","Sinal"], ans: "Unidade UDP/IP", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Datagrama: unidade de dados sem conexão.</span></div>` },
-  { q: "Porta do SSH?", opts: ["21","22","23","25"], ans: "22", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>SSH (Secure Shell) usa porta 22.</span></div>` },
-  { q: "Qual camada une Física e Enlace no TCP/IP?", opts: ["Aplicação","Transporte","Acesso à Rede","Internet"], ans: "Acesso à Rede", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Camada base do TCP/IP (Física + Enlace).</span></div>` },
-  { q: "O que é MSS?", opts: ["Velocidade","Tamanho máximo do segmento","ID do pacote","IP"], ans: "Tamanho máximo do segmento", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>MSS: Maximum Segment Size (típico: 1460 bytes).</span></div>` },
-  { q: "Confirmação cumulativa significa:", opts: ["ACK confirma até aquele byte","Vários ACKs","Confirmar duplicatas","Sem ACK"], ans: "ACK confirma até aquele byte", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Um ACK confirma todo o fluxo contínuo.</span></div>` },
-  { q: "O que é multiplexação?", opts: ["Vários cabos","Várias apps na rede","Aumento de sinal","Segurança"], ans: "Várias apps na rede", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Múltiplas aplicações usam a rede via portas.</span></div>` },
-  { q: "Qual protocolo é usado pelo Ping?", opts: ["TCP","UDP","ICMP","ARP"], ans: "ICMP", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Ping usa ICMP (echo request/reply).</span></div>` },
-  { q: "O que é Spooling?", opts: ["Criptografia","Fila de tarefas","Backup","Vídeo"], ans: "Fila de tarefas", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Spooling: buffer de fila (ex: impressora).</span></div>` },
-  { q: "Camada OSI responsável pelo endereçamento lógico (IP)?", opts: ["Física","Enlace","Rede","Sessão"], ans: "Rede", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Camada 3 (Rede): endereçamento IP.</span></div>` },
-  { q: "O modelo P2P depende de servidor fixo?", opts: ["Sim","Não","Só Wi-Fi","Sempre"], ans: "Não", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>P2P: comunicação direta entre nós.</span></div>` },
-  { q: "Flags TCP RST serve para:", opts: ["Iniciar","Resetar conexão","Confirmar","Finalizar"], ans: "Resetar conexão", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>RST: aborta/rejeita conexão.</span></div>` },
-  { q: "Qual a função do IMAP?", opts: ["Mandar e-mail","Sincronizar e-mail no servidor","Rotear","DNS"], ans: "Sincronizar e-mail no servidor", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>IMAP: acessa e-mails no servidor.</span></div>` },
-  { q: "Porta do HTTPS?", opts: ["80","110","443","53"], ans: "443", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>HTTPS: porta 443 (HTTP seguro).</span></div>` },
-  { q: "O que é Janela de Recepção?", opts: ["Velocidade","Espaço livre no buffer","ID do usuário","Tipo de cabo"], ans: "Espaço livre no buffer", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Window Size: controla fluxo no TCP.</span></div>` },
-  { q: "O termo 'Best-Effort' aplica-se a:", opts: ["TCP","IP e UDP","Fibra","IPv6"], ans: "IP e UDP", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Best-Effort: sem garantia de entrega.</span></div>` },
-  { q: "No modelo OSI, a Camada 1 é a:", opts: ["Aplicação","Rede","Física","Transporte"], ans: "Física", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Camada 1: Física (bits, cabos, sinais).</span></div>` },
-  { q: "Qual porta o Telnet usa?", opts: ["21","22","23","25"], ans: "23", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Telnet: 23 (SSH: 22 é mais seguro).</span></div>` },
-  { q: "O que é o Timeout no TCP?", opts: ["Fim da net","Atraso que gera retransmissão","Senha","Backup"], ans: "Atraso que gera retransmissão", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Timeout: dispara retransmissão se ACK não chega.</span></div>` },
-  { q: "Qual é a porta padrão do POP3?", opts: ["25","110","143","465"], ans: "110", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>POP3 usa porta 110.</span></div>` },
-  { q: "O que é SSL/TLS?", opts: ["Um firewall","Protocolo de criptografia para comunicação segura","Um roteador","Tipo de cabo"], ans: "Protocolo de criptografia para comunicação segura", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>SSL/TLS encripta dados em trânsito.</span></div>` },
-  { q: "Qual é o endereço broadcast em uma rede 192.168.1.0/24?", opts: ["192.168.1.0","192.168.1.1","192.168.1.254","192.168.1.255"], ans: "192.168.1.255", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Broadcast é o último endereço da sub-rede.</span></div>` },
-  { q: "O que é NAT (Network Address Translation)?", opts: ["Traduz nomes de domínio","Traduz endereços IP privados em públicos","Rota pacotes","Controla fluxo"], ans: "Traduz endereços IP privados em públicos", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>NAT permite IPs privados acessarem a internet com um IP público.</span></div>` },
-  { q: "Qual é a função do protocolo ARP?", opts: ["Rotear pacotes","Mapear IPs em endereços MAC","Encriptar dados","Sincronizar relógios"], ans: "Mapear IPs em endereços MAC", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>ARP descobre o MAC address correspondente a um IP.</span></div>` },
-  { q: "O que é VPN?", opts: ["Uma rede local","Rede privada virtual que encripta tráfego","Um antivírus","Um backup"], ans: "Rede privada virtual que encripta tráfego", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>VPN cria um túnel seguro e encriptado.</span></div>` },
-  { q: "Qual protocolo usa porta 389?", opts: ["SMTP","LDAP","SSH","DNS"], ans: "LDAP", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>LDAP usa porta 389 para diretórios de rede.</span></div>` },
-  { q: "O que é QoS (Quality of Service)?", opts: ["Um tipo de firewall","Mecanismo para garantir qualidade e prioridade de tráfego","Um cable coaxial","Um servidor DNS"], ans: "Mecanismo para garantir qualidade e prioridade de tráfego", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>QoS prioriza certos tipos de tráfego para melhor experiência.</span></div>` },
-  { q: "Qual é a função do protocolo ICMP?", opts: ["Transferir arquivos","Enviar mensagens de controle e erro na rede","Resolver nomes","Gerenciar sessões"], ans: "Enviar mensagens de controle e erro na rede", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>ICMP é usado por ping e traceroute para diagnóstico.</span></div>` },
-  { q: "O que é Load Balancing?", opts: ["Compressão de dados","Distribuir carga entre múltiplos servidores","Criptografia","Roteamento"], ans: "Distribuir carga entre múltiplos servidores", exp: `<div class="feedback-section"><span class="feedback-label">📌 Explicação:</span><span>Load Balancing distribui requisições para evitar sobrecarga.</span></div>` }
+  { id: 1, q: "Qual é a função de um ACK?", opts: ["Confirmar o recebimento de dados","Solicitar retransmissão imediata","Iniciar uma conexão TCP","Encapsular dados na camada de rede"] },
+  { id: 2, q: "O que é encapsulamento em redes?", opts: ["Compressão de dados","Adição de cabeçalhos em cada camada do modelo","Criptografia de pacotes","Fragmentação de pacotes"] },
+  { id: 3, q: "Qual é a principal limitação do protocolo UDP?", opts: ["Velocidade baixa","Não garante a entrega dos dados","Não suporta multicast","Consome muita CPU"] },
+  { id: 4, q: "Qual técnica retransmite apenas os pacotes com erro?", opts: ["Go-Back-N","Stop-and-Wait","Repetição Seletiva","Janela simples"] },
+  { id: 5, q: "O que é um sniffer em redes?", opts: ["Um firewall","Um roteador","Ferramenta que captura e analisa pacotes","Um servidor DNS"] },
+  { id: 6, q: "DNS utiliza TCP ou UDP?", opts: ["Apenas TCP","Apenas UDP","Principalmente UDP; TCP para zonas","Nenhum dos dois"] },
+  { id: 7, q: "O que é controle de fluxo?", opts: ["Velocidade do roteador","Evita sobrecarregar o receptor","Filtra pacotes","Balanceia carga"] },
+  { id: 8, q: "Qual a função principal da janela deslizante?", opts: ["Fragmentar","Controlar fluxo e permitir múltiplos frames","Criptografar","Resolver nomes"] },
+  { id: 9, q: "O que são sistemas finais (hosts)?", opts: ["Roteadores","Dispositivos que executam aplicações na borda","Servidores DNS","Switches de datacenter"] },
+  { id: 10, q: "Qual é a função do DNS?", opts: ["Rotear pacotes","Traduzir nomes em IPs","Controlar acesso","Gerenciar MAC"] },
+  { id: 11, q: "Qual a função de um temporizador em protocolos?", opts: ["Sincronizar relógios","Detectar perda e acionar retransmissão","Controlar velocidade","Autenticar conexões"] },
+  { id: 12, q: "O DNS traduz nomes em quê?", opts: ["Endereços MAC","Nomes de arquivos","Endereços IP","Portas"] },
+  { id: 13, q: "Qual protocolo utiliza janela deslizante?", opts: ["UDP","ICMP","TCP","ARP"] },
+  { id: 14, q: "Qual mecanismo evita sobrecarga no receptor?", opts: ["Controle de congestionamento","Controle de fluxo","Roteamento dinâmico","DNS em cache"] },
+  { id: 15, q: "Qual a principal diferença entre Go-Back-N e Repetição Seletiva?", opts: ["UDP vs TCP","GBN retransmite todos; RS só os com erro","Sem diferença","GBN é mais eficiente"] },
+  { id: 16, q: "Um sniffer altera os pacotes capturados?", opts: ["Sim","Depende","Não, opera passivamente","Sim, adiciona tags"] },
+  { id: 17, q: "Qual técnica retransmite TODOS os pacotes após erro?", opts: ["Repetição Seletiva","Stop-and-Wait","Go-Back-N","Fast Retransmit"] },
+  { id: 18, q: "Qual porta o DNS utiliza?", opts: ["80","443","53","25"] },
+  { id: 19, q: "Qual é a ordem correta do encapsulamento?", opts: ["Dados → Segmento → Pacote → Frame → Bits","Bits → Frame → Pacote","Frame → Pacote","Pacote → Segmento"] },
+  { id: 20, q: "Qual porta o FTP utiliza para controle?", opts: ["20","21","22","25"] },
+  { id: 21, q: "Em qual camada ocorre o encapsulamento TCP?", opts: ["Aplicação","Internet","Transporte","Enlace"] },
+  { id: 22, q: "O que indica o número de sequência no TCP?", opts: ["Prioridade","Posição do primeiro byte","IP destino","Tamanho total"] },
+  { id: 23, q: "Quantas camadas possui o modelo TCP/IP?", opts: ["3","4","5","7"] },
+  { id: 24, q: "UDP garante entrega dos dados?", opts: ["Sim","Não, é best-effort","Sim em LAN","Depende do socket"] },
+  { id: 25, q: "Cite um exemplo de nome de domínio.", opts: ["192.168.0.1","www.google.com","FF:FF:FF:FF","255.255.255.0"] },
+  { id: 26, q: "TCP é orientado à conexão?", opts: ["Não","Sim","Só no Wi-Fi","Apenas no Linux"] },
+  { id: 27, q: "No Modelo OSI, qual camada lida com criptografia?", opts: ["Sessão","Apresentação","Rede","Física"] },
+  { id: 28, q: "O protocolo SMTP é usado para:", opts: ["Receber correio","Enviar correio","Acesso web","Roteamento"] },
+  { id: 29, q: "Qual a função do 'Handshake de 3 vias'?", opts: ["Fechar","Abrir conexão TCP","Enviar ACKs","Calcular timeout"] },
+  { id: 30, q: "O que é Piggybacking?", opts: ["Vírus","Enviar ACKs com dados","Compressão","Erro"] },
+  { id: 31, q: "O protocolo IP garante entrega?", opts: ["Sim","Não","Só IPv6","Apenas fibra"] },
+  { id: 32, q: "A camada de Rede lida com:", opts: ["Bits","Frames","Pacotes/Datagramas","Segmentos"] },
+  { id: 33, q: "Qual porta o HTTP usa por padrão?", opts: ["21","25","80","443"] },
+  { id: 34, q: "Para que serve o comando Traceroute?", opts: ["Ver IP","Ver caminho/saltos até destino","Testar DNS","Ver MAC"] },
+  { id: 35, q: "O que é um Cookie?", opts: ["Software","Arquivo para manter estado","Vírus","Badge"] },
+  { id: 36, q: "Qual camada OSI faz o diálogo (sessão)?", opts: ["Rede","Sessão","Transporte","Física"] },
+  { id: 37, q: "O que é RTT?", opts: ["Velocidade","Tempo de ida e volta","Porta","Handshake"] },
+  { id: 38, q: "Qual a função do Checksum?", opts: ["Acelerar","Detectar erros","Criptografar","Rotear"] },
+  { id: 39, q: "O termo Full-Duplex significa:", opts: ["Um sentido","Ambos sentidos simultâneos","Revezamento","Sem fio"] },
+  { id: 40, q: "O que é Gateway Padrão?", opts: ["Um IP","A saída da rede local","Um switch","Um cabo"] },
+  { id: 41, q: "DHCP serve para:", opts: ["Traduzir nomes","Gerar IPs automaticamente","Segurança","Wi-Fi"] },
+  { id: 42, q: "Qual camada cuida do acesso ao meio físico?", opts: ["Rede","Aplicação","Enlace","Transporte"] },
+  { id: 43, q: "O que é um Datagrama?", opts: ["Unidade TCP","Unidade UDP/IP","Cabo","Sinal"] },
+  { id: 44, q: "Porta do SSH?", opts: ["21","22","23","25"] },
+  { id: 45, q: "Qual camada une Física e Enlace no TCP/IP?", opts: ["Aplicação","Transporte","Acesso à Rede","Internet"] },
+  { id: 46, q: "O que é MSS?", opts: ["Velocidade","Tamanho máximo do segmento","ID do pacote","IP"] },
+  { id: 47, q: "Confirmação cumulativa significa:", opts: ["ACK confirma até aquele byte","Vários ACKs","Confirmar duplicatas","Sem ACK"] },
+  { id: 48, q: "O que é multiplexação?", opts: ["Vários cabos","Várias apps na rede","Aumento de sinal","Segurança"] },
+  { id: 49, q: "Qual protocolo é usado pelo Ping?", opts: ["TCP","UDP","ICMP","ARP"] },
+  { id: 50, q: "O que é Spooling?", opts: ["Criptografia","Fila de tarefas","Backup","Vídeo"] },
+  { id: 51, q: "Camada OSI responsável pelo endereçamento lógico (IP)?", opts: ["Física","Enlace","Rede","Sessão"] },
+  { id: 52, q: "O modelo P2P depende de servidor fixo?", opts: ["Sim","Não","Só Wi-Fi","Sempre"] },
+  { id: 53, q: "Flags TCP RST serve para:", opts: ["Iniciar","Resetar conexão","Confirmar","Finalizar"] },
+  { id: 54, q: "Qual a função do IMAP?", opts: ["Mandar e-mail","Sincronizar e-mail no servidor","Rotear","DNS"] },
+  { id: 55, q: "Porta do HTTPS?", opts: ["80","110","443","53"] },
+  { id: 56, q: "O que é Janela de Recepção?", opts: ["Velocidade","Espaço livre no buffer","ID do usuário","Tipo de cabo"] },
+  { id: 57, q: "O termo 'Best-Effort' aplica-se a:", opts: ["TCP","IP e UDP","Fibra","IPv6"] },
+  { id: 58, q: "No modelo OSI, a Camada 1 é a:", opts: ["Aplicação","Rede","Física","Transporte"] },
+  { id: 59, q: "Qual porta o Telnet usa?", opts: ["21","22","23","25"] },
+  { id: 60, q: "O que é o Timeout no TCP?", opts: ["Fim da net","Atraso que gera retransmissão","Senha","Backup"] },
+  { id: 61, q: "Qual é a porta padrão do POP3?", opts: ["25","110","143","465"] },
+  { id: 62, q: "O que é SSL/TLS?", opts: ["Um firewall","Protocolo de criptografia para comunicação segura","Um roteador","Tipo de cabo"] },
+  { id: 63, q: "Qual é o endereço broadcast em uma rede 192.168.1.0/24?", opts: ["192.168.1.0","192.168.1.1","192.168.1.254","192.168.1.255"] },
+  { id: 64, q: "O que é NAT (Network Address Translation)?", opts: ["Traduz nomes de domínio","Traduz endereços IP privados em públicos","Rota pacotes","Controla fluxo"] },
+  { id: 65, q: "Qual é a função do protocolo ARP?", opts: ["Rotear pacotes","Mapear IPs em endereços MAC","Encriptar dados","Sincronizar relógios"] },
+  { id: 66, q: "O que é VPN?", opts: ["Uma rede local","Rede privada virtual que encripta tráfego","Um antivírus","Um backup"] },
+  { id: 67, q: "Qual protocolo usa porta 389?", opts: ["SMTP","LDAP","SSH","DNS"] },
+  { id: 68, q: "O que é QoS (Quality of Service)?", opts: ["Um tipo de firewall","Mecanismo para garantir qualidade e prioridade de tráfego","Um cable coaxial","Um servidor DNS"] },
+  { id: 69, q: "Qual é a função do protocolo ICMP?", opts: ["Transferir arquivos","Enviar mensagens de controle e erro na rede","Resolver nomes","Gerenciar sessões"] },
+  { id: 70, q: "O que é Load Balancing?", opts: ["Compressão de dados","Distribuir carga entre múltiplos servidores","Criptografia","Roteamento"] }
 ];
 
 let questions=[], current=0, score=0, answered=[], started=false;
@@ -224,6 +226,8 @@ function renderPasswordScreen(){
       <p id="success-msg" class="success-msg">✅ Validando...</p>
     </div>`;
 }
+
+// ATUALIZAÇÃO 1: Requisição de senha vai para /login
 async function checkPass(){
   if(!captchaToken){document.getElementById('captcha-error').style.display='block';return;}
   const password=document.getElementById('pass-input').value;
@@ -233,7 +237,11 @@ async function checkPass(){
   document.getElementById('success-msg').style.display='block';
   document.getElementById('error-msg').style.display='none';
   try{
-    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:captchaToken,password})});
+    const res=await fetch(WORKER_URL + '/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token:captchaToken,password})
+    });
     const data=await res.json();
     if(data.success&&data.session){
       sessionToken=data.session;
@@ -250,6 +258,7 @@ async function checkPass(){
     setTimeout(()=>document.getElementById('lock-screen').classList.remove('shake'),400);
   }
 }
+
 function renderHome(){
   captchaToken=null;
   document.getElementById('quiz-header').style.display='block';
@@ -274,6 +283,7 @@ function renderHome(){
       <button class="btn primary" onclick="startQuiz()">▶️ Iniciar Quiz</button>
     </div>`;
 }
+
 function startQuiz(){
   questions=shuffle([...rawQuestions]).map(q=>({...q,opts:shuffle([...q.opts])}));
   started=true;current=0;score=0;answered=[];
@@ -281,40 +291,98 @@ function startQuiz(){
   document.getElementById('progress-wrap').style.display='flex';
   updateStats();render();
 }
+
 function render(){
   const total=questions.length;
   document.getElementById('pbar').style.width=Math.round((current/total)*100)+'%';
   document.getElementById('plabel').textContent=current+' / '+total;
   updateStats();
+  
   if(current>=total){renderScore();return;}
+  
   const q=questions[current];
   const isAns=answered[current]!==undefined;
-  const chosen=answered[current];
+  const ansData=answered[current]; // Agora é um objeto vindo do servidor
+  
   const optsHtml=q.opts.map((o,i)=>{
     let cls='opt';
-    if(isAns){if(o===q.ans)cls+=' correct';else if(o===chosen)cls+=' wrong';}
+    if(isAns){
+      if(o === ansData.correctAnswer) cls+=' correct';
+      else if(o === ansData.selected) cls+=' wrong';
+    }
     return `<button class="${cls}" ${isAns?'disabled':''} onclick="choose('${o.replace(/'/g,"\\'")}')"><span class="letter">${LETTERS[i]}</span><span>${o}</span></button>`;
   }).join('');
+  
   document.getElementById('quiz-content').innerHTML=`
     <div class="q-card">
       <div class="q-num">QUESTÃO ${current+1} DE ${total}</div>
       <div class="q-text">${q.q}</div>
-      <div class="options">${optsHtml}</div>
-      ${isAns?`<div class="feedback">${q.exp}</div>`:''}
+      <div class="options" id="opts-container">${optsHtml}</div>
+      ${isAns?`<div class="feedback">${ansData.exp}</div>`:''}
       <div class="control-bar">
         <button class="btn" onclick="prev()" ${current===0?'disabled':''}>← Anterior</button>
         <button class="btn primary" onclick="next()" ${!isAns?'disabled':''} style="width:auto;">${current===total-1?'✓ Ver resultado':'Próxima →'}</button>
       </div>
     </div>`;
 }
-function choose(choice){
-  if(answered[current]!==undefined)return;
-  answered[current]=choice;
-  if(choice===questions[current].ans)score++;
-  render();
+
+// ATUALIZAÇÃO 2: choose() agora conversa com o servidor para corrigir a resposta
+async function choose(choice){
+  if(answered[current]!==undefined) return; // Evita clique duplo
+  
+  // Efeito de carregamento e desativa clique visualmente
+  const optsContainer = document.getElementById('opts-container');
+  if(optsContainer) {
+    optsContainer.style.opacity = '0.6';
+    optsContainer.style.pointerEvents = 'none';
+  }
+
+  try {
+    const res = await fetch(WORKER_URL + '/validar-resposta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        questionId: questions[current].id,
+        userAnswer: choice,
+        sessionToken: sessionToken
+      })
+    });
+    
+    const data = await res.json();
+
+    // Trata erro de token expirado
+    if(data.error) {
+      alert("⚠️ " + data.error);
+      sessionStorage.removeItem('quiz_session');
+      location.reload(); // Recarrega a página para logar de novo
+      return;
+    }
+
+    // Armazena a correção do servidor no array
+    answered[current] = {
+      selected: choice,
+      isCorrect: data.isCorrect,
+      correctAnswer: data.correctAnswer,
+      exp: data.explanation
+    };
+
+    if(data.isCorrect) score++;
+    
+    render(); // Redesenha a tela mostrando o certo, errado e explicação
+    
+  } catch(err) {
+    console.error(err);
+    alert("❌ Ocorreu um erro ao conectar com o servidor. Tente novamente.");
+    if(optsContainer) {
+      optsContainer.style.opacity = '1';
+      optsContainer.style.pointerEvents = 'auto';
+    }
+  }
 }
+
 function next(){current++;render();}
 function prev(){if(current>0){current--;render();}}
+
 function renderScore(){
   const pct=Math.round((score/questions.length)*100);
   const msg=pct>=80?'🎉 Excelente!':pct>=60?'👍 Bom trabalho!':'📚 Continue estudando!';
@@ -330,6 +398,7 @@ function renderScore(){
     </div>`;
   updateStats();
 }
+
 const saved=sessionStorage.getItem('quiz_session');
 if(saved){sessionToken=saved;renderHome();}else{renderPasswordScreen();}
 </script>
