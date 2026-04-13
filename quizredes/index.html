@@ -114,8 +114,6 @@ function getTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-// GABARITO REMOVIDO DO FRONT-END!
-// Agora apenas os 'ids', 'perguntas' e 'opções' ficam aqui.
 const rawQuestions = [
   { id: 1, q: "Qual é a função de um ACK?", opts: ["Confirmar o recebimento de dados","Solicitar retransmissão imediata","Iniciar uma conexão TCP","Encapsular dados na camada de rede"] },
   { id: 2, q: "O que é encapsulamento em redes?", opts: ["Compressão de dados","Adição de cabeçalhos em cada camada do modelo","Criptografia de pacotes","Fragmentação de pacotes"] },
@@ -227,7 +225,7 @@ function renderPasswordScreen(){
     </div>`;
 }
 
-// ATUALIZAÇÃO 1: Requisição de senha vai para /login
+// ATUALIZAÇÃO 1: Requisição de senha vai para /login e Zera hCaptcha se falhar
 async function checkPass(){
   if(!captchaToken){document.getElementById('captcha-error').style.display='block';return;}
   const password=document.getElementById('pass-input').value;
@@ -256,6 +254,12 @@ async function checkPass(){
     document.getElementById('error-msg').style.display='block';
     document.getElementById('lock-screen').classList.add('shake');
     setTimeout(()=>document.getElementById('lock-screen').classList.remove('shake'),400);
+    
+    // Zera o hCaptcha
+    captchaToken = null;
+    if (window.hcaptcha) {
+      hcaptcha.reset();
+    }
   }
 }
 
