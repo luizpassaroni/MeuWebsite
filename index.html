@@ -2,16 +2,19 @@
 <html lang="pt">
 
 <head>
-  <meta name="google-adsense-account" content="ca-pub-2699637004091628">
-  
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2699637004091628"
-      crossorigin="anonymous"></script>
-
-  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Luiz Passaroni - iOS Developer</title>
-  <meta name="description" content="Estudante de Ciência da Computação com foco em desenvolvimento iOS.">
+  <meta name="description" content="Estudante de Ciência da Computação com foco em desenvolvimento iOS. Conheça meu portfólio e projetos.">
+  <meta name="author" content="Luiz Passaroni">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Luiz Passaroni - iOS Developer">
+  <meta property="og:description" content="Desenvolvedor focado no ecossistema Apple e estudante de Ciência da Computação.">
+  <meta property="og:image" content="https://seusite.com/perfil.jpeg"> <meta name="google-adsense-account" content="ca-pub-2699637004091628">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2699637004091628" crossorigin="anonymous"></script>
+
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="color-scheme" content="light dark">
   <link rel="stylesheet" href="style.css">
   
@@ -68,7 +71,7 @@
     .ios-widget-glass {
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
       border-radius: 1.5rem !important;
       background: rgba(255, 255, 255, 0.7); 
       overflow: hidden;
@@ -77,7 +80,7 @@
     @media (prefers-color-scheme: dark) {
       .ios-widget-glass, .ios-lang-selector {
         background: rgba(28, 28, 30, 0.75) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
       }
       .ios-lang-selector option { background: #1c1c1e; color: white; }
     }
@@ -85,19 +88,11 @@
     .tech-box { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
     .tech-img { max-width: 42px; max-height: 42px; object-fit: contain; }
 
-    /* =============================================
-       TAB BAR — MOBILE ONLY
-    ============================================= */
-    .mobile-tab-bar {
-      display: none;
-    }
+    /* TAB BAR — MOBILE ONLY */
+    .mobile-tab-bar { display: none; }
 
     @media (max-width: 768px) {
-      /* Espaço para a tab bar não cobrir o conteúdo */
-      main {
-        padding-bottom: 100px !important;
-      }
-
+      main { padding-bottom: 100px !important; }
       .mobile-tab-bar {
         display: flex;
         position: fixed;
@@ -110,30 +105,22 @@
         border-radius: 32px;
         border: 0.5px solid rgba(255, 255, 255, 0.13);
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0,0,0,0.15);
-
-        /* Vidro escuro (default — dark mode e fallback) */
         background: rgba(28, 28, 32, 0.82);
         backdrop-filter: blur(28px) saturate(180%);
         -webkit-backdrop-filter: blur(28px) saturate(180%);
       }
     }
 
-    /* Light mode */
+    /* Light mode tab bar */
     @media (max-width: 768px) and (prefers-color-scheme: light) {
       .mobile-tab-bar {
         background: rgba(240, 240, 246, 0.88);
         border: 0.5px solid rgba(0, 0, 0, 0.09);
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0,0,0,0.08);
       }
-      .tab-btn:not(.tab-active) .tab-btn-icon svg {
-        stroke: rgba(0, 0, 0, 0.38);
-      }
-      .tab-btn:not(.tab-active) .tab-btn-label {
-        color: rgba(0, 0, 0, 0.38);
-      }
-      .tab-btn.tab-active {
-        background: rgba(0, 0, 0, 0.07);
-      }
+      .tab-btn:not(.tab-active) .tab-btn-icon svg { stroke: rgba(0, 0, 0, 0.38); }
+      .tab-btn:not(.tab-active) .tab-btn-label { color: rgba(0, 0, 0, 0.38); }
+      .tab-btn.tab-active { background: rgba(0, 0, 0, 0.07); }
     }
 
     .tab-btn {
@@ -148,62 +135,25 @@
       background: transparent;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.18s ease;
+      transition: background 0.18s ease, transform 0.1s ease;
       -webkit-tap-highlight-color: transparent;
       min-width: 54px;
     }
 
-    .tab-btn.tab-active {
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .tab-btn-icon {
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    .tab-btn.tab-active { background: rgba(255, 255, 255, 0.12); }
+    .tab-btn-icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
     .tab-btn-icon svg {
-      width: 21px;
-      height: 21px;
-      fill: none;
-      stroke-width: 1.75;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      width: 21px; height: 21px; fill: none;
+      stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
       transition: stroke 0.18s ease;
     }
 
-    .tab-btn:not(.tab-active) .tab-btn-icon svg {
-      stroke: rgba(255, 255, 255, 0.42);
-    }
-
-    .tab-btn.tab-active .tab-btn-icon svg {
-      stroke: #007AFF;
-    }
-
-    .tab-btn-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      transition: color 0.18s ease;
-      white-space: nowrap;
-    }
-
-    .tab-btn:not(.tab-active) .tab-btn-label {
-      color: rgba(255, 255, 255, 0.42);
-    }
-
-    .tab-btn.tab-active .tab-btn-label {
-      color: #007AFF;
-    }
-
-    /* Animação de toque */
-    .tab-btn:active {
-      transform: scale(0.93);
-      transition: transform 0.1s ease, background 0.18s ease;
-    }
+    .tab-btn:not(.tab-active) .tab-btn-icon svg { stroke: rgba(255, 255, 255, 0.42); }
+    .tab-btn.tab-active .tab-btn-icon svg { stroke: #007AFF; }
+    .tab-btn-label { font-size: 10px; font-weight: 600; transition: color 0.18s ease; white-space: nowrap; }
+    .tab-btn:not(.tab-active) .tab-btn-label { color: rgba(255, 255, 255, 0.42); }
+    .tab-btn.tab-active .tab-btn-label { color: #007AFF; }
+    .tab-btn:active { transform: scale(0.93); }
   </style>
 </head>
 
@@ -215,14 +165,13 @@
       <div class="ios-lang-wrapper">
         <div class="ios-lang-container">
           <svg class="lang-icon-prefix" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.806m10.022 5.806c-.832-2.314-2.122-4.522-3.827-5.806m1.102 11.5l2.29-6m2.29 6l-2.29-6m-6.404 0H9m-6.404 0H3m4.847 0a12.016 12.016 0 003.111-5H5.889a12.016 12.016 0 003.111 5z"/></svg>
-          <select id="langSelect" onchange="switchLanguage(this.value)" class="ios-lang-selector">
+          <select id="langSelect" onchange="switchLanguage(this.value)" class="ios-lang-selector" aria-label="Selecionar idioma">
             <option value="pt">🇧🇷 Português</option>
             <option value="en">🇺🇸 English</option>
           </select>
         </div>
       </div>
 
-      <!-- SEÇÃO: PERFIL -->
       <header id="sec-perfil" class="ios-widget-glass p-8 flex flex-col-reverse md:flex-row items-center gap-8 relative overflow-hidden">
         <div class="flex-1 space-y-4 text-center md:text-left relative z-10">
           <div>
@@ -233,19 +182,19 @@
             </p>
           </div>
           <div class="flex justify-center md:justify-start gap-5 pt-3">
-            <a href="mailto:aguiarpassaroni@gmail.com" class="ios-tappable flex flex-col items-center gap-1.5">
+            <a href="mailto:aguiarpassaroni@gmail.com" class="ios-tappable flex flex-col items-center gap-1.5" aria-label="Enviar e-mail">
               <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center ios-text-blue" style="box-shadow:0 1px 3px rgba(0,0,0,0.08);">
                 <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               </div>
               <span class="ios-caption2 ios-text-secondary" style="font-weight:500;" data-i18n="mail_label">E-mail</span>
             </a>
-            <a href="https://github.com/luizpassaroni" target="_blank" class="ios-tappable flex flex-col items-center gap-1.5">
+            <a href="https://github.com/luizpassaroni" target="_blank" class="ios-tappable flex flex-col items-center gap-1.5" aria-label="GitHub Profile">
               <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center" style="box-shadow:0 1px 3px rgba(0,0,0,0.08);color:var(--ios-text);">
                 <svg class="w-[22px] h-[22px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
               </div>
               <span class="ios-caption2 ios-text-secondary" style="font-weight:500;">GitHub</span>
             </a>
-            <a href="https://linkedin.com/in/luizpassaroni" target="_blank" class="ios-tappable flex flex-col items-center gap-1.5">
+            <a href="https://linkedin.com/in/luizpassaroni" target="_blank" class="ios-tappable flex flex-col items-center gap-1.5" aria-label="LinkedIn Profile">
               <div class="w-12 h-12 rounded-full bg-[var(--ios-card)] flex items-center justify-center" style="box-shadow:0 1px 3px rgba(0,0,0,0.08);color:#0A66C2;">
                 <svg class="w-[22px] h-[22px]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
               </div>
@@ -274,22 +223,21 @@
       <section class="space-y-4 pt-4">
         <h2 class="ios-section-label pl-4" data-i18n="tech_title">Tecnologias</h2>
         <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-y-8 gap-x-2 px-2">
-          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Swift</span></div>
-          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">SwiftUI</span></div>
-          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Figma</span></div>
-          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Git</span></div>
-          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://developer.apple.com/assets/elements/icons/xcode/xcode-128x128_2x.png" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Xcode</span></div>
-          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box" style="background:white;border-radius:10px;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" class="tech-img"></div><span class="ios-caption2" style="font-weight:500;">Photoshop</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" class="tech-img" alt="Swift"></div><span class="ios-caption2" style="font-weight:500;">Swift</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" class="tech-img" alt="SwiftUI"></div><span class="ios-caption2" style="font-weight:500;">SwiftUI</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" class="tech-img" alt="Figma"></div><span class="ios-caption2" style="font-weight:500;">Figma</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="tech-img" alt="Git"></div><span class="ios-caption2" style="font-weight:500;">Git</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box"><img src="https://developer.apple.com/assets/elements/icons/xcode/xcode-128x128_2x.png" class="tech-img" alt="Xcode"></div><span class="ios-caption2" style="font-weight:500;">Xcode</span></div>
+          <div class="ios-tappable flex flex-col items-center gap-1.5"><div class="tech-box" style="background:white;border-radius:10px;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" class="tech-img" alt="Photoshop"></div><span class="ios-caption2" style="font-weight:500;">Photoshop</span></div>
         </div>
       </section>
 
-      <!-- SEÇÃO: EXPERIÊNCIA -->
-      <section id="sec-exp" class="space-y-2">
+      <section id="sec-exp" class="space-y-2 section-obs">
         <h2 class="ios-section-label pl-4" data-i18n="exp_title">Experiência Profissional</h2>
         <div class="ios-widget-glass p-4">
           <div class="ios-timeline-item">
             <div class="ios-tl-left"><div class="ios-tl-dot ios-tl-dot-active"></div></div>
-            <div class="ios-tl-icon bg-white shrink-0"><img src="https://i.ibb.co/dsp2RhYJ/1767353113034.jpg" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div class="ios-tl-icon bg-white shrink-0"><img src="https://i.ibb.co/dsp2RhYJ/1767353113034.jpg" style="width:100%;height:100%;object-fit:contain;" alt="Globo Logo"></div>
             <div class="ios-tl-content">
               <div class="ios-tl-title">Globo</div>
               <div class="ios-tl-sub" data-i18n="job_role">Estagiário de Desenvolvimento iOS</div>
@@ -307,65 +255,28 @@
         <div class="ios-widget-glass">
           <div class="ios-timeline-item border-b border-white/10 p-4">
             <div class="ios-tl-left"><div class="ios-tl-dot ios-tl-dot-active"></div><div class="ios-tl-line"></div></div>
-            <div class="ios-tl-icon bg-white shrink-0"><img src="https://i.ibb.co/kVygQT11/images-1.png" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div class="ios-tl-icon bg-white shrink-0"><img src="https://i.ibb.co/kVygQT11/images-1.png" style="width:100%;height:100%;object-fit:cover;" alt="UVA Logo"></div>
             <div class="ios-tl-content"><div class="ios-tl-title">Universidade Veiga de Almeida</div><div class="ios-tl-sub" data-i18n="degree">Bacharelado em Ciência da Computação</div></div>
             <div class="ios-tl-right"><span class="ios-footnote ios-text-secondary">2024–2027</span><span class="ios-badge ios-badge-orange" data-i18n="ongoing">Em andamento</span></div>
           </div>
           <div class="ios-timeline-item border-b border-white/10 p-4">
             <div class="ios-tl-left"><div class="ios-tl-dot"></div><div class="ios-tl-line"></div></div>
-            <div class="ios-tl-icon bg-white"><img src="https://e4usa.org/sites/default/files/2023-08/rmhs-logo450x500.png" style="width:95%;height:95%;object-fit:contain;"></div>
+            <div class="ios-tl-icon bg-white"><img src="https://e4usa.org/sites/default/files/2023-08/rmhs-logo450x500.png" style="width:95%;height:95%;object-fit:contain;" alt="RMHS Logo"></div>
             <div class="ios-tl-content"><div class="ios-tl-title">Richard Montgomery HS</div><div class="ios-tl-sub" data-i18n="hs">Ensino Médio — Maryland, EUA</div></div>
             <div class="ios-tl-right"><span class="ios-footnote ios-text-secondary">2021–2023</span></div>
           </div>
           <div class="ios-timeline-item p-4">
             <div class="ios-tl-left"><div class="ios-tl-dot"></div></div>
-            <div class="ios-tl-icon bg-white"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Bras%C3%A3o_Col%C3%A9gio_Pedro_II.png" style="width:95%;height:95%;object-fit:contain;"></div>
+            <div class="ios-tl-icon bg-white"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Bras%C3%A3o_Col%C3%A9gio_Pedro_II.png" style="width:95%;height:95%;object-fit:contain;" alt="Pedro II Logo"></div>
             <div class="ios-tl-content"><div class="ios-tl-title">Colégio Pedro II</div><div class="ios-tl-sub" data-i18n="technical">Técnico em Dev. de Sistemas</div></div>
             <div class="ios-tl-right"><span class="ios-footnote ios-text-secondary">2019–2021</span></div>
           </div>
         </div>
       </section>
 
-      <section class="space-y-2">
-        <h2 class="ios-section-label pl-4" data-i18n="certs_title">Certificações & Cursos</h2>
-        <div class="ios-widget-glass">
-          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=montgomerycollege.edu&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Montgomery College</h3><p class="ios-footnote ios-text-secondary">iPhone/iPad Development with Swift</p></div><div class="pr-2"><span class="ios-badge ios-badge-blue">Apple</span></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Aprenda Flutter e Desenvolva Apps para Android e iOS</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=udemy.com&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Udemy</h3><p class="ios-footnote ios-text-secondary">Café com Figma — Design de Interfaces do Zero</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Entendendo a Linguagem</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=alura.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Alura</h3><p class="ios-footnote ios-text-secondary">Swift: Orientação a Objetos</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Fundação Bradesco</h3><p class="ios-footnote ios-text-secondary">Python - Básico</p></div></div>
-          <div class="flex items-center gap-3 p-3 border-b border-white/10"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=santander.com.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">Santander Open Academy</h3><p class="ios-footnote ios-text-secondary">Introdução à Programação com Python</p></div></div>
-          <div class="flex items-center gap-3 p-3"><div class="w-8 h-8 ios-app-icon bg-white shrink-0"><img src="https://www.google.com/s2/favicons?domain=puc-rio.br&sz=128" class="ios-icon-padded"></div><div class="flex-1"><h3 class="ios-subheadline">PUC-Rio</h3><p class="ios-footnote ios-text-secondary">WWDC-SSC Crash Challenge</p></div><div class="pr-2"><span class="ios-badge ios-badge-blue">Apple</span></div></div>
-        </div>
-      </section>
-
-      <section class="space-y-2">
-        <h2 class="ios-section-label pl-4" data-i18n="lang_title">Idiomas</h2>
-        <div class="ios-widget-glass p-5">
-          <div class="flex items-center pb-4 border-b border-white/10">
-            <div class="flag-app-icon bg-br">🇧🇷</div>
-            <div class="flex-1">
-              <h3 class="ios-headline">Português</h3>
-              <p class="ios-footnote ios-text-secondary" data-i18n="native">Língua nativa</p>
-            </div>
-            <span class="ios-badge ios-badge-green" style="margin-right:8px;" data-i18n="native_badge">Nativo</span>
-          </div>
-          <div class="flex items-center pt-4">
-            <div class="flag-app-icon bg-us">🇺🇸</div>
-            <div class="flex-1">
-              <h3 class="ios-headline" data-i18n="english">Inglês</h3>
-              <p class="ios-footnote ios-text-secondary" data-i18n="us_time">2 anos morando nos EUA — Maryland</p>
-            </div>
-            <span class="ios-badge ios-badge-blue" style="margin-right:8px;" data-i18n="advanced_badge">Avançado</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- SEÇÃO: PROJETOS -->
-      <section id="sec-projetos" class="space-y-2 pt-2">
+      <section id="sec-projetos" class="space-y-2 pt-2 section-obs">
         <h2 class="ios-section-label pl-4" data-i18n="project_title">Projeto em Destaque</h2>
-        <a href="https://github.com/luizpassaroni/FabTheQuiz" target="_blank" class="ios-tappable ios-hero-card">
+        <a href="https://github.com/luizpassaroni/FabTheQuiz" target="_blank" class="ios-tappable ios-hero-card" aria-label="Ver projeto FabTheQuiz no GitHub">
           <div class="ios-hero-bg"><div class="ios-hero-orb ios-hero-orb-1"></div><div class="ios-hero-orb ios-hero-orb-2"></div></div>
           <div class="ios-hero-content">
             <div class="ios-hero-title">FabTheQuiz</div>
@@ -378,12 +289,10 @@
         </a>
       </section>
 
-      <!-- SEÇÃO: DOWNLOADS -->
-      <section id="sec-downloads" class="space-y-2 pt-2 pb-4">
+      <section id="sec-downloads" class="space-y-2 pt-2 pb-4 section-obs">
         <h2 class="ios-section-label pl-4" data-i18n="downloads_title">Downloads</h2>
         <a href="downloads/" class="ios-tappable ios-widget-glass flex items-center gap-4 p-4" style="text-decoration:none; color:inherit; display:flex;">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-               style="background: linear-gradient(135deg, #007AFF, #34AADC);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #007AFF, #34AADC);">
             <svg width="22" height="22" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
               <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
@@ -401,55 +310,23 @@
     </section>
   </main>
 
-  <!-- =============================================
-       TAB BAR — MOBILE ONLY
-  ============================================= -->
   <nav class="mobile-tab-bar" aria-label="Navegação principal">
-
-    <!-- Perfil -->
-    <a href="#sec-perfil" class="tab-btn tab-active" onclick="setTab(this)" aria-label="Perfil">
-      <div class="tab-btn-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-          <path d="M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-        </svg>
-      </div>
+    <a href="#sec-perfil" class="tab-btn tab-active" data-tab="sec-perfil" aria-label="Perfil">
+      <div class="tab-btn-icon"><svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/><path d="M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
       <span class="tab-btn-label" data-i18n="tab_perfil">Perfil</span>
     </a>
-
-    <!-- Experiência -->
-    <a href="#sec-exp" class="tab-btn" onclick="setTab(this)" aria-label="Experiência">
-      <div class="tab-btn-icon">
-        <svg viewBox="0 0 24 24">
-          <rect x="2" y="7" width="20" height="14" rx="2"/>
-          <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
-          <line x1="12" y1="12" x2="12" y2="12.01" stroke-width="3"/>
-        </svg>
-      </div>
+    <a href="#sec-exp" class="tab-btn" data-tab="sec-exp" aria-label="Experiência">
+      <div class="tab-btn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01" stroke-width="3"/></svg></div>
       <span class="tab-btn-label" data-i18n="tab_exp">Exp.</span>
     </a>
-
-    <!-- Projetos -->
-    <a href="#sec-projetos" class="tab-btn" onclick="setTab(this)" aria-label="Projetos">
-      <div class="tab-btn-icon">
-        <svg viewBox="0 0 24 24">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>
-      </div>
+    <a href="#sec-projetos" class="tab-btn" data-tab="sec-projetos" aria-label="Projetos">
+      <div class="tab-btn-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
       <span class="tab-btn-label" data-i18n="tab_proj">Projetos</span>
     </a>
-
-    <!-- Downloads -->
-    <a href="#sec-downloads" class="tab-btn" onclick="setTab(this)" aria-label="Downloads">
-      <div class="tab-btn-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 10v6m0 0l-3-3m3 3l3-3"/>
-          <path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/>
-        </svg>
-      </div>
+    <a href="#sec-downloads" class="tab-btn" data-tab="sec-downloads" aria-label="Downloads">
+      <div class="tab-btn-icon"><svg viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3"/><path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/></svg></div>
       <span class="tab-btn-label" data-i18n="tab_dl">Downloads</span>
     </a>
-
   </nav>
 
   <script>
@@ -495,40 +372,53 @@
       localStorage.setItem('preferredLang', lang);
     }
 
+    /* ---- Haptic Feedback ---- */
+    function triggerHaptic() {
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(10); // Vibração curta de 10ms
+      }
+    }
+
+    /* ---- Intersection Observer (High Performance Scroll) ---- */
     document.addEventListener('DOMContentLoaded', function () {
+      // Idioma
       const systemLang = navigator.language.startsWith('en') ? 'en' : 'pt';
       const savedLang = localStorage.getItem('preferredLang') || systemLang;
       switchLanguage(savedLang);
-    });
 
-    /* ---- Tab Bar ---- */
-    function setTab(el) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
-      el.classList.add('tab-active');
-    }
-
-    /* Destaca o tab ativo conforme o scroll */
-    (function () {
-      const sections = [
-        { id: 'sec-perfil',    tab: 0 },
-        { id: 'sec-exp',       tab: 1 },
-        { id: 'sec-projetos',  tab: 2 },
-        { id: 'sec-downloads', tab: 3 },
-      ];
-
-      function onScroll() {
-        const scrollY = window.scrollY + window.innerHeight / 3;
-        let active = 0;
-        sections.forEach(({ id, tab }) => {
-          const el = document.getElementById(id);
-          if (el && el.offsetTop <= scrollY) active = tab;
+      // Tab Bar Haptics & Manual Click
+      const tabs = document.querySelectorAll('.tab-btn');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          triggerHaptic();
+          tabs.forEach(t => t.classList.remove('tab-active'));
+          tab.classList.add('tab-active');
         });
-        const tabs = document.querySelectorAll('.tab-btn');
-        tabs.forEach((t, i) => t.classList.toggle('tab-active', i === active));
-      }
+      });
 
-      window.addEventListener('scroll', onScroll, { passive: true });
-    })();
+      // Observer para as seções
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -70% 0px', // Ativa quando a seção está no topo
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            tabs.forEach(t => {
+              t.classList.toggle('tab-active', t.getAttribute('data-tab') === id);
+            });
+          }
+        });
+      }, observerOptions);
+
+      // Elementos a observar
+      document.querySelectorAll('header, section[id]').forEach(sec => {
+        observer.observe(sec);
+      });
+    });
   </script>
 </body>
 </html>
