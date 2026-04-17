@@ -1,254 +1,410 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quiz — Redes de Computadores</title>
-  <meta name="color-scheme" content="light dark">
-  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-  <style>
-    :root {
-      --ios-bg: #f2f2f7; --ios-card: #ffffff; --ios-text: #1c1c1e;
-      --ios-text-secondary: #6e6e73; --ios-blue: #007AFF; --ios-green: #34C759;
-      --ios-red: #FF3B30; --ios-purple: #AF52DE;
-      --ios-separator: rgba(0,0,0,0.08); --ios-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --ios-bg: #000000; --ios-card: #1c1c1e; --ios-text: #f2f2f7;
-        --ios-text-secondary: #8e8e93; --ios-separator: rgba(255,255,255,0.08);
-        --ios-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      }
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background: var(--ios-bg); color: var(--ios-text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-    main { flex: 1; display: flex; flex-direction: column; padding-top: 1rem; padding-bottom: 3rem; }
-    .container { margin: 0 auto; width: 100%; max-width: 720px; padding: 0 1.25rem; }
-    #quiz-header { text-align: center; margin-bottom: 0.5rem; }
-    .header-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--ios-blue); background: rgba(0,122,255,0.12); border: 1.5px solid rgba(0,122,255,0.2); border-radius: 20px; padding: 7px 14px; margin-bottom: 12px; }
-    #quiz-header h1 { font-size: 36px; font-weight: 800; margin-bottom: 4px; background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .ios-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-    .ios-stat-card { background: var(--ios-card); border-radius: 1.3rem; padding: 16px 12px; text-align: center; box-shadow: var(--ios-shadow); border: 1px solid var(--ios-separator); }
-    .ios-stat-icon { font-size: 28px; margin-bottom: 8px; }
-    .ios-stat-value { font-size: 24px; font-weight: 800; color: var(--ios-blue); }
-    .ios-stat-label { font-size: 11px; color: var(--ios-text-secondary); margin-top: 4px; text-transform: uppercase; font-weight: 600; }
-    .progress-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 14px 16px; background: var(--ios-card); border-radius: 1.2rem; box-shadow: var(--ios-shadow); border: 1px solid var(--ios-separator); }
-    .progress-track { flex: 1; height: 6px; background: var(--ios-separator); border-radius: 99px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), var(--ios-purple)); border-radius: 99px; transition: width 0.45s cubic-bezier(0.4,0,0.2,1); }
-    .progress-label { font-size: 13px; font-weight: 700; color: var(--ios-blue); white-space: nowrap; min-width: 55px; text-align: right; }
-    .q-card, .start-card, .score-card { background: var(--ios-card); border-radius: 1.5rem; padding: 24px; box-shadow: var(--ios-shadow); border: 1px solid var(--ios-separator); animation: fadeUp 0.3s ease both; }
-    .q-text { font-size: 20px; font-weight: 700; line-height: 1.6; color: var(--ios-text); margin-bottom: 22px; }
-    .options { display: flex; flex-direction: column; gap: 11px; margin-bottom: 20px; }
-    .opt { display: flex; align-items: flex-start; gap: 14px; padding: 16px; background: var(--ios-bg); border: 1.5px solid var(--ios-separator); border-radius: 16px; cursor: pointer; font-size: 16px; color: var(--ios-text); text-align: left; transition: all 0.15s; width: 100%; }
-    .opt:not(:disabled):hover { border-color: var(--ios-blue); background: rgba(0,122,255,0.04); transform: translateX(2px); }
-    .opt .letter { font-size: 13px; font-weight: 800; min-width: 28px; height: 28px; border-radius: 10px; background: var(--ios-separator); color: var(--ios-text-secondary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .opt.correct { border-color: var(--ios-green); background: rgba(52,199,89,0.1); }
-    .opt.correct .letter { background: var(--ios-green); color: #fff; }
-    .opt.wrong { border-color: var(--ios-red); background: rgba(255,59,48,0.1); }
-    .opt.wrong .letter { background: var(--ios-red); color: #fff; }
-    .feedback { background: rgba(0,122,255,0.08); border-left: 4px solid var(--ios-blue); border-radius: 12px; padding: 16px; font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: var(--ios-text); }
-    .btn { font-family: inherit; font-size: 16px; font-weight: 700; padding: 12px 20px; border-radius: 14px; border: 1.5px solid var(--ios-separator); background: transparent; color: var(--ios-text-secondary); cursor: pointer; transition: all 0.15s; }
-    .btn.primary { background: var(--ios-blue); border-color: var(--ios-blue); color: #fff; width: 100%; padding: 14px; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .control-bar { display: flex; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--ios-separator); }
-    .ios-input { width: 100%; padding: 16px; border-radius: 16px; border: 1.5px solid var(--ios-separator); background: var(--ios-bg); color: var(--ios-text); font-size: 18px; text-align: center; margin-bottom: 16px; outline: none; }
-    .captcha-wrapper { display: flex; justify-content: center; margin: 20px 0; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-    .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 1000; display: none; }
-    .spinner { width: 30px; height: 30px; border: 3px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz — Redes de Computadores</title>
+  <meta name="color-scheme" content="light dark">
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+  <style>
+    :root {
+      --ios-bg: #f2f2f7; --ios-card: #ffffff; --ios-text: #1c1c1e;
+      --ios-text-secondary: #6e6e73; --ios-blue: #007AFF; --ios-green: #34C759;
+      --ios-red: #FF3B30; --ios-purple: #AF52DE;
+      --ios-separator: rgba(0,0,0,0.08); --ios-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ios-bg: #000000; --ios-card: #1c1c1e; --ios-text: #f2f2f7;
+        --ios-text-secondary: #8e8e93; --ios-separator: rgba(255,255,255,0.08);
+        --ios-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background: var(--ios-bg); color: var(--ios-text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    main { flex: 1; display: flex; flex-direction: column; padding-top: 1rem; padding-bottom: 3rem; }
+    .container { margin: 0 auto; width: 100%; max-width: 720px; padding: 0 1.25rem; }
+    #quiz-header { text-align: center; animation: fadeUp 0.5s ease both; margin-bottom: 0.5rem; }
+    .header-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--ios-blue); background: rgba(0,122,255,0.12); border: 1.5px solid rgba(0,122,255,0.2); border-radius: 20px; padding: 7px 14px; margin-bottom: 12px; }
+    #quiz-header h1 { font-size: 36px; font-weight: 800; margin-bottom: 4px; background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .ios-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .ios-stat-card { background: var(--ios-card); border-radius: 1.3rem; padding: 16px 12px; text-align: center; box-shadow: var(--ios-shadow); border: 1px solid var(--ios-separator); }
+    .ios-stat-icon { font-size: 28px; margin-bottom: 8px; }
+    .ios-stat-value { font-size: 24px; font-weight: 800; color: var(--ios-blue); }
+    .ios-stat-label { font-size: 11px; color: var(--ios-text-secondary); margin-top: 4px; text-transform: uppercase; font-weight: 600; }
+    .progress-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 14px 16px; background: var(--ios-card); border-radius: 1.2rem; box-shadow: var(--ios-shadow); border: 1px solid var(--ios-separator); }
+    .progress-track { flex: 1; height: 6px; background: var(--ios-separator); border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), var(--ios-purple)); border-radius: 99px; transition: width 0.45s cubic-bezier(0.4,0,0.2,1); }
+    .progress-label { font-size: 13px; font-weight: 700; color: var(--ios-blue); white-space: nowrap; min-width: 55px; text-align: right; }
+    .q-card, .start-card, .score-card { background: var(--ios-card); border-radius: 1.5rem; padding: 24px; box-shadow: var(--ios-shadow); border: 1px solid var(--ios-separator); animation: fadeUp 0.3s ease both; }
+    .q-num { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--ios-blue); margin-bottom: 14px; opacity: 0.8; }
+    .q-text { font-size: 20px; font-weight: 700; line-height: 1.6; color: var(--ios-text); margin-bottom: 22px; }
+    .options { display: flex; flex-direction: column; gap: 11px; margin-bottom: 20px; }
+    .opt { display: flex; align-items: flex-start; gap: 14px; padding: 16px; background: var(--ios-bg); border: 1.5px solid var(--ios-separator); border-radius: 16px; cursor: pointer; font-size: 16px; color: var(--ios-text); text-align: left; transition: all 0.15s; }
+    .opt:not(:disabled):hover { border-color: var(--ios-blue); background: rgba(0,122,255,0.04); transform: translateX(2px); }
+    .opt .letter { font-size: 13px; font-weight: 800; min-width: 28px; height: 28px; border-radius: 10px; background: var(--ios-separator); color: var(--ios-text-secondary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .opt.correct { border-color: var(--ios-green); background: rgba(52,199,89,0.1); }
+    .opt.correct .letter { background: var(--ios-green); color: #fff; }
+    .opt.wrong { border-color: var(--ios-red); background: rgba(255,59,48,0.1); }
+    .opt.wrong .letter { background: var(--ios-red); color: #fff; }
+    .feedback { background: rgba(0,122,255,0.08); border-left: 4px solid var(--ios-blue); border-radius: 12px; padding: 16px; font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: var(--ios-text); }
+    .feedback-section { margin-bottom: 10px; }
+    .feedback-section:last-child { margin-bottom: 0; }
+    .feedback-label { font-weight: 700; color: var(--ios-blue); margin-bottom: 4px; display: block; font-size: 13px; }
+    .btn { font-family: inherit; font-size: 16px; font-weight: 700; padding: 12px 20px; border-radius: 14px; border: 1.5px solid var(--ios-separator); background: transparent; color: var(--ios-text-secondary); cursor: pointer; transition: all 0.15s; }
+    .btn:hover:not(:disabled) { border-color: var(--ios-blue); color: var(--ios-blue); }
+    .btn.primary { background: var(--ios-blue); border-color: var(--ios-blue); color: #fff; width: 100%; padding: 14px; font-size: 16px; }
+    .btn.primary:hover:not(:disabled) { background: #0051D5; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-group { display: flex; gap: 12px; margin-top: 24px; }
+    .btn-group .btn { flex: 1; padding: 14px; }
+    .control-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--ios-separator); gap: 12px; }
+    .ios-input { width: 100%; padding: 16px; border-radius: 16px; border: 1.5px solid var(--ios-separator); background: var(--ios-bg); color: var(--ios-text); font-size: 18px; text-align: center; margin-bottom: 16px; outline: none; transition: all 0.15s; font-family: inherit; }
+    .ios-input:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+    .start-icon-wrap { width: 80px; height: 80px; border-radius: 24px; background: linear-gradient(135deg, rgba(0,122,255,0.15), rgba(175,82,222,0.15)); border: 1.5px solid rgba(0,122,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px; }
+    .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0 24px; }
+    .info-box { background: var(--ios-bg); border-radius: 16px; padding: 16px 12px; text-align: center; border: 1px solid var(--ios-separator); }
+    .info-num { font-size: 26px; font-weight: 800; color: var(--ios-blue); margin-bottom: 4px; }
+    .info-lbl { font-size: 10px; color: var(--ios-text-secondary); text-transform: uppercase; font-weight: 700; }
+    .topics { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
+    .ios-badge { display: inline-flex; align-items: center; font-size: 12px; font-weight: 700; padding: 4px 11px; border-radius: 99px; background: rgba(0,122,255,0.15); color: var(--ios-blue); }
+    .score-ring { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, rgba(0,122,255,0.12), rgba(175,82,222,0.12)); border: 3px solid var(--ios-blue); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .score-pct { font-size: 40px; font-weight: 800; color: var(--ios-blue); }
+    .score-sub { font-size: 12px; color: var(--ios-text-secondary); font-weight: 600; text-transform: uppercase; }
+    .captcha-wrapper { display: flex; justify-content: center; margin: 20px 0; padding: 16px; background: var(--ios-bg); border-radius: 14px; border: 1px solid var(--ios-separator); }
+    .h-captcha { transform: scale(0.9); transform-origin: center; }
+    @media (max-width: 480px) { .h-captcha { transform: scale(0.85); } }
+    .captcha-error { color: var(--ios-red); font-size: 13px; margin-top: 10px; text-align: center; display: none; }
+    .loading { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.4); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .shake { animation: shake 0.4s ease; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    .error-msg { color: var(--ios-red); font-size: 13px; margin-top: 8px; display: none; text-align: center; }
+    .success-msg { color: var(--ios-green); font-size: 13px; margin-top: 8px; display: none; text-align: center; }
+    @media (max-width: 768px) { .container { padding: 0 1rem; } #quiz-header h1 { font-size: 28px; } .q-text { font-size: 18px; } }
+    @media (max-width: 480px) { .container { padding: 0 0.75rem; } #quiz-header h1 { font-size: 24px; } .q-card, .start-card, .score-card { padding: 18px; } .opt { padding: 12px 11px; font-size: 14px; } .captcha-wrapper { padding: 12px; margin: 16px 0; } }
+  </style>
 </head>
 <body>
-
-<div class="loading-overlay" id="loader"><div class="spinner"></div></div>
-
 <main>
-  <div class="container">
-    <header id="quiz-header">
-      <div class="header-badge">📡 Redes de Computadores</div>
-      <h1>Quiz Interativo</h1>
-    </header>
-
-    <div class="ios-stat-grid" id="stat-cards" style="display: none;">
-      <div class="ios-stat-card"><div class="ios-stat-icon">📋</div><div class="ios-stat-value">70</div><div class="ios-stat-label">Questões</div></div>
-      <div class="ios-stat-card"><div class="ios-stat-icon">✅</div><div class="ios-stat-value" id="stat-score">0</div><div class="ios-stat-label">Corretas</div></div>
-      <div class="ios-stat-card"><div class="ios-stat-icon">🎯</div><div class="ios-stat-value" id="stat-pct">0%</div><div class="ios-stat-label">Desempenho</div></div>
-    </div>
-
-    <div class="progress-wrap" id="progress-wrap" style="display:none;">
-      <div class="progress-track"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
-      <span class="progress-label" id="plabel">0 / 70</span>
-    </div>
-
-    <div id="quiz-content"></div>
-  </div>
+  <div class="container">
+    <header id="quiz-header" style="margin-bottom: 2.5rem;">
+      <div class="header-badge"><span>📡 Redes de Computadores</span></div>
+      <h1>Quiz Interativo</h1>
+      <p style="font-size: 15px; color: var(--ios-text-secondary); margin-top: 6px;">70 questões • Aprofunde seus conhecimentos</p>
+    </header>
+    <div class="ios-stat-grid" id="stat-cards" style="display: none;">
+      <div class="ios-stat-card"><div class="ios-stat-icon">📋</div><div class="ios-stat-value">70</div><div class="ios-stat-label">Questões</div></div>
+      <div class="ios-stat-card"><div class="ios-stat-icon">✅</div><div class="ios-stat-value" id="stat-score">0</div><div class="ios-stat-label">Corretas</div></div>
+      <div class="ios-stat-card"><div class="ios-stat-icon">🎯</div><div class="ios-stat-value" id="stat-pct">0%</div><div class="ios-stat-label">Desempenho</div></div>
+    </div>
+    <div class="progress-wrap" id="progress-wrap" style="display:none;">
+      <div class="progress-track"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
+      <span class="progress-label" id="plabel">0 / 70</span>
+    </div>
+    <div id="quiz-content"></div>
+  </div>
 </main>
-
 <script>
-// CONFIGURAÇÕES
-const WORKER_URL = 'https://noisy-thunder-c614.aguiarpassaroni.workers.dev';
+const WORKER_URL       = 'https://noisy-thunder-c614.aguiarpassaroni.workers.dev';
 const HCAPTCHA_SITEKEY = '6c308c44-8776-4f5e-9184-195e9484af84';
 
-let sessionToken = null;
-let currentQuestionId = null;
-let score = 0;
-let respondidasCount = 0;
-const TOTAL_QUESTOES = 70;
-const LETTERS = ['A', 'B', 'C', 'D'];
-
-// --- UTILITÁRIOS ---
-function showLoader(show) { document.getElementById('loader').style.display = show ? 'flex' : 'none'; }
-
-function onCaptchaSuccess(token) {
-    window.captchaToken = token;
-    document.getElementById('captcha-error')?.remove();
+function getTheme() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-function updateStats() {
-    document.getElementById('stat-score').textContent = score;
-    const pct = respondidasCount > 0 ? Math.round((score / respondidasCount) * 100) : 0;
-    document.getElementById('stat-pct').textContent = pct + '%';
+const rawQuestions = [
+  { id: 1, q: "Qual é a função de um ACK?", opts: ["Confirmar o recebimento de dados","Solicitar retransmissão imediata","Iniciar uma conexão TCP","Encapsular dados na camada de rede"] },
+  { id: 2, q: "O que é encapsulamento em redes?", opts: ["Compressão de dados","Adição de cabeçalhos em cada camada do modelo","Criptografia de pacotes","Fragmentação de pacotes"] },
+  { id: 3, q: "Qual é a principal limitação do protocolo UDP?", opts: ["Velocidade baixa","Não garante a entrega dos dados","Não suporta multicast","Consome muita CPU"] },
+  { id: 4, q: "Qual técnica retransmite apenas os pacotes com erro?", opts: ["Go-Back-N","Stop-and-Wait","Repetição Seletiva","Janela simples"] },
+  { id: 5, q: "O que é um sniffer em redes?", opts: ["Um firewall","Um roteador","Ferramenta que captura e analisa pacotes","Um servidor DNS"] },
+  { id: 6, q: "DNS utiliza TCP ou UDP?", opts: ["Apenas TCP","Apenas UDP","Principalmente UDP; TCP para zonas","Nenhum dos dois"] },
+  { id: 7, q: "O que é controle de fluxo?", opts: ["Velocidade do roteador","Evita sobrecarregar o receptor","Filtra pacotes","Balanceia carga"] },
+  { id: 8, q: "Qual a função principal da janela deslizante?", opts: ["Fragmentar","Controlar fluxo e permitir múltiplos frames","Criptografar","Resolver nomes"] },
+  { id: 9, q: "O que são sistemas finais (hosts)?", opts: ["Roteadores","Dispositivos que executam aplicações na borda","Servidores DNS","Switches de datacenter"] },
+  { id: 10, q: "Qual é a função do DNS?", opts: ["Rotear pacotes","Traduzir nomes em IPs","Controlar acesso","Gerenciar MAC"] },
+  { id: 11, q: "Qual a função de um temporizador em protocolos?", opts: ["Sincronizar relógios","Detectar perda e acionar retransmissão","Controlar velocidade","Autenticar conexões"] },
+  { id: 12, q: "O DNS traduz nomes em quê?", opts: ["Endereços MAC","Nomes de arquivos","Endereços IP","Portas"] },
+  { id: 13, q: "Qual protocolo utiliza janela deslizante?", opts: ["UDP","ICMP","TCP","ARP"] },
+  { id: 14, q: "Qual mecanismo evita sobrecarga no receptor?", opts: ["Controle de congestionamento","Controle de fluxo","Roteamento dinâmico","DNS em cache"] },
+  { id: 15, q: "Qual a principal diferença entre Go-Back-N e Repetição Seletiva?", opts: ["UDP vs TCP","GBN retransmite todos; RS só os com erro","Sem diferença","GBN é mais eficiente"] },
+  { id: 16, q: "Um sniffer altera os pacotes capturados?", opts: ["Sim","Depende","Não, opera passivamente","Sim, adiciona tags"] },
+  { id: 17, q: "Qual técnica retransmite TODOS os pacotes após erro?", opts: ["Repetição Seletiva","Stop-and-Wait","Go-Back-N","Fast Retransmit"] },
+  { id: 18, q: "Qual porta o DNS utiliza?", opts: ["80","443","53","25"] },
+  { id: 19, q: "Qual é a ordem correta do encapsulamento?", opts: ["Dados → Segmento → Pacote → Frame → Bits","Bits → Frame → Pacote","Frame → Pacote","Pacote → Segmento"] },
+  { id: 20, q: "Qual porta o FTP utiliza para controle?", opts: ["20","21","22","25"] },
+  { id: 21, q: "Em qual camada ocorre o encapsulamento TCP?", opts: ["Aplicação","Internet","Transporte","Enlace"] },
+  { id: 22, q: "O que indica o número de sequência no TCP?", opts: ["Prioridade","Posição do primeiro byte","IP destino","Tamanho total"] },
+  { id: 23, q: "Quantas camadas possui o modelo TCP/IP?", opts: ["3","4","5","7"] },
+  { id: 24, q: "UDP garante entrega dos dados?", opts: ["Sim","Não, é best-effort","Sim em LAN","Depende do socket"] },
+  { id: 25, q: "Cite um exemplo de nome de domínio.", opts: ["192.168.0.1","www.google.com","FF:FF:FF:FF","255.255.255.0"] },
+  { id: 26, q: "TCP é orientado à conexão?", opts: ["Não","Sim","Só no Wi-Fi","Apenas no Linux"] },
+  { id: 27, q: "No Modelo OSI, qual camada lida com criptografia?", opts: ["Sessão","Apresentação","Rede","Física"] },
+  { id: 28, q: "O protocolo SMTP é usado para:", opts: ["Receber correio","Enviar correio","Acesso web","Roteamento"] },
+  { id: 29, q: "Qual a função do 'Handshake de 3 vias'?", opts: ["Fechar","Abrir conexão TCP","Enviar ACKs","Calcular timeout"] },
+  { id: 30, q: "O que é Piggybacking?", opts: ["Vírus","Enviar ACKs com dados","Compressão","Erro"] },
+  { id: 31, q: "O protocolo IP garante entrega?", opts: ["Sim","Não","Só IPv6","Apenas fibra"] },
+  { id: 32, q: "A camada de Rede lida com:", opts: ["Bits","Frames","Pacotes/Datagramas","Segmentos"] },
+  { id: 33, q: "Qual porta o HTTP usa por padrão?", opts: ["21","25","80","443"] },
+  { id: 34, q: "Para que serve o comando Traceroute?", opts: ["Ver IP","Ver caminho/saltos até destino","Testar DNS","Ver MAC"] },
+  { id: 35, q: "O que é um Cookie?", opts: ["Software","Arquivo para manter estado","Vírus","Badge"] },
+  { id: 36, q: "Qual camada OSI faz o diálogo (sessão)?", opts: ["Rede","Sessão","Transporte","Física"] },
+  { id: 37, q: "O que é RTT?", opts: ["Velocidade","Tempo de ida e volta","Porta","Handshake"] },
+  { id: 38, q: "Qual a função do Checksum?", opts: ["Acelerar","Detectar erros","Criptografar","Rotear"] },
+  { id: 39, q: "O termo Full-Duplex significa:", opts: ["Um sentido","Ambos sentidos simultâneos","Revezamento","Sem fio"] },
+  { id: 40, q: "O que é Gateway Padrão?", opts: ["Um IP","A saída da rede local","Um switch","Um cabo"] },
+  { id: 41, q: "DHCP serve para:", opts: ["Traduzir nomes","Gerar IPs automaticamente","Segurança","Wi-Fi"] },
+  { id: 42, q: "Qual camada cuida do acesso ao meio físico?", opts: ["Rede","Aplicação","Enlace","Transporte"] },
+  { id: 43, q: "O que é um Datagrama?", opts: ["Unidade TCP","Unidade UDP/IP","Cabo","Sinal"] },
+  { id: 44, q: "Porta do SSH?", opts: ["21","22","23","25"] },
+  { id: 45, q: "Qual camada une Física e Enlace no TCP/IP?", opts: ["Aplicação","Transporte","Acesso à Rede","Internet"] },
+  { id: 46, q: "O que é MSS?", opts: ["Velocidade","Tamanho máximo do segmento","ID do pacote","IP"] },
+  { id: 47, q: "Confirmação cumulativa significa:", opts: ["ACK confirma até aquele byte","Vários ACKs","Confirmar duplicatas","Sem ACK"] },
+  { id: 48, q: "O que é multiplexação?", opts: ["Vários cabos","Várias apps na rede","Aumento de sinal","Segurança"] },
+  { id: 49, q: "Qual protocolo é usado pelo Ping?", opts: ["TCP","UDP","ICMP","ARP"] },
+  { id: 50, q: "O que é Spooling?", opts: ["Criptografia","Fila de tarefas","Backup","Vídeo"] },
+  { id: 51, q: "Camada OSI responsável pelo endereçamento lógico (IP)?", opts: ["Física","Enlace","Rede","Sessão"] },
+  { id: 52, q: "O modelo P2P depende de servidor fixo?", opts: ["Sim","Não","Só Wi-Fi","Sempre"] },
+  { id: 53, q: "Flags TCP RST serve para:", opts: ["Iniciar","Resetar conexão","Confirmar","Finalizar"] },
+  { id: 54, q: "Qual a função do IMAP?", opts: ["Mandar e-mail","Sincronizar e-mail no servidor","Rotear","DNS"] },
+  { id: 55, q: "Porta do HTTPS?", opts: ["80","110","443","53"] },
+  { id: 56, q: "O que é Janela de Recepção?", opts: ["Velocidade","Espaço livre no buffer","ID do usuário","Tipo de cabo"] },
+  { id: 57, q: "O termo 'Best-Effort' aplica-se a:", opts: ["TCP","IP e UDP","Fibra","IPv6"] },
+  { id: 58, q: "No modelo OSI, a Camada 1 é a:", opts: ["Aplicação","Rede","Física","Transporte"] },
+  { id: 59, q: "Qual porta o Telnet usa?", opts: ["21","22","23","25"] },
+  { id: 60, q: "O que é o Timeout no TCP?", opts: ["Fim da net","Atraso que gera retransmissão","Senha","Backup"] },
+  { id: 61, q: "Qual é a porta padrão do POP3?", opts: ["25","110","143","465"] },
+  { id: 62, q: "O que é SSL/TLS?", opts: ["Um firewall","Protocolo de criptografia para comunicação segura","Um roteador","Tipo de cabo"] },
+  { id: 63, q: "Qual é o endereço broadcast em uma rede 192.168.1.0/24?", opts: ["192.168.1.0","192.168.1.1","192.168.1.254","192.168.1.255"] },
+  { id: 64, q: "O que é NAT (Network Address Translation)?", opts: ["Traduz nomes de domínio","Traduz endereços IP privados em públicos","Rota pacotes","Controla fluxo"] },
+  { id: 65, q: "Qual é a função do protocolo ARP?", opts: ["Rotear pacotes","Mapear IPs em endereços MAC","Encriptar dados","Sincronizar relógios"] },
+  { id: 66, q: "O que é VPN?", opts: ["Uma rede local","Rede privada virtual que encripta tráfego","Um antivírus","Um backup"] },
+  { id: 67, q: "Qual protocolo usa porta 389?", opts: ["SMTP","LDAP","SSH","DNS"] },
+  { id: 68, q: "O que é QoS (Quality of Service)?", opts: ["Um tipo de firewall","Mecanismo para garantir qualidade e prioridade de tráfego","Um cable coaxial","Um servidor DNS"] },
+  { id: 69, q: "Qual é a função do protocolo ICMP?", opts: ["Transferir arquivos","Enviar mensagens de controle e erro na rede","Resolver nomes","Gerenciar sessões"] },
+  { id: 70, q: "O que é Load Balancing?", opts: ["Compressão de dados","Distribuir carga entre múltiplos servidores","Criptografia","Roteamento"] }
+];
+
+let questions=[], current=0, score=0, answered=[], started=false;
+let sessionToken=null, captchaToken=null;
+const LETTERS=['A','B','C','D'];
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
+function updateStats(){
+  document.getElementById('stat-score').textContent=score;
+  const pct=started?Math.round((score/questions.length)*100):0;
+  document.getElementById('stat-pct').textContent=pct+'%';
+}
+function onCaptchaSuccess(token){
+  captchaToken=token;
+  document.getElementById('captcha-error').style.display='none';
+}
+function renderPasswordScreen(){
+  document.getElementById('quiz-header').style.display='none';
+  document.getElementById('stat-cards').style.display='none';
+  document.getElementById('progress-wrap').style.display='none';
+  document.getElementById('quiz-content').innerHTML=`
+    <div class="start-card" id="lock-screen" style="max-width:420px;margin:0 auto;text-align:center;">
+      <div class="start-icon-wrap">🔐</div>
+      <h2 style="font-size:22px;font-weight:700;margin-bottom:8px;">Acesso Restrito</h2>
+      <p style="font-size:15px;font-weight:500;margin-bottom:20px;color:var(--ios-text-secondary);">Complete o CAPTCHA e digite a senha</p>
+      <div class="captcha-wrapper">
+        <div class="h-captcha" data-sitekey="${HCAPTCHA_SITEKEY}" data-theme="${getTheme()}" data-callback="onCaptchaSuccess"></div>
+      </div>
+      <p class="captcha-error" id="captcha-error">⚠️ Complete o CAPTCHA</p>
+      <p style="font-size:15px;font-weight:500;margin:20px 0 8px;color:var(--ios-text-secondary);">Senha:</p>
+      <input type="password" id="pass-input" class="ios-input" placeholder="Insira a senha" onkeydown="if(event.key==='Enter')checkPass()">
+      <button class="btn primary" id="enter-btn" onclick="checkPass()">🔓 Entrar</button>
+      <p id="error-msg" class="error-msg"></p>
+      <p id="success-msg" class="success-msg">✅ Validando...</p>
+    </div>`;
 }
 
-// --- TELAS ---
-function renderPasswordScreen() {
-    document.getElementById('quiz-header').style.display = 'block';
-    document.getElementById('quiz-content').innerHTML = `
-        <div class="start-card" style="max-width:420px;margin:0 auto;text-align:center;">
-            <h2 style="margin-bottom:15px;">Acesso Restrito</h2>
-            <div class="captcha-wrapper">
-                <div class="h-captcha" data-sitekey="${HCAPTCHA_SITEKEY}" data-callback="onCaptchaSuccess"></div>
-            </div>
-            <p id="captcha-error" style="color:var(--ios-red);display:none;margin-bottom:10px;">Complete o Captcha</p>
-            <input type="password" id="pass-input" class="ios-input" placeholder="Senha do Quiz">
-            <button class="btn primary" onclick="checkPass()">🔓 Entrar</button>
-        </div>`;
+// ATUALIZAÇÃO 1: Requisição de senha vai para /login e Zera hCaptcha se falhar
+async function checkPass(){
+  if(!captchaToken){document.getElementById('captcha-error').style.display='block';return;}
+  const password=document.getElementById('pass-input').value;
+  if(!password){document.getElementById('error-msg').textContent='❌ Digite a senha.';document.getElementById('error-msg').style.display='block';return;}
+  const btn=document.getElementById('enter-btn');
+  btn.disabled=true;btn.innerHTML='<div class="loading"></div> Validando...';
+  document.getElementById('success-msg').style.display='block';
+  document.getElementById('error-msg').style.display='none';
+  try{
+    const res=await fetch(WORKER_URL + '/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token:captchaToken,password})
+    });
+    const data=await res.json();
+    if(data.success&&data.session){
+      sessionToken=data.session;
+      sessionStorage.setItem('quiz_session',sessionToken);
+      renderHome();
+    }else{throw new Error(data.error??'Falhou');}
+  }catch(err){
+    btn.disabled=false;btn.innerHTML='🔓 Entrar';
+    document.getElementById('success-msg').style.display='none';
+    const msg=err.message==='Wrong password'?'❌ Senha incorreta!':err.message==='Too many attempts'?'⏳ Muitas tentativas. Aguarde 10 minutos.':'❌ Erro de validação. Tente novamente.';
+    document.getElementById('error-msg').textContent=msg;
+    document.getElementById('error-msg').style.display='block';
+    document.getElementById('lock-screen').classList.add('shake');
+    setTimeout(()=>document.getElementById('lock-screen').classList.remove('shake'),400);
+    
+    // Zera o hCaptcha
+    captchaToken = null;
+    if (window.hcaptcha) {
+      hcaptcha.reset();
+    }
+  }
 }
 
-async function checkPass() {
-    const password = document.getElementById('pass-input').value;
-    if (!window.captchaToken) { document.getElementById('captcha-error').style.display = 'block'; return; }
-    
-    showLoader(true);
-    try {
-        const res = await fetch(`${WORKER_URL}/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password, token: window.captchaToken })
-        });
-        const data = await res.json();
-        if (data.session) {
-            sessionToken = data.session;
-            sessionStorage.setItem('quiz_session', sessionToken);
-            renderHome();
-        } else {
-            alert(data.error || "Acesso negado");
-            if(window.hcaptcha) hcaptcha.reset();
-        }
-    } catch(e) { alert("Erro de conexão com o servidor."); }
-    showLoader(false);
+function renderHome(){
+  captchaToken=null;
+  document.getElementById('quiz-header').style.display='block';
+  document.getElementById('stat-cards').style.display='none';
+  document.getElementById('progress-wrap').style.display='none';
+  updateStats();
+  document.getElementById('quiz-content').innerHTML=`
+    <div class="start-card">
+      <div class="start-icon-wrap">🌐</div>
+      <h2 style="font-size:22px;font-weight:700;margin-bottom:8px;">Quiz de Redes</h2>
+      <p style="font-size:17px;line-height:1.6;color:var(--ios-text-secondary);margin-bottom:24px;">Teste seus conhecimentos em protocolos, encapsulamento, DNS, TCP/UDP e muito mais.</p>
+      <div class="info-grid">
+        <div class="info-box"><div class="info-num">70</div><div class="info-lbl">Questões</div></div>
+        <div class="info-box"><div class="info-num">4</div><div class="info-lbl">Alternativas</div></div>
+        <div class="info-box"><div class="info-num">∞</div><div class="info-lbl">Tentativas</div></div>
+      </div>
+      <div class="topics">
+        <span class="ios-badge">🔗 TCP/UDP</span><span class="ios-badge">🌍 DNS</span>
+        <span class="ios-badge">📦 Encapsulamento</span><span class="ios-badge">↔️ Janela Deslizante</span>
+        <span class="ios-badge">🔄 Protocolos</span><span class="ios-badge">🔍 Análise</span>
+      </div>
+      <button class="btn primary" onclick="startQuiz()">▶️ Iniciar Quiz</button>
+    </div>`;
 }
 
-function renderHome() {
-    document.getElementById('stat-cards').style.display = 'none';
-    document.getElementById('progress-wrap').style.display = 'none';
-    document.getElementById('quiz-content').innerHTML = `
-        <div class="start-card" style="text-align:center;">
-            <div style="font-size:40px;margin-bottom:15px;">🌐</div>
-            <h2>Pronto para começar?</h2>
-            <p style="color:var(--ios-text-secondary);margin:15px 0;">As perguntas serão sorteadas aleatoriamente pelo servidor.</p>
-            <button class="btn primary" onclick="startQuiz()">▶️ Iniciar Agora</button>
-        </div>`;
+function startQuiz(){
+  questions=shuffle([...rawQuestions]).map(q=>({...q,opts:shuffle([...q.opts])}));
+  started=true;current=0;score=0;answered=[];
+  document.getElementById('stat-cards').style.display='grid';
+  document.getElementById('progress-wrap').style.display='flex';
+  updateStats();render();
 }
 
-// --- LÓGICA DO QUIZ ---
-function startQuiz() {
-    score = 0; respondidasCount = 0;
-    document.getElementById('stat-cards').style.display = 'grid';
-    document.getElementById('progress-wrap').style.display = 'flex';
-    fetchNextQuestion();
+function render(){
+  const total=questions.length;
+  document.getElementById('pbar').style.width=Math.round((current/total)*100)+'%';
+  document.getElementById('plabel').textContent=current+' / '+total;
+  updateStats();
+  
+  if(current>=total){renderScore();return;}
+  
+  const q=questions[current];
+  const isAns=answered[current]!==undefined;
+  const ansData=answered[current]; // Agora é um objeto vindo do servidor
+  
+  const optsHtml=q.opts.map((o,i)=>{
+    let cls='opt';
+    if(isAns){
+      if(o === ansData.correctAnswer) cls+=' correct';
+      else if(o === ansData.selected) cls+=' wrong';
+    }
+    return `<button class="${cls}" ${isAns?'disabled':''} onclick="choose('${o.replace(/'/g,"\\'")}')"><span class="letter">${LETTERS[i]}</span><span>${o}</span></button>`;
+  }).join('');
+  
+  document.getElementById('quiz-content').innerHTML=`
+    <div class="q-card">
+      <div class="q-num">QUESTÃO ${current+1} DE ${total}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="opts-container">${optsHtml}</div>
+      ${isAns?`<div class="feedback">${ansData.exp}</div>`:''}
+      <div class="control-bar">
+        <button class="btn" onclick="prev()" ${current===0?'disabled':''}>← Anterior</button>
+        <button class="btn primary" onclick="next()" ${!isAns?'disabled':''} style="width:auto;">${current===total-1?'✓ Ver resultado':'Próxima →'}</button>
+      </div>
+    </div>`;
 }
 
-async function fetchNextQuestion() {
-    showLoader(true);
-    try {
-        const res = await fetch(`${WORKER_URL}/get-question`, {
-            headers: { 'Authorization': sessionToken }
-        });
-        const data = await res.json();
+// ATUALIZAÇÃO 2: choose() agora conversa com o servidor para corrigir a resposta
+async function choose(choice){
+  if(answered[current]!==undefined) return; // Evita clique duplo
+  
+  // Efeito de carregamento e desativa clique visualmente
+  const optsContainer = document.getElementById('opts-container');
+  if(optsContainer) {
+    optsContainer.style.opacity = '0.6';
+    optsContainer.style.pointerEvents = 'none';
+  }
 
-        if (data.finished) { renderScore(); return; }
+  try {
+    const res = await fetch(WORKER_URL + '/validar-resposta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        questionId: questions[current].id,
+        userAnswer: choice,
+        sessionToken: sessionToken
+      })
+    });
+    
+    const data = await res.json();
 
-        currentQuestionId = data.id;
-        renderQuestion(data);
-    } catch(e) { alert("Erro ao carregar questão."); }
-    showLoader(false);
+    // Trata erro de token expirado
+    if(data.error) {
+      alert("⚠️ " + data.error);
+      sessionStorage.removeItem('quiz_session');
+      location.reload(); // Recarrega a página para logar de novo
+      return;
+    }
+
+    // Armazena a correção do servidor no array
+    answered[current] = {
+      selected: choice,
+      isCorrect: data.isCorrect,
+      correctAnswer: data.correctAnswer,
+      exp: data.explanation
+    };
+
+    if(data.isCorrect) score++;
+    
+    render(); // Redesenha a tela mostrando o certo, errado e explicação
+    
+  } catch(err) {
+    console.error(err);
+    alert("❌ Ocorreu um erro ao conectar com o servidor. Tente novamente.");
+    if(optsContainer) {
+      optsContainer.style.opacity = '1';
+      optsContainer.style.pointerEvents = 'auto';
+    }
+  }
 }
 
-function renderQuestion(data) {
-    const optsHtml = data.opts.map((o, i) => `
-        <button class="opt" onclick="submitAnswer('${o.replace(/'/g, "\\'")}', this)">
-            <span class="letter">${LETTERS[i]}</span><span>${o}</span>
-        </button>
-    `).join('');
+function next(){current++;render();}
+function prev(){if(current>0){current--;render();}}
 
-    document.getElementById('pbar').style.width = Math.round((respondidasCount / TOTAL_QUESTOES) * 100) + '%';
-    document.getElementById('plabel').textContent = respondidasCount + ' / ' + TOTAL_QUESTOES;
-
-    document.getElementById('quiz-content').innerHTML = `
-        <div class="q-card">
-            <div class="q-text">${data.q}</div>
-            <div class="options" id="opts-container">${optsHtml}</div>
-            <div id="feedback-area"></div>
-            <div class="control-bar" id="nav-bar" style="display:none;">
-                <button class="btn primary" style="width:auto;" onclick="fetchNextQuestion()">Próxima Questão →</button>
-            </div>
-        </div>`;
+function renderScore(){
+  const pct=Math.round((score/questions.length)*100);
+  const msg=pct>=80?'🎉 Excelente!':pct>=60?'👍 Bom trabalho!':'📚 Continue estudando!';
+  document.getElementById('quiz-content').innerHTML=`
+    <div class="score-card" style="text-align:center;">
+      <div class="score-ring"><div class="score-pct">${pct}%</div><div class="score-sub">Desempenho</div></div>
+      <h2 style="font-size:22px;font-weight:700;">${msg}</h2>
+      <p style="font-size:17px;margin-bottom:24px;color:var(--ios-text-secondary);">Você acertou <strong>${score} de ${questions.length}</strong> questões</p>
+      <div class="btn-group">
+        <button class="btn" onclick="startQuiz()">🔄 Tentar novamente</button>
+        <button class="btn primary" onclick="renderHome()">🏠 Início</button>
+      </div>
+    </div>`;
+  updateStats();
 }
 
-async function submitAnswer(choice, btn) {
-    document.getElementById('opts-container').style.pointerEvents = 'none';
-    showLoader(true);
-
-    try {
-        const res = await fetch(`${WORKER_URL}/validar-resposta`, {
-            method: 'POST',
-            headers: { 'Authorization': sessionToken, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ questionId: currentQuestionId, userAnswer: choice })
-        });
-        const data = await res.json();
-
-        const buttons = document.querySelectorAll('.opt');
-        buttons.forEach(b => {
-            const text = b.querySelector('span:last-child').innerText;
-            if (text === data.correctAnswer) b.classList.add('correct');
-            else if (text === choice && !data.isCorrect) b.classList.add('wrong');
-        });
-
-        if (data.isCorrect) score++;
-        respondidasCount++;
-        updateStats();
-
-        document.getElementById('feedback-area').innerHTML = `<div class="feedback"><strong>${data.isCorrect ? '✅ Acertou!' : '❌ Errou!'}</strong><br>${data.explanation}</div>`;
-        document.getElementById('nav-bar').style.display = 'flex';
-    } catch(e) { alert("Erro ao validar."); }
-    showLoader(false);
-}
-
-function renderScore() {
-    const pct = Math.round((score / TOTAL_QUESTOES) * 100);
-    document.getElementById('quiz-content').innerHTML = `
-        <div class="score-card" style="text-align:center;">
-            <h2 style="font-size:32px;">${pct}%</h2>
-            <p>Você acertou ${score} de ${TOTAL_QUESTOES} questões.</p>
-            <button class="btn primary" style="margin-top:20px;" onclick="location.reload()">🔄 Reiniciar</button>
-        </div>`;
-}
-
-// Início
-const saved = sessionStorage.getItem('quiz_session');
-if (saved) { sessionToken = saved; renderHome(); } else { renderPasswordScreen(); }
+const saved=sessionStorage.getItem('quiz_session');
+if(saved){sessionToken=saved;renderHome();}else{renderPasswordScreen();}
 </script>
 </body>
 </html>
