@@ -254,50 +254,6 @@
         </div>`;
     }
 
-    async function loadDownloads() {
-      const container = document.getElementById('downloads-container');
-
-      try {
-        const response = await fetch('arquivos.json');
-        if (!response.ok) throw new Error('Falha');
-        const data = await response.json();
-
-        let groups;
-        let updatedAt = data.updatedAt || null;
-
-        if (Array.isArray(data)) {
-          groups = [{ name: null, files: data }];
-        } else if (data.groups) {
-          groups = data.groups;
-        } else if (data.files) {
-          groups = [{ name: null, files: data.files }];
-        } else {
-          groups = [];
-        }
-
-        const totalFiles = groups.reduce((acc, g) => acc + g.files.length, 0);
-        const syncLabel = updatedAt ? `${t('synced')} ${formatRelativeDateI18n(updatedAt)}` : '';
-
-        if (totalFiles === 0) {
-          container.innerHTML = `<div class="ios-widget-glass"><div class="empty-state">${t('empty')}</div></div>`;
-          return;
-        }
-
-        container.innerHTML = `
-          ${syncLabel ? `<p class="sync-label">${syncLabel}</p>` : ''}
-          ${groups.map(g => renderGroup(g, groups.some(x => x.name))).join('')}
-        `;
-      } catch (e) {
-        container.innerHTML = `
-          <div class="ios-widget-glass">
-            <div class="empty-state">
-              ${t('loading')}<br>
-              <small style="font-size: 11px">${t('loading_sub')}</small>
-            </div>
-          </div>`;
-      }
-    }
-
     const i18n = {
       pt: {
         back_btn: 'Voltar',
@@ -364,6 +320,19 @@
         loading_sub: 'Exécutez le workflow dans GitHub Actions.',
         time_now: 'à l\'instant', time_min: 'il y a {n} min', time_h: 'il y a {n}h', time_yesterday: 'hier', time_days: 'il y a {n} jours',
       },
+      it: {
+        back_btn: 'Indietro',
+        page_title: 'Download',
+        page_sub: 'File sincronizzati da Google Drive.',
+        warning_title: 'Avviso di Google Drive',
+        warning_body: 'I file eseguibili (.dmg, .exe, .apk) potrebbero mostrare una schermata di avviso di Google prima del download. Questo è normale — clicca su "Scarica comunque" per continuare. Google não può scansionare file di grandi dimensioni alla ricerca di virus.',
+        files_label: 'File Disponibili',
+        synced: 'Sincronizzato',
+        empty: 'La cartella di Drive è vuota.',
+        loading: 'In attesa della sincronizzazione iniziale...',
+        loading_sub: 'Esegui il workflow in GitHub Actions.',
+        time_now: 'proprio ora', time_min: '{n} min fa', time_h: '{n} ore fa', time_yesterday: 'ieri', time_days: '{n} giorni fa',
+      },
       ja: {
         back_btn: '戻る',
         page_title: 'ダウンロード',
@@ -414,6 +383,7 @@
       if (browserLang.startsWith('es')) return 'es';
       if (browserLang.startsWith('de')) return 'de';
       if (browserLang.startsWith('fr')) return 'fr';
+      if (browserLang.startsWith('it')) return 'it';
       if (browserLang.startsWith('ja')) return 'ja';
       if (browserLang.startsWith('ar')) return 'ar';
       if (browserLang.startsWith('zh')) return 'zh';
@@ -456,10 +426,55 @@
       return t('time_days', days);
     }
 
+    async function loadDownloads() {
+      const container = document.getElementById('downloads-container');
+
+      try {
+        const response = await fetch('arquivos.json');
+        if (!response.ok) throw new Error('Falha');
+        const data = await response.json();
+
+        let groups;
+        let updatedAt = data.updatedAt || null;
+
+        if (Array.isArray(data)) {
+          groups = [{ name: null, files: data }];
+        } else if (data.groups) {
+          groups = data.groups;
+        } else if (data.files) {
+          groups = [{ name: null, files: data.files }];
+        } else {
+          groups = [];
+        }
+
+        const totalFiles = groups.reduce((acc, g) => acc + g.files.length, 0);
+        const syncLabel = updatedAt ? `${t('synced')} ${formatRelativeDateI18n(updatedAt)}` : '';
+
+        if (totalFiles === 0) {
+          container.innerHTML = `<div class="ios-widget-glass"><div class="empty-state">${t('empty')}</div></div>`;
+          return;
+        }
+
+        container.innerHTML = `
+          ${syncLabel ? `<p class="sync-label">${syncLabel}</p>` : ''}
+          ${groups.map(g => renderGroup(g, groups.some(x => x.name))).join('')}
+        `;
+      } catch (e) {
+        container.innerHTML = `
+          <div class="ios-widget-glass">
+            <div class="empty-state">
+              ${t('loading')}<br>
+              <small style="font-size: 11px">${t('loading_sub')}</small>
+            </div>
+          </div>`;
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       applyStaticTranslations();
       loadDownloads();
     });
   </script>
 </body>
+
 </html>
