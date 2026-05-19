@@ -34,6 +34,10 @@
       width: 18px;
       height: 18px;
     }
+    html[dir="rtl"] .lang-icon-prefix {
+      left: auto;
+      right: 12px;
+    }
     .ios-lang-selector {
       appearance: none;
       background: var(--ios-glass-bg);
@@ -53,6 +57,10 @@
       background-position: right 12px center;
       background-size: 14px;
     }
+    html[dir="rtl"] .ios-lang-selector {
+      padding: 10px 38px 10px 35px;
+      background-position: left 12px center;
+    }
 
     /* ESTILO DAS BANDEIRAS */
     .flag-app-icon {
@@ -60,6 +68,9 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 22px; flex-shrink: 0; overflow: hidden;
       margin-left: 4px; margin-right: 12px;
+    }
+    html[dir="rtl"] .flag-app-icon {
+      margin-left: 12px; margin-right: 4px;
     }
     .bg-br { background: #009B3A; border: 1px solid rgba(0,0,0,0.1); }
     .bg-us { background: #012169; border: 1px solid rgba(0,0,0,0.1); }
@@ -84,6 +95,11 @@
 
     .tech-box { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
     .tech-img { max-width: 42px; max-height: 42px; object-fit: contain; }
+    
+    /* Utilitários para suporte RTL */
+    html[dir="rtl"] .text-left { text-align: right; }
+    html[dir="rtl"] .md\:text-left { @media (min-width: 768px) { text-align: right; } }
+    html[dir="rtl"] .pl-4 { padding-right: 1rem; padding-left: 0; }
   </style>
 </head>
 
@@ -98,6 +114,12 @@
           <select id="langSelect" onchange="switchLanguage(this.value)" class="ios-lang-selector">
             <option value="pt">🇧🇷 Português</option>
             <option value="en">🇺🇸 English</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="ja">🇯🇵 日本語</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="zh">🇨🇳 简体中文</option>
           </select>
         </div>
       </div>
@@ -309,21 +331,128 @@
         quiz_desc: "Interactive quiz about the Brazilian Air Force — developed for the WWDC Student Challenge.",
         mail_label: "Mail",
         downloads_title: "Downloads", dl_title: "Files for Download", dl_sub: "Resumes, projects and more"
+      },
+      es: {
+        role: "Desarrollador iOS & Estudiante de CC",
+        about: "Desarrollador entusiasta centrado en móviles, especialmente en el ecosistema de Apple. Buscando explorar nuevas tecnologías y crear aplicaciones de alto impacto visual y funcional.",
+        main_lang: "Idioma principal", certs_label: "Certificados", exp_title: "Experiencia Profesional",
+        job_role: "Pasante de Desarrollo iOS", current: "Actual", edu_title: "Educación",
+        degree: "Licenciatura en Ciencias de la Computación", ongoing: "En curso", hs: "Escuela Secundaria — Maryland, EE. UU.",
+        technical: "Técnico en Des. de Sistemas", certs_title: "Certificaciones & Cursos", lang_title: "Idiomas",
+        native: "Lengua materna", native_badge: "Nativo", english: "Inglés", us_time: "2 años viviendo en EE. UU. — Maryland",
+        advanced_badge: "Avanzado", project_title: "Proyecto Destacado",
+        quiz_desc: "Quiz interactivo sobre la Fuerza Aérea Brasileña — desarrollado para el WWDC Student Challenge.",
+        mail_label: "Correo",
+        downloads_title: "Descargas", dl_title: "Archivos para Descargar", dl_sub: "Currículums, proyectos y más"
+      },
+      de: {
+        role: "iOS-Entwickler & Informatikstudent",
+        about: "Begeisterter Entwickler mit Fokus auf Mobile, insbesondere das Apple-Ökosystem. Ich möchte neue Technologien erforschen und Anwendungen mit hoher visueller und funktionaler Wirkung erstellen.",
+        main_lang: "Hauptsprache", certs_label: "Zertifikate", exp_title: "Berufserfahrung",
+        job_role: "Praktikant im Bereich iOS-Entwicklung", current: "Aktuell", edu_title: "Ausbildung",
+        degree: "Bachelor in Informatik", ongoing: "In Erwartung", hs: "High School — Maryland, USA",
+        technical: "Technischer Abschluss in Systementwicklung", certs_title: "Zertifizierungen & Kurse", lang_title: "Sprachen",
+        native: "Muttersprache", native_badge: "Nativ", english: "Englisch", us_time: "2 Jahre Aufenthalt in den USA — Maryland",
+        advanced_badge: "Fortgeschritten", project_title: "Hervorgehobenes Projekt",
+        quiz_desc: "Interaktives Quiz über die brasilianische Luftwaffe — entwickelt für die WWDC Student Challenge.",
+        mail_label: "E-Mail",
+        downloads_title: "Downloads", dl_title: "Dateien zum Download", dl_sub: "Lebensläufe, Projekte und mehr"
+      },
+      fr: {
+        role: "Développeur iOS & Étudiant en Informatique",
+        about: "Développeur enthousiaste axé sur le mobile, en particulier l'écosystème Apple. Désireux d'explorer de nouvelles technologies et de créer des applications à fort impact visuel et fonctionnel.",
+        main_lang: "Langue principale", certs_label: "Certifications", exp_title: "Expérience Professionnelle",
+        job_role: "Stagiaire en Développement iOS", current: "Actuel", edu_title: "Éducation",
+        degree: "Baccalauréat en Sciences Informatiques", ongoing: "En cours", hs: "Lycée — Maryland, États-Unis",
+        technical: "Diplôme Technique en Dév. Systèmes", certs_title: "Certifications & Cours", lang_title: "Langues",
+        native: "Langue maternelle", native_badge: "Natif", english: "Anglais", us_time: "2 ans vécus aux États-Unis — Maryland",
+        advanced_badge: "Avancé", project_title: "Projet à la Une",
+        quiz_desc: "Quiz interactif sur la force aérienne brésilienne — développé pour le WWDC Student Challenge.",
+        mail_label: "E-mail",
+        downloads_title: "Téléchargements", dl_title: "Fichiers à Télécharger", dl_sub: "CV, projets et plus"
+      },
+      ja: {
+        role: "iOSエンジニア ＆ コンピュータサイエンス生",
+        about: "Appleのエコシステムをはじめとするモバイル開発に情熱を注ぐデベロッパー。新しい技術を探求し、視覚的・機能的に優れた、インパクトのあるアプリケーション開発を目指しています。",
+        main_lang: "主要言語", certs_label: "資格・認定", exp_title: "職務経歴",
+        job_role: "iOS開発インターn", current: "現在", edu_title: "学歴",
+        degree: "コンピュータサイエンス学士課程", ongoing: "在学中", hs: "リチャード・モンゴメリー高校 — 米国メリーランド州",
+        technical: "システム開発技術学位", certs_title: "資格・受講コース", lang_title: "言語",
+        native: "母国語", native_badge: "ネイティブ", english: "英語", us_time: "米国メリーランド州に2年間在住",
+        advanced_badge: "上級", project_title: "注目のプロジェクト",
+        quiz_desc: "ブラジル空軍に関するインタラクティブなクイズアプリ — WWDC Student Challenge向けに開発。",
+        mail_label: "メール",
+        downloads_title: "ダウンロード", dl_title: "ダウンロードファイル", dl_sub: "履歴書、プロジェクト資料など"
+      },
+      ar: {
+        role: "مطور iOS وطالب علوم حاسب",
+        about: "مطور متحمس يركز على تطبيقات الهاتف المحمول، وخاصة منظومة Apple البيئية. يسعى لاستكشاف تقنيات جديدة وإنشاء تطبيقات ذات تأثير بصري ووظيفي عالٍ.",
+        main_lang: "اللغة الأساسية", certs_label: "الشهادات", exp_title: "الخبرة المهنية",
+        job_role: "متدرب في تطوير تطبيقات iOS", current: "الحالي", edu_title: "التعليم",
+        degree: "بكالوريوس في علوم الحاسب الكلاسيكية", ongoing: "مستمر", hs: "المدرسة الثانوية — ميريلاند، الولايات المتحدة الأمريكية",
+        technical: "شهادة تقنية في تطوير الأنظمة", certs_title: "الشهادات والدورات", lang_title: "اللغات",
+        native: "اللغة الأم", native_badge: "أصلي", english: "الإنجليزية", us_time: "سنتان من العيش في الولايات المتحدة — ميريلاند",
+        advanced_badge: "متقدم", project_title: "المشروع المميز",
+        quiz_desc: "اختبار تفاعلي حول القوات الجوية البرازيلية — تم تطويره لتحدي طلاب WWDC.",
+        mail_label: "البريد",
+        downloads_title: "التنزيلات", dl_title: "ملفات للتحميل", dl_sub: "السير الذاتية والمشاريع والمزيد"
+      },
+      zh: {
+        role: "iOS 开发者 & 计算机科学学生",
+        about: "热衷于移动端开发的软工工程师，专注 Apple 生态系统。致力于探索前沿技术，打造具有高度视觉和功能冲击力的应用软件。",
+        main_lang: "核心语言", certs_label: "认证证书", exp_title: "工作经历",
+        job_role: "iOS 开发实习生", current: "当前", edu_title: "教育背景",
+        degree: "计算机科学学士学位", ongoing: "在读", hs: "理查德·蒙哥马利高中 — 美国马里兰州",
+        technical: "系统开发技术学位", certs_title: "证书与课程", lang_title: "语言能力",
+        native: "母语", native_badge: "母语级", english: "英语", us_time: "曾在美国马里兰州居住2年",
+        advanced_badge: "高级", project_title: "精选项目",
+        quiz_desc: "关于巴西空军 explore 的互动问答游戏 —— 专为 WWDC 学生挑战赛开发。",
+        mail_label: "电子邮箱",
+        downloads_title: "档案下载", dl_title: "可下载文件", dl_sub: "个人简历、项目详情及其他"
       }
     };
 
     function switchLanguage(lang) {
       document.documentElement.lang = lang;
+      
+      // Controla a direção do texto caso seja Árabe (RTL)
+      if (lang === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+      }
+
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) el.textContent = translations[lang][key];
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
       });
       document.getElementById('langSelect').value = lang;
       localStorage.setItem('preferredLang', lang);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-      const systemLang = navigator.language.startsWith('en') ? 'en' : 'pt';
+      const browserLang = navigator.language ? navigator.language.toLowerCase() : 'pt';
+      let systemLang = 'pt';
+
+      // Correção e validação do bug do Inglês e fallback inteligente de rotas
+      if (browserLang.startsWith('en')) {
+        systemLang = 'en';
+      } else if (browserLang.startsWith('es')) {
+        systemLang = 'es';
+      } else if (browserLang.startsWith('de')) {
+        systemLang = 'de';
+      } else if (browserLang.startsWith('fr')) {
+        systemLang = 'fr';
+      } else if (browserLang.startsWith('ja')) {
+        systemLang = 'ja';
+      } else if (browserLang.startsWith('ar')) {
+        systemLang = 'ar';
+      } else if (browserLang.startsWith('zh')) {
+        systemLang = 'zh';
+      }
+
       const savedLang = localStorage.getItem('preferredLang') || systemLang;
       switchLanguage(savedLang);
     });
