@@ -45,6 +45,10 @@
       .dl-item:active { background: rgba(255, 255, 255, 0.05); }
     }
 
+    html[dir="rtl"] .dl-item {
+      text-align: right;
+    }
+
     .dl-icon {
       width: 44px;
       height: 44px;
@@ -56,6 +60,10 @@
     .dl-meta { font-size: 12px; margin-top: 2px; opacity: 0.5; }
     .dl-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .dl-arrow { width: 18px; height: 18px; opacity: 0.35; }
+    
+    html[dir="rtl"] .dl-arrow {
+      transform: scaleX(-1);
+    }
 
     .back-btn {
       display: inline-flex;
@@ -69,9 +77,17 @@
       opacity: 0.9;
     }
 
+    html[dir="rtl"] .back-btn svg {
+      transform: scaleX(-1);
+    }
+
     .section-group { display: flex; flex-direction: column; gap: 8px; }
     .category-label { font-size: 12px; font-weight: 600; text-transform: uppercase; opacity: 0.45; padding-left: 6px; }
+    html[dir="rtl"] .category-label { padding-right: 6px; padding-left: 0; text-align: right; }
+    
     .sync-label { font-size: 11px; opacity: 0.4; padding-left: 6px; margin-top: -4px; }
+    html[dir="rtl"] .sync-label { padding-right: 6px; padding-left: 0; text-align: right; }
+    
     .empty-state { padding: 48px 24px; text-align: center; opacity: 0.5; }
 
     .skeleton-item {
@@ -144,7 +160,7 @@
         </p>
       </div>
 
-            <div id="downloads-container" class="section-group">
+      <div id="downloads-container" class="section-group">
         <p class="category-label" data-i18n="files_label">Arquivos Disponíveis</p>
         <div class="ios-widget-glass">
           <div class="skeleton-item"><div class="skeleton-box skeleton-icon"></div><div class="skeleton-lines"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-sub"></div></div></div>
@@ -189,9 +205,6 @@
 
     function makeFileIcon(type) {
       const c = FILE_TYPES[type] || FILE_TYPES.file;
-      // Página com dobra no canto superior direito, estilo macOS
-      // Corpo: polígono sem o canto dobrado
-      // Dobra: triângulo no canto
       const body = 'M3,3 L31,3 L31,10 L38,10 L38,41 L3,41 Z';
       const fold = 'M31,3 L38,10 L31,10 Z';
 
@@ -208,19 +221,6 @@
         <line x1="7" y1="29" x2="37" y2="29" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
         <line x1="7" y1="33" x2="28" y2="33" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
       </svg>`;
-    }
-
-    function formatRelativeDate(isoString) {
-      if (!isoString) return null;
-      const diff = Date.now() - new Date(isoString).getTime();
-      const minutes = Math.floor(diff / 60000);
-      const hours = Math.floor(diff / 3600000);
-      const days = Math.floor(diff / 86400000);
-      if (minutes < 1) return 'agora mesmo';
-      if (minutes < 60) return `há ${minutes} min`;
-      if (hours < 24) return `há ${hours}h`;
-      if (days === 1) return 'ontem';
-      return `há ${days} dias`;
     }
 
     function renderFile(file) {
@@ -262,7 +262,6 @@
         if (!response.ok) throw new Error('Falha');
         const data = await response.json();
 
-        // Suporte a formato antigo (array ou { files }) e novo ({ groups })
         let groups;
         let updatedAt = data.updatedAt || null;
 
@@ -325,11 +324,100 @@
         loading: 'Waiting for initial sync...',
         loading_sub: 'Run the workflow in GitHub Actions.',
         time_now: 'just now', time_min: '{n} min ago', time_h: '{n}h ago', time_yesterday: 'yesterday', time_days: '{n} days ago',
+      },
+      es: {
+        back_btn: 'Volver',
+        page_title: 'Descargas',
+        page_sub: 'Archivos sincronizados desde Google Drive.',
+        warning_title: 'Aviso de Google Drive',
+        warning_body: 'Los archivos ejecutables (.dmg, .exe, .apk) pueden mostrar una pantalla de advertencia de Google antes de la descarga. Esto es normal: haz clic en "Descargar de todos modos" para continuar. Google no puede analizar archivos grandes en busca de virus.',
+        files_label: 'Archivos Disponibles',
+        synced: 'Sincronizado',
+        empty: 'La carpeta de Drive está vacía.',
+        loading: 'Esperando la sincronización inicial...',
+        loading_sub: 'Ejecuta el workflow en GitHub Actions.',
+        time_now: 'ahora mismo', time_min: 'hace {n} min', time_h: 'hace {n}h', time_yesterday: 'ayer', time_days: 'hace {n} días',
+      },
+      de: {
+        back_btn: 'Zurück',
+        page_title: 'Downloads',
+        page_sub: 'Dateien von Google Drive synchronisiert.',
+        warning_title: 'Google Drive Warnung',
+        warning_body: 'Ausführbare Dateien (.dmg, .exe, .apk) zeigen vor dem Download eventuell eine Google-Warnmeldung an. Das ist normal — klicke auf "Trotzdem herunterladen", um fortzufahren. Google kann große Dateien nicht auf Viren überprüfen.',
+        files_label: 'Verfügbare Dateien',
+        synced: 'Synchronisiert',
+        empty: 'Der Drive-Ordner ist leer.',
+        loading: 'Warten auf die erste Synchronisierung...',
+        loading_sub: 'Führe den Workflow in GitHub Actions aus.',
+        time_now: 'gerade eben', time_min: 'vor {n} Min.', time_h: 'vor {n} Std.', time_yesterday: 'gestern', time_days: 'vor {n} Tagen',
+      },
+      fr: {
+        back_btn: 'Retour',
+        page_title: 'Téléchargements',
+        page_sub: 'Fichiers synchronisés depuis Google Drive.',
+        warning_title: 'Avertissement Google Drive',
+        warning_body: 'Les fichiers exécutables (.dmg, .exe, .apk) peuvent afficher un écran d\'avertissement Google avant le téléchargement. C\'est normal — cliquez sur "Télécharger tout de même" pour continuer. Google ne peut pas analyser les gros fichiers à la recherche de virus.',
+        files_label: 'Fichiers Disponibles',
+        synced: 'Synchronisé',
+        empty: 'Le dossier Drive est vide.',
+        loading: 'En attente de la synchronisation initiale...',
+        loading_sub: 'Exécutez le workflow dans GitHub Actions.',
+        time_now: 'à l\'instant', time_min: 'il y a {n} min', time_h: 'il y a {n}h', time_yesterday: 'hier', time_days: 'il y a {n} jours',
+      },
+      ja: {
+        back_btn: '戻る',
+        page_title: 'ダウンロード',
+        page_sub: 'Google ドライブから同期されたファイル。',
+        warning_title: 'Google ドライブの警告',
+        warning_body: '実行可能ファイル（.dmg、.exe、.apk）は、ダウンロードする前に Google の警告画面が表示される場合があります。これは正常な動作です。[該当ファイルダウンロード] をクリックして続行してください。Google は大容量ファイルのウイルス スキャンを実行できません。',
+        files_label: '利用可能なファイル',
+        synced: '同期済み',
+        empty: 'Drive フォルダは空です。',
+        loading: '初期同期を待機中...',
+        loading_sub: 'GitHub Actions でワークフローを実行してください。',
+        time_now: 'たった今', time_min: '{n} 分前', time_h: '{n} 時間前', time_yesterday: '昨日', time_days: '{n} 日前',
+      },
+      ar: {
+        back_btn: 'عودة',
+        page_title: 'التنزيلات',
+        page_sub: 'الملفات المتزامنة من Google Drive.',
+        warning_title: 'تحذير Google Drive',
+        warning_body: 'قد تعرض الملفات القابلة للتنفيذ (.dmg, .exe, .apk) شاشة تحذير من Google قبل التنزيل. هذا أمر طبيعي — انقر على "تنزيل على أي حال" للمتابعة. لا يمكن لـ Google فحص الملفات الكبيرة بحثاً عن الفيروسات.',
+        files_label: 'الملفات المتاحة',
+        synced: 'تمت المزامنة',
+        empty: 'مجلد Drive فارغ.',
+        loading: 'في انتظار المزامنة الأولية...',
+        loading_sub: 'قم بتشغيل سير العمل في GitHub Actions.',
+        time_now: 'الآن', time_min: 'منذ {n} دقيقة', time_h: 'منذ {n} ساعة', time_yesterday: 'أمس', time_days: 'منذ {n} يوم',
+      },
+      zh: {
+        back_btn: '返回',
+        page_title: '下载中心',
+        page_sub: '从 Google 云端硬盘同步的文件。',
+        warning_title: 'Google 云端硬盘提示',
+        warning_body: '可执行文件（.dmg、.exe、.apk）在下载前可能会显示 Google 警告页面。这属于正常现象 —— 点击“仍要下载”即可继续。Google 无法对大容量文件进行病毒扫描。',
+        files_label: '可用档案',
+        synced: '已同步',
+        empty: '云端硬盘文件夹为空。',
+        loading: '正在等待初始同步...',
+        loading_sub: '请在 GitHub Actions 中运行工作流。',
+        time_now: '刚刚', time_min: '{n} 分钟前', time_h: '{n} 小时前', time_yesterday: '昨天', time_days: '{n} 天前',
       }
     };
 
     function getLang() {
-      return localStorage.getItem('preferredLang') || (navigator.language.startsWith('en') ? 'en' : 'pt');
+      const savedLang = localStorage.getItem('preferredLang');
+      if (savedLang && i18n[savedLang]) return savedLang;
+
+      const browserLang = navigator.language ? navigator.language.toLowerCase() : 'pt';
+      if (browserLang.startsWith('en')) return 'en';
+      if (browserLang.startsWith('es')) return 'es';
+      if (browserLang.startsWith('de')) return 'de';
+      if (browserLang.startsWith('fr')) return 'fr';
+      if (browserLang.startsWith('ja')) return 'ja';
+      if (browserLang.startsWith('ar')) return 'ar';
+      if (browserLang.startsWith('zh')) return 'zh';
+      return 'pt';
     }
 
     function t(key, n) {
@@ -339,6 +427,15 @@
     }
 
     function applyStaticTranslations() {
+      const lang = getLang();
+      document.documentElement.lang = lang;
+      
+      if (lang === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+      }
+
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const val = t(key);
