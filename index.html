@@ -168,9 +168,15 @@
         </div>
       </div>
 
-      <!-- AVISO ANTI-ADBLOCK (visível apenas se bloqueador detectado) -->
-      <div id="adblock-notice">
-        <div class="adblock-card">
+      <!-- CARD DE ANÚNCIO / ANTI-ADBLOCK -->
+      <div id="ad-card" class="adblock-card">
+        <!-- Estado padrão: anúncio real -->
+        <div id="ad-real" style="width:100%; min-height:60px; display:flex; align-items:center; justify-content:center;">
+          <script async="async" data-cfasync="false" src="https://pl29592338.effectivecpmnetwork.com/2736409a1dae19134777312a3523ad28/invoke.js"></script>
+          <div id="container-2736409a1dae19134777312a3523ad28"></div>
+        </div>
+        <!-- Estado adblock: aviso (oculto por padrão) -->
+        <div id="ad-blocked" style="display:none; width:100%; align-items:center; gap:14px;">
           <div class="adblock-icon-wrap">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 3a1 1 0 0 1 1 1v5a1 1 0 0 0 2 0V3a1 1 0 1 1 2 0v6a1 1 0 0 0 2 0V5a1 1 0 1 1 2 0v7c0 3.866-3.134 7-7 7S4 15.866 4 12V9a1 1 0 0 1 2 0v3a1 1 0 0 0 2 0V4a1 1 0 0 1 1-1z"/>
@@ -390,8 +396,10 @@
     }
 
     function showAdblockNotice() {
-      const notice = document.getElementById('adblock-notice');
-      if (notice) notice.style.display = 'block';
+      const real = document.getElementById('ad-real');
+      const blocked = document.getElementById('ad-blocked');
+      if (real) real.style.display = 'none';
+      if (blocked) blocked.style.display = 'flex';
     }
 
     /* ── i18n ── */
