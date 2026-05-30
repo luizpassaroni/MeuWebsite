@@ -126,7 +126,7 @@
     }
     .adblock-icon-wrap {
       width: 44px; height: 44px; border-radius: 12px;
-      background: linear-gradient(135deg, #FF9500, #FF6B00);
+      background: linear-gradient(135deg, #FF3B30, #C0392B);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; font-size: 22px;
     }
@@ -143,15 +143,6 @@
       margin: 0;
       line-height: 1.4;
     }
-    .adblock-dismiss {
-      background: none; border: none; cursor: pointer;
-      color: var(--ios-text-secondary, #8e8e93);
-      padding: 4px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0.55; transition: opacity 0.15s;
-      flex-shrink: 0;
-    }
-    .adblock-dismiss:hover { opacity: 1; }
   </style>
 </head>
 
@@ -180,16 +171,15 @@
       <!-- AVISO ANTI-ADBLOCK (visível apenas se bloqueador detectado) -->
       <div id="adblock-notice">
         <div class="adblock-card">
-          <div class="adblock-icon-wrap">🛡️</div>
+          <div class="adblock-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 3a1 1 0 0 1 1 1v5a1 1 0 0 0 2 0V3a1 1 0 1 1 2 0v6a1 1 0 0 0 2 0V5a1 1 0 1 1 2 0v7c0 3.866-3.134 7-7 7S4 15.866 4 12V9a1 1 0 0 1 2 0v3a1 1 0 0 0 2 0V4a1 1 0 0 1 1-1z"/>
+            </svg>
+          </div>
           <div class="adblock-body">
             <p class="adblock-title" data-i18n="adblock_title">Parece que você usa um bloqueador de anúncios</p>
             <p class="adblock-sub" data-i18n="adblock_sub">Anúncios ajudam a manter este portfólio no ar. Considere desativá-lo aqui. 🙏</p>
           </div>
-          <button class="adblock-dismiss" onclick="dismissAdblockNotice()" aria-label="Fechar">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -404,17 +394,6 @@
       if (notice) notice.style.display = 'block';
     }
 
-    function dismissAdblockNotice() {
-      const notice = document.getElementById('adblock-notice');
-      if (!notice) return;
-      notice.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-      notice.style.opacity = '0';
-      notice.style.transform = 'translateY(-6px)';
-      setTimeout(() => notice.style.display = 'none', 260);
-      // Não volta a mostrar por 24h
-      sessionStorage.setItem('adblock_dismissed', '1');
-    }
-
     /* ── i18n ── */
     const translations = {
       pt: {
@@ -577,12 +556,10 @@
       const savedLang = localStorage.getItem('preferredLang') || systemLang;
       switchLanguage(savedLang);
 
-      // Detecta adblock somente se o usuário não dispensou na sessão
-      if (!sessionStorage.getItem('adblock_dismissed')) {
+      // Detecta adblock
         detectAdBlock().then(blocked => {
           if (blocked) showAdblockNotice();
         });
-      }
     });
   </script>
 </body>
