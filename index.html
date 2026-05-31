@@ -95,54 +95,6 @@
     html[dir="rtl"] .text-left { text-align: right; }
     html[dir="rtl"] .md\:text-left { @media (min-width: 768px) { text-align: right; } }
     html[dir="rtl"] .pl-4 { padding-right: 1rem; padding-left: 0; }
-
-    /* ── ANTI-ADBLOCK BANNER ── */
-    #adblock-notice {
-      display: none; /* mostrado via JS apenas se bloqueador detectado */
-      animation: noticeSlideIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    }
-    @keyframes noticeSlideIn {
-      from { opacity: 0; transform: translateY(12px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .adblock-card {
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 1.5rem;
-      padding: 1.1rem 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-      position: relative;
-    }
-    @media (prefers-color-scheme: dark) {
-      .adblock-card {
-        background: rgba(28, 28, 30, 0.78);
-        border-color: rgba(255,255,255,0.08);
-      }
-    }
-    .adblock-icon-wrap {
-      width: 44px; height: 44px; border-radius: 12px;
-      background: linear-gradient(135deg, #FF3B30, #C0392B);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; font-size: 22px;
-    }
-    .adblock-body { flex: 1; min-width: 0; }
-    .adblock-title {
-      font-size: 14px; font-weight: 600;
-      color: var(--ios-text, #1c1c1e);
-      margin: 0 0 2px;
-      line-height: 1.3;
-    }
-    .adblock-sub {
-      font-size: 12px;
-      color: var(--ios-text-secondary, #8e8e93);
-      margin: 0;
-      line-height: 1.4;
-    }
   </style>
 </head>
 
@@ -166,38 +118,6 @@
             <option value="zh">🇨🇳 简体中文</option>
           </select>
         </div>
-      </div>
-
-      <!-- CARD DE ANÚNCIO / ANTI-ADBLOCK -->
-      <div class="space-y-2">
-        <h2 class="ios-section-label pl-4" data-i18n="ad_label">Anúncio</h2>
-      <div id="ad-card" class="adblock-card" style="min-height:60px; height:76px; overflow:hidden; padding: 8px 1.2rem;">
-        <!-- Estado padrão: anúncio real -->
-        <div id="ad-real" style="width:100%; height:60px; display:flex; align-items:center; justify-content:center;">
-          <script>
-            atOptions = {
-              'key' : 'a6e9676b3a80c805cdfe5b798c2b5e29',
-              'format' : 'iframe',
-              'height' : 60,
-              'width' : 468,
-              'params' : {}
-            };
-          </script>
-          <script src="https://www.highperformanceformat.com/a6e9676b3a80c805cdfe5b798c2b5e29/invoke.js"></script>
-        </div>
-        <!-- Estado adblock: aviso (oculto por padrão) -->
-        <div id="ad-blocked" style="display:none; width:100%; align-items:center; gap:14px;">
-          <div class="adblock-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 3a1 1 0 0 1 1 1v5a1 1 0 0 0 2 0V3a1 1 0 1 1 2 0v6a1 1 0 0 0 2 0V5a1 1 0 1 1 2 0v7c0 3.866-3.134 7-7 7S4 15.866 4 12V9a1 1 0 0 1 2 0v3a1 1 0 0 0 2 0V4a1 1 0 0 1 1-1z"/>
-            </svg>
-          </div>
-          <div class="adblock-body">
-            <p class="adblock-title" data-i18n="adblock_title">Parece que você usa um bloqueador de anúncios</p>
-            <p class="adblock-sub" data-i18n="adblock_sub">Anúncios ajudam a manter este portfólio no ar. Considere desativá-lo aqui. 🙏</p>
-          </div>
-        </div>
-      </div>
       </div>
 
       <!-- SEÇÃO: PERFIL -->
@@ -381,38 +301,6 @@
   </main>
 
   <script>
-    /* ── DETECÇÃO DE ADBLOCK (compatível com AdGuard) ── */
-    function detectAdBlock() {
-      return new Promise(resolve => {
-        // Tenta criar um elemento com classe comum bloqueada por filtros
-        const testEl = document.createElement('div');
-        testEl.className = 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads ad-container ad-slot adsbox';
-        testEl.style.cssText = 'width:1px;height:1px;position:absolute;left:-9999px;top:-9999px;pointer-events:none;';
-        document.body.appendChild(testEl);
-
-        // Aguarda um tick para o bloqueador agir
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            const blocked =
-              testEl.offsetHeight === 0 ||
-              testEl.offsetParent === null ||
-              window.getComputedStyle(testEl).display === 'none' ||
-              window.getComputedStyle(testEl).visibility === 'hidden';
-
-            testEl.remove();
-            resolve(blocked);
-          }, 150);
-        });
-      });
-    }
-
-    function showAdblockNotice() {
-      const real = document.getElementById('ad-real');
-      const blocked = document.getElementById('ad-blocked');
-      if (real) real.style.display = 'none';
-      if (blocked) blocked.style.display = 'flex';
-    }
-
     /* ── i18n ── */
     const translations = {
       pt: {
@@ -425,10 +313,7 @@
         lang_pt: "Português", lang_en: "Inglês", native: "Língua nativa", native_badge: "Nativo",
         us_time: "2 anos morando nos EUA — Maryland", advanced_badge: "Avançado", project_title: "Projeto em Destaque",
         quiz_desc: "Quiz interativo sobre a Força Aérea Brasileira — desenvolvido para o WWDC Student Challenge.",
-        mail_label: "E-mail", downloads_title: "Downloads", dl_title: "Arquivos para Download", dl_sub: "Currículos, projetos e mais",
-        adblock_title: "Parece que você usa um bloqueador de anúncios",
-        adblock_sub: "Anúncios ajudam a manter este portfólio no ar. Considere desativá-lo aqui. 🙏",
-        ad_label: "Anúncio"
+        mail_label: "E-mail", downloads_title: "Downloads", dl_title: "Arquivos para Download", dl_sub: "Currículos, projetos e mais"
       },
       en: {
         role: "iOS Developer & CS Student",
@@ -440,10 +325,7 @@
         lang_pt: "Portuguese", lang_en: "English", native: "Native speaker", native_badge: "Native",
         us_time: "2 years living in the USA — Maryland", advanced_badge: "Advanced", project_title: "Featured Project",
         quiz_desc: "Interactive quiz about the Brazilian Air Force — developed for the WWDC Student Challenge.",
-        mail_label: "Mail", downloads_title: "Downloads", dl_title: "Files for Download", dl_sub: "Resumes, projects and more",
-        adblock_title: "Looks like you're using an ad blocker",
-        adblock_sub: "Ads help keep this portfolio running. Consider disabling it here. 🙏",
-        ad_label: "Advertisement"
+        mail_label: "Mail", downloads_title: "Downloads", dl_title: "Files for Download", dl_sub: "Resumes, projects and more"
       },
       es: {
         role: "Desarrollador iOS & Estudiante de CC",
@@ -455,10 +337,7 @@
         lang_pt: "Portugués", lang_en: "Inglés", native: "Lengua materna", native_badge: "Nativo",
         us_time: "2 años viviendo en EE. UU. — Maryland", advanced_badge: "Avanzado", project_title: "Proyecto Destacado",
         quiz_desc: "Quiz interactivo sobre a Força Aérea Brasileira — desarrollado para el WWDC Student Challenge.",
-        mail_label: "Correo", downloads_title: "Descargas", dl_title: "Archivos para Descargar", dl_sub: "Currículums, proyectos y más",
-        adblock_title: "Parece que usas un bloqueador de anuncios",
-        adblock_sub: "Los anuncios ayudan a mantener este portafolio. Considera desactivarlo aquí. 🙏",
-        ad_label: "Publicidad"
+        mail_label: "Correo", downloads_title: "Descargas", dl_title: "Archivos para Descargar", dl_sub: "Currículums, proyectos y más"
       },
       de: {
         role: "iOS-Entwickler & Informatikstudent",
@@ -470,10 +349,7 @@
         lang_pt: "Portugiesisch", lang_en: "Englisch", native: "Muttersprache", native_badge: "Nativ",
         us_time: "2 Jahre Aufenthalt in den USA — Maryland", advanced_badge: "Fortgeschritten", project_title: "Hervorgehobenes Projekt",
         quiz_desc: "Interaktives Quiz über die brasilianische Luftwaffe — entwickelt für die WWDC Student Challenge.",
-        mail_label: "E-Mail", downloads_title: "Downloads", dl_title: "Dateien zum Download", dl_sub: "Lebensläufe, Projekte und mehr",
-        adblock_title: "Du verwendest einen Werbeblocker",
-        adblock_sub: "Werbung hilft, dieses Portfolio am Laufen zu halten. Bitte deaktiviere ihn hier. 🙏",
-        ad_label: "Werbung"
+        mail_label: "E-Mail", downloads_title: "Downloads", dl_title: "Dateien zum Download", dl_sub: "Lebensläufe, Projekte und mehr"
       },
       fr: {
         role: "Développeur iOS & Étudiant en Informatique",
@@ -485,10 +361,7 @@
         lang_pt: "Portugais", lang_en: "Anglais", native: "Langue maternelle", native_badge: "Natif",
         us_time: "2 ans vécus aux États-Unis — Maryland", advanced_badge: "Avancé", project_title: "Projet à la Une",
         quiz_desc: "Quiz interactif sur la force aérienne brésilienne — développé pour le WWDC Student Challenge.",
-        mail_label: "E-mail", downloads_title: "Téléchargements", dl_title: "Fichiers à Télécharger", dl_sub: "CV, projets et plus",
-        adblock_title: "Vous semblez utiliser un bloqueur de publicités",
-        adblock_sub: "Les publicités aident à maintenir ce portfolio en ligne. Pensez à le désactiver ici. 🙏",
-        ad_label: "Publicité"
+        mail_label: "E-mail", downloads_title: "Téléchargements", dl_title: "Fichiers à Télécharger", dl_sub: "CV, projets et plus"
       },
       it: {
         role: "Sviluppatore iOS & Studente di Informatica",
@@ -500,10 +373,7 @@
         lang_pt: "Portoghese", lang_en: "Inglese", native: "Madrelingua", native_badge: "Madrelingua",
         us_time: "2 anni vissuti negli USA — Maryland", advanced_badge: "Avanzato", project_title: "Progetto in Evidenza",
         quiz_desc: "Quiz interattivo sulla Forza Aerea Brasiliana — sviluppato per la WWDC Student Challenge.",
-        mail_label: "E-mail", downloads_title: "Download", dl_title: "File da Scaricare", dl_sub: "Curriculum, progetti e altro",
-        adblock_title: "Sembra che tu stia usando un ad blocker",
-        adblock_sub: "Le pubblicità aiutano a mantenere questo portfolio online. Considera di disabilitarlo qui. 🙏",
-        ad_label: "Pubblicità"
+        mail_label: "E-mail", downloads_title: "Download", dl_title: "File da Scaricare", dl_sub: "Curriculum, progetti e altro"
       },
       ja: {
         role: "iOSエンジニア ＆ コンピュータサイエンス生",
@@ -515,10 +385,7 @@
         lang_pt: "ポルトガル語", lang_en: "英語", native: "母国語", native_badge: "ネイティブ",
         us_time: "米国メリーランド州に2年間在住", advanced_badge: "上級", project_title: "注目のプロジェクト",
         quiz_desc: "ブラジル空軍に関するインタラクティブなクイズアプリ — WWDC Student Challenge向けに開発。",
-        mail_label: "メール", downloads_title: "ダウンロード", dl_title: "ダウンロードファイル", dl_sub: "履歴書、プロジェクト資料など",
-        adblock_title: "広告ブロッカーをお使いのようです",
-        adblock_sub: "広告はこのポートフォリオの維持に役立っています。無効化をご検討ください。🙏",
-        ad_label: "広告"
+        mail_label: "メール", downloads_title: "ダウンロード", dl_title: "ダウンロードファイル", dl_sub: "履歴書、プロジェクト資料など"
       },
       ar: {
         role: "مطور iOS وطالب علوم حاسب",
@@ -530,10 +397,7 @@
         lang_pt: "البرتغالية", lang_en: "الإنجليزية", native: "اللغة الأم", native_badge: "أصلي",
         us_time: "سنتان من العيش في الولايات المتحدة — ميريلاند", advanced_badge: "متقدم", project_title: "المشروع المميز",
         quiz_desc: "اختبار تفاعلي حول القوات الجوية البرازيلية — تم تطويره لتحدي طلاب WWDC.",
-        mail_label: "البريد", downloads_title: "التنزيلات", dl_title: "ملفات للتحميل", dl_sub: "السير الذاتية والمشاريع والمزيد",
-        adblock_title: "يبدو أنك تستخدم مانع إعلانات",
-        adblock_sub: "تساعد الإعلانات في الحفاظ على هذا الموقع. يُرجى التفكير في تعطيله هنا. 🙏",
-        ad_label: "إعلان"
+        mail_label: "البريد", downloads_title: "التنزيلات", dl_title: "ملفات للتحميل", dl_sub: "السير الذاتية والمشاريع والمزيد"
       },
       zh: {
         role: "iOS 开发者 & 计算机科学学生",
@@ -545,10 +409,7 @@
         lang_pt: "葡萄牙语", lang_en: "英语", native: "母语", native_badge: "母语级",
         us_time: "曾在美国马里兰州居住2年", advanced_badge: "高级", project_title: "精选项目",
         quiz_desc: "关于巴西空军的互动问答游戏 —— 专为 WWDC 学生挑战赛开发。",
-        mail_label: "电子邮箱", downloads_title: "档案下载", dl_title: "可下载文件", dl_sub: "个人简历、项目详情及其他",
-        adblock_title: "您似乎正在使用广告拦截器",
-        adblock_sub: "广告有助于维持本作品集的运营，请考虑在此处将其关闭。🙏",
-        ad_label: "广告"
+        mail_label: "电子邮箱", downloads_title: "档案下载", dl_title: "可下载文件", dl_sub: "个人简历、项目详情及其他"
       }
     };
 
@@ -583,11 +444,6 @@
 
       const savedLang = localStorage.getItem('preferredLang') || systemLang;
       switchLanguage(savedLang);
-
-      // Detecta adblock
-        detectAdBlock().then(blocked => {
-          if (blocked) showAdblockNotice();
-        });
     });
   </script>
 </body>
