@@ -120,7 +120,6 @@
         </div>
       </div>
 
-      <!-- SEÇÃO: PERFIL -->
       <header id="sec-perfil" class="ios-widget-glass p-8 flex flex-col-reverse md:flex-row items-center gap-8 relative overflow-hidden">
         <div class="flex-1 space-y-4 text-center md:text-left relative z-10">
           <div>
@@ -156,6 +155,20 @@
         </div>
       </header>
 
+      <div id="spotify-widget" class="ios-widget-glass p-4 items-center gap-4" style="display: none; margin-top: -1rem;">
+        <img id="spotify-cover" src="" alt="Album Cover" class="w-12 h-12 rounded-xl shrink-0" style="object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <div class="flex-1" style="min-width: 0;">
+          <p class="ios-caption2 ios-text-blue" style="font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">🎵 Ouvindo Agora</p>
+          <a id="spotify-link" href="#" target="_blank" class="ios-subheadline" style="font-weight: 600; text-decoration: none; color: var(--ios-text); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            <span id="spotify-title">Carregando...</span>
+          </a>
+          <p id="spotify-artist" class="ios-footnote ios-text-secondary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;"></p>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-[var(--ios-card)] flex items-center justify-center ios-text-blue shrink-0" style="box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </div>
+
       <div class="ios-stat-grid" style="grid-template-columns: repeat(2, 1fr);">
         <div class="ios-stat-card">
           <div class="ios-stat-icon">⌨️</div>
@@ -181,7 +194,6 @@
         </div>
       </section>
 
-      <!-- SEÇÃO: EXPERIÊNCIA -->
       <section id="sec-exp" class="space-y-2">
         <h2 class="ios-section-label pl-4" data-i18n="exp_title">Experiência Profissional</h2>
         <div class="ios-widget-glass p-4">
@@ -238,7 +250,6 @@
         </div>
       </section>
 
-      <!-- SEÇÃO: IDIOMAS FALADOS -->
       <section class="space-y-2">
         <h2 class="ios-section-label pl-4" data-i18n="lang_title">Idiomas</h2>
         <div class="ios-widget-glass p-5">
@@ -261,7 +272,6 @@
         </div>
       </section>
 
-      <!-- SEÇÃO: PROJETOS -->
       <section id="sec-projetos" class="space-y-2 pt-2">
         <h2 class="ios-section-label pl-4" data-i18n="project_title">Projeto em Destaque</h2>
         <a href="https://github.com/luizpassaroni/FabTheQuiz" target="_blank" class="ios-tappable ios-hero-card">
@@ -277,7 +287,6 @@
         </a>
       </section>
 
-      <!-- SEÇÃO: DOWNLOADS -->
       <section id="sec-downloads" class="space-y-2 pt-2 pb-4">
         <h2 class="ios-section-label pl-4" data-i18n="downloads_title">Downloads</h2>
         <a href="downloads/" class="ios-tappable ios-widget-glass flex items-center gap-4 p-4" style="text-decoration:none; color:inherit; display:flex;">
@@ -445,6 +454,33 @@
       const savedLang = localStorage.getItem('preferredLang') || systemLang;
       switchLanguage(savedLang);
     });
+  </script>
+
+  <script>
+    async function fetchSpotify() {
+      const WORKER_URL = "https://dark-dream-6b4aspotify-api-luiz.aguiarpassaroni.workers.dev/";
+      
+      try {
+        const response = await fetch(WORKER_URL);
+        const data = await response.json();
+
+        if (data.isPlaying) {
+          document.getElementById("spotify-widget").style.display = "flex";
+          document.getElementById("spotify-cover").src = data.albumImageUrl;
+          document.getElementById("spotify-title").innerText = data.title;
+          document.getElementById("spotify-artist").innerText = data.artist;
+          document.getElementById("spotify-link").href = data.songUrl;
+        } else {
+          document.getElementById("spotify-widget").style.display = "none";
+        }
+      } catch (error) {
+        console.error("Erro ao buscar o Spotify:", error);
+      }
+    }
+
+    // Busca a música ao carregar a página e atualiza a cada 30 segundos
+    document.addEventListener('DOMContentLoaded', fetchSpotify);
+    setInterval(fetchSpotify, 30000);
   </script>
 </body>
 
