@@ -139,6 +139,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -209,9 +210,9 @@
           </a>
           <p id="spotify-artist" class="ios-footnote ios-text-secondary" style="margin-top: 2px;"></p>
         </div>
-        <div class="spotify-play-icon bg-[var(--ios-card)] ios-text-blue" style="box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+        <a id="spotify-play-btn" href="#" target="_blank" class="spotify-play-icon bg-[var(--ios-card)] ios-text-blue" style="box-shadow: 0 1px 3px rgba(0,0,0,0.08); text-decoration:none;">
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
+        </a>
       </div>
 
       <div class="ios-stat-grid" style="grid-template-columns: repeat(2, 1fr);">
@@ -524,6 +525,7 @@
           document.getElementById("spotify-title").innerText = data.title;
           document.getElementById("spotify-artist").innerText = data.artist;
           document.getElementById("spotify-link").href = data.songUrl;
+          document.getElementById("spotify-play-btn").href = data.songUrl;
         } else {
           document.getElementById("spotify-widget").classList.remove("is-visible");
         }
