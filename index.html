@@ -141,6 +141,36 @@
       justify-content: center;
       cursor: pointer;
     }
+
+    /* BARRA DE PROGRESSO DO SPOTIFY */
+    .spotify-progress-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      width: 100%;
+    }
+    .spotify-time-text {
+      font-size: 10px;
+      color: var(--ios-text-secondary, #8E8E93);
+      font-variant-numeric: tabular-nums;
+      min-width: 28px;
+    }
+    .spotify-progress-bar-bg {
+      flex: 1;
+      height: 4px;
+      background: rgba(120, 120, 128, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .spotify-progress-bar-fill {
+      height: 100%;
+      background: var(--ios-blue, #007AFF);
+      width: 0%;
+      border-radius: 2px;
+      transition: width 0.1s linear; 
+    }
   </style>
 </head>
 
@@ -209,7 +239,16 @@
             <span id="spotify-title">Carregando...</span>
           </a>
           <p id="spotify-artist" class="ios-footnote ios-text-secondary" style="margin-top: 2px;"></p>
+          
+          <div class="spotify-progress-wrapper">
+            <span id="spotify-time-current" class="spotify-time-text">0:00</span>
+            <div class="spotify-progress-bar-bg">
+              <div id="spotify-progress-bar-fill" class="spotify-progress-bar-fill"></div>
+            </div>
+            <span id="spotify-time-total" class="spotify-time-text">0:00</span>
+          </div>
         </div>
+        
         <a id="spotify-play-btn" href="#" target="_blank" class="spotify-play-icon bg-[var(--ios-card)] ios-text-blue" style="box-shadow: 0 1px 3px rgba(0,0,0,0.08); text-decoration:none;">
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </a>
@@ -512,6 +551,40 @@
   </script>
 
   <script>
+    // Variáveis de estado globais para a barra de progresso
+    let spotifyProgressMs = 0;
+    let spotifyDurationMs = 0;
+    let spotifyFetchTimestamp = 0;
+    let isSpotifyPlaying = false;
+    let progressInterval = null;
+
+    // Função utilitária para converter milissegundos em M:SS
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Atualiza a barra visualmente a cada 100ms
+    function updateProgressBar() {
+      if (!isSpotifyPlaying) return;
+
+      // Calcula o tempo atual com base no momento em que a API respondeu + tempo passado localmente
+      const timeSinceFetch = Date.now() - spotifyFetchTimestamp;
+      let currentMs = spotifyProgressMs + timeSinceFetch;
+
+      // Trava no limite máximo da música para não ultrapassar a barra
+      if (currentMs > spotifyDurationMs) {
+        currentMs = spotifyDurationMs;
+      }
+
+      // Atualiza os textos e o width do CSS
+      document.getElementById("spotify-time-current").innerText = formatTime(currentMs);
+      const percentage = (currentMs / spotifyDurationMs) * 100;
+      document.getElementById("spotify-progress-bar-fill").style.width = `${percentage}%`;
+    }
+
     async function fetchSpotify() {
       const WORKER_URL = "https://dark-dream-6b4aspotify-api-luiz.aguiarpassaroni.workers.dev/";
       
@@ -526,15 +599,36 @@
           document.getElementById("spotify-artist").innerText = data.artist;
           document.getElementById("spotify-link").href = data.songUrl;
           document.getElementById("spotify-play-btn").href = data.songUrl;
+
+          // Sincroniza os dados de tempo com a resposta do servidor
+          spotifyProgressMs = data.progressMs;
+          spotifyDurationMs = data.durationMs;
+          spotifyFetchTimestamp = data.timestamp || Date.now();
+          isSpotifyPlaying = true;
+          
+          // Define o texto do tempo total
+          document.getElementById("spotify-time-total").innerText = formatTime(spotifyDurationMs);
+
+          // Garante que o loop de atualização local esteja rodando (100 milissegundos para extrema fluidez)
+          if (!progressInterval) {
+            progressInterval = setInterval(updateProgressBar, 100);
+          }
         } else {
           document.getElementById("spotify-widget").classList.remove("is-visible");
+          isSpotifyPlaying = false;
+          
+          // Para a barra se não houver música
+          if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+          }
         }
       } catch (error) {
         console.error("Erro ao buscar o Spotify:", error);
       }
     }
 
-    // Busca a música ao carregar a página e atualiza a cada 10 segundos
+    // Busca a música ao carregar a página e re-sincroniza com a API a cada 10 segundos
     document.addEventListener('DOMContentLoaded', fetchSpotify);
     setInterval(fetchSpotify, 10000);
   </script>
