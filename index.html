@@ -101,7 +101,6 @@
       display: none;
       align-items: center;
       gap: 1rem;
-      margin-top: -1rem;
       width: 100%;
       box-sizing: border-box;
     }
@@ -111,7 +110,7 @@
     #spotify-cover {
       width: 48px;
       height: 48px;
-      border-radius: 50%;
+      border-radius: 12px;
       object-fit: cover;
       flex: 0 0 48px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -532,9 +531,9 @@
       }
     }
 
-    // Busca a música ao carregar a página e atualiza a cada 30 segundos
+    // Busca a música ao carregar a página e atualiza a cada 10 segundos
     document.addEventListener('DOMContentLoaded', fetchSpotify);
-    setInterval(fetchSpotify, 30000);
+    setInterval(fetchSpotify, 10000);
   </script>
 </body>
 
