@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 512 512">
+  <title>Luiz Passaroni</title>
+  <defs>
+    <linearGradient id="gLeft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff200"/>
+      <stop offset="0.5" stop-color="#8ee52b"/>
+      <stop offset="1" stop-color="#35b85a"/>
+    </linearGradient>
+    <linearGradient id="gSlash" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff200"/>
+      <stop offset="0.48" stop-color="#47d28b"/>
+      <stop offset="1" stop-color="#1688e8"/>
+    </linearGradient>
+    <linearGradient id="gRight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1ee7ec"/>
+      <stop offset="0.52" stop-color="#10b8e8"/>
+      <stop offset="1" stop-color="#1774df"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="72" fill="#000"/>
+
+  <path d="M55 205c-14 7-22 21-22 37s8 30 22 37l112 57c17 9 38 2 47-15 9-18 2-39-15-48l-62-31 62-31c17-9 24-30 15-48-9-17-30-24-47-15L55 205z" fill="url(#gLeft)"/>
+
+  <path d="M286 112c-19-5-38 6-43 25l-87 278c-6 19 5 39 24 44 19 6 39-5 45-24l87-279c5-19-6-38-26-44z" fill="url(#gSlash)"/>
+
+  <path d="M457 205l-112-57c-17-9-38-2-47 15-9 18-2 39 15 48l62 31-62 31c-17 9-24 30-15 48 9 17 30 24 47 15l112-57c14-7 22-21 22-37s-8-30-22-37z" fill="url(#gRight)"/>
+</svg>
