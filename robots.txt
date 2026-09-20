@@ -8,3 +8,5 @@ Disallow: /
 User-Agent: *
 Content-signal: search=yes,ai-train=no
 Allow: /
+
+Sitemap: https://luizpassaroni.com/sitemap.xml
