@@ -4,6 +4,9 @@ Disallow: /
 User-agent: archive.org_bot
 Disallow: /
 
+User-agent: Google-Extended
+Allow: /
+
 # Mantém as regras de IA também
 User-Agent: *
 Content-signal: search=yes, ai-input=yes, ai-train=no
