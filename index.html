@@ -132,17 +132,21 @@
     html[dir="rtl"] .md\:text-left { @media (min-width: 768px) { text-align: right; } }
     html[dir="rtl"] .pl-4 { padding-right: 1rem; padding-left: 0; }
 
-    /* WIDGET DO SPOTIFY — layout fixo e independente do framework de utilitários */
+    /* WIDGET DO SPOTIFY — música e letra no mesmo card */
     #spotify-widget {
       display: none;
-      align-items: center;
-      gap: 1rem;
       width: 100%;
       box-sizing: border-box;
-      padding: 1.1rem 1.25rem;
+      overflow: hidden;
     }
     #spotify-widget.is-visible {
+      display: block;
+    }
+    #spotify-now-playing {
       display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.1rem 1.25rem;
     }
     #spotify-cover {
       width: 48px;
@@ -181,7 +185,8 @@
     /* LETRA SINCRONIZADA — mini player, só aparece com timestamps */
     #spotify-lyrics {
       display: none;
-      padding: 0.9rem 1.25rem 1rem;
+      padding: 0.85rem 1.25rem 1rem;
+      border-top: 1px solid var(--ios-separator, rgba(60, 60, 67, 0.15));
       text-align: center;
     }
     #spotify-lyrics.is-visible { display: block; }
@@ -334,41 +339,43 @@
       </header>
 
       <div id="spotify-widget" class="ios-widget-glass">
-        <img id="spotify-cover" src="" width="48" height="48" alt="Capa do álbum em reprodução" decoding="async">
-        <div class="spotify-info">
-          
-          <div class="flex items-center" style="margin-bottom: 2px;">
-            <div class="now-playing-icon">
-              <div class="np-bar"></div>
-              <div class="np-bar"></div>
-              <div class="np-bar"></div>
+        <div id="spotify-now-playing">
+          <img id="spotify-cover" src="" width="48" height="48" alt="Capa do álbum em reprodução" decoding="async">
+          <div class="spotify-info">
+            
+            <div class="flex items-center" style="margin-bottom: 2px;">
+              <div class="now-playing-icon">
+                <div class="np-bar"></div>
+                <div class="np-bar"></div>
+                <div class="np-bar"></div>
+              </div>
+              <p class="ios-caption2 ios-text-blue" style="font-weight: 700; text-transform: uppercase;" data-i18n="listening_now">O que estou ouvindo agora</p>
             </div>
-            <p class="ios-caption2 ios-text-blue" style="font-weight: 700; text-transform: uppercase;" data-i18n="listening_now">O que estou ouvindo agora</p>
-          </div>
 
-          <a id="spotify-link" href="#" target="_blank" class="ios-subheadline" style="font-weight: 600; text-decoration: none; color: var(--ios-text);">
-            <span id="spotify-title">Carregando...</span>
+            <a id="spotify-link" href="#" target="_blank" class="ios-subheadline" style="font-weight: 600; text-decoration: none; color: var(--ios-text);">
+              <span id="spotify-title">Carregando...</span>
+            </a>
+            <p id="spotify-artist" class="ios-footnote ios-text-secondary" style="margin-top: 2px;"></p>
+            
+            <div class="spotify-progress-wrapper">
+              <span id="spotify-time-current" class="spotify-time-text">0:00</span>
+              <div class="spotify-progress-bar-bg">
+                <div id="spotify-progress-bar-fill" class="spotify-progress-bar-fill"></div>
+              </div>
+              <span id="spotify-time-total" class="spotify-time-text">0:00</span>
+            </div>
+          </div>
+          
+          <a id="spotify-play-btn" href="#" target="_blank" class="spotify-play-icon bg-[var(--ios-card)] ios-text-blue" style="box-shadow: 0 1px 3px rgba(0,0,0,0.08); text-decoration:none;">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </a>
-          <p id="spotify-artist" class="ios-footnote ios-text-secondary" style="margin-top: 2px;"></p>
-          
-          <div class="spotify-progress-wrapper">
-            <span id="spotify-time-current" class="spotify-time-text">0:00</span>
-            <div class="spotify-progress-bar-bg">
-              <div id="spotify-progress-bar-fill" class="spotify-progress-bar-fill"></div>
-            </div>
-            <span id="spotify-time-total" class="spotify-time-text">0:00</span>
-          </div>
         </div>
-        
-        <a id="spotify-play-btn" href="#" target="_blank" class="spotify-play-icon bg-[var(--ios-card)] ios-text-blue" style="box-shadow: 0 1px 3px rgba(0,0,0,0.08); text-decoration:none;">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </a>
-      </div>
 
-      <section id="spotify-lyrics" class="ios-widget-glass" aria-live="polite">
-        <p class="spotify-lyrics-label">Letra sincronizada</p>
-        <div id="spotify-lyrics-lines"></div>
-      </section>
+        <div id="spotify-lyrics" aria-live="polite">
+          <p class="spotify-lyrics-label">Letra sincronizada</p>
+          <div id="spotify-lyrics-lines"></div>
+        </div>
+      </div>
 
       <div class="ios-stat-grid" style="grid-template-columns: repeat(2, 1fr);">
         <div class="ios-stat-card">
