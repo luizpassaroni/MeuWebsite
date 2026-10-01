@@ -186,10 +186,17 @@
     #spotify-lyrics {
       display: none;
       padding: 0.85rem 1.25rem 1rem;
-      border-top: 1px solid var(--ios-separator, rgba(60, 60, 67, 0.15));
       text-align: center;
     }
     #spotify-lyrics.is-visible { display: block; }
+    #spotify-lyrics::before {
+      display: block;
+      width: 42%;
+      height: 1px;
+      margin: 0 auto 0.85rem;
+      background: var(--ios-separator, rgba(60, 60, 67, 0.15));
+      content: "";
+    }
     .spotify-lyrics-label {
       margin: 0 0 0.5rem;
       font-size: 10px;
