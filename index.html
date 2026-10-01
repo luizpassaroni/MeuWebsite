@@ -709,51 +709,16 @@
       document.getElementById("spotify-lyrics").classList.toggle("is-visible", lines.length > 0);
     }
 
-    async function loadLyrics(trackKey, data) {
+    function loadLyrics(trackKey, data) {
       hideLyrics();
+      if (lyricsTrackKey !== trackKey) return;
 
-      try {
-        const headers = {
-          "X-User-Agent": "LuizPassaroniPortfolio/1.0 (https://luizpassaroni.com/)"
-        };
-        const parameters = new URLSearchParams({
-          track_name: data.title,
-          artist_name: data.artist,
-          duration: String(Math.round(data.durationMs / 1000))
-        });
-        const getLyrics = async (endpoint, query) => {
-          const response = await fetch(`https://lrclib.net/api/${endpoint}?${query}`, { headers });
-          return response.ok ? response.json() : null;
-        };
+      const parsed = parseSyncedLyrics(data.syncedLyrics || "");
+      if (!parsed.length) return;
 
-        let lyrics = await getLyrics("get", parameters);
-        if (lyricsTrackKey !== trackKey) return;
-
-        // Alguns catálogos divergem no título ou duração. A busca encontra o
-        // registro sincronizado mais próximo antes de desistir silenciosamente.
-        if (!lyrics?.syncedLyrics) {
-          const results = await getLyrics("search", new URLSearchParams({
-            track_name: data.title,
-            artist_name: data.artist
-          }));
-          if (lyricsTrackKey !== trackKey) return;
-
-          const expectedDuration = Math.round(data.durationMs / 1000);
-          lyrics = Array.isArray(results)
-            ? results.find(item => item.syncedLyrics && Math.abs(item.duration - expectedDuration) <= 5)
-              || results.find(item => item.syncedLyrics)
-            : null;
-        }
-
-        const parsed = parseSyncedLyrics(lyrics?.syncedLyrics || "");
-        if (!parsed.length) return;
-
-        syncedLyrics = parsed;
-        renderLyrics(syncedLyrics);
-        updateLyrics(spotifyProgressMs);
-      } catch {
-        // Sem letra, o bloco permanece oculto.
-      }
+      syncedLyrics = parsed;
+      renderLyrics(syncedLyrics);
+      updateLyrics(spotifyProgressMs);
     }
 
     function updateLyrics(currentMs) {
