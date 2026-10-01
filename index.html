@@ -178,6 +178,40 @@
       cursor: pointer;
     }
 
+    /* LETRA SINCRONIZADA — só aparece quando o LRCLIB retorna timestamps */
+    #spotify-lyrics {
+      display: none;
+      max-height: 240px;
+      overflow-y: auto;
+      padding: 0.9rem 1.25rem;
+      scrollbar-width: none;
+    }
+    #spotify-lyrics.is-visible { display: block; }
+    #spotify-lyrics::-webkit-scrollbar { display: none; }
+    .spotify-lyrics-label {
+      margin: 0 0 0.5rem;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ios-text-secondary, #8E8E93);
+    }
+    .spotify-lyric-line {
+      margin: 0;
+      padding: 0.28rem 0;
+      color: var(--ios-text-secondary, #8E8E93);
+      font-size: 14px;
+      line-height: 1.4;
+      opacity: 0.56;
+      transition: color 180ms ease, opacity 180ms ease, transform 180ms ease;
+    }
+    .spotify-lyric-line.is-active {
+      color: var(--ios-text);
+      font-weight: 600;
+      opacity: 1;
+      transform: translateX(2px);
+    }
+
     /* BARRA DE PROGRESSO DO SPOTIFY */
     .spotify-progress-wrapper {
       display: flex;
@@ -321,6 +355,11 @@
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </a>
       </div>
+
+      <section id="spotify-lyrics" class="ios-widget-glass" aria-live="polite">
+        <p class="spotify-lyrics-label">Letra sincronizada</p>
+        <div id="spotify-lyrics-lines"></div>
+      </section>
 
       <div class="ios-stat-grid" style="grid-template-columns: repeat(2, 1fr);">
         <div class="ios-stat-card">
@@ -625,6 +664,98 @@
     let spotifyFetchTimestamp = 0;
     let isSpotifyPlaying = false;
     let progressInterval = null;
+    let lyricsTrackKey = null;
+    let syncedLyrics = [];
+    let activeLyricIndex = -1;
+
+    function hideLyrics() {
+      syncedLyrics = [];
+      activeLyricIndex = -1;
+      document.getElementById("spotify-lyrics").classList.remove("is-visible");
+      document.getElementById("spotify-lyrics-lines").replaceChildren();
+    }
+
+    function parseSyncedLyrics(lrc) {
+      const lines = [];
+      for (const rawLine of lrc.split(/\r?\n/)) {
+        const text = rawLine.replace(/\[\d{1,2}:\d{2}(?:\.\d{1,3})?\]/g, "").trim();
+        const timestamps = [...rawLine.matchAll(/\[(\d{1,2}):(\d{2}(?:\.\d{1,3})?)\]/g)];
+        for (const match of timestamps) {
+          if (text) {
+            lines.push({
+              startMs: (Number(match[1]) * 60 + Number(match[2])) * 1000,
+              text
+            });
+          }
+        }
+      }
+      return lines.sort((a, b) => a.startMs - b.startMs);
+    }
+
+    function renderLyrics(lines) {
+      const container = document.getElementById("spotify-lyrics-lines");
+      const fragment = document.createDocumentFragment();
+
+      lines.forEach((line, index) => {
+        const element = document.createElement("p");
+        element.className = "spotify-lyric-line";
+        element.dataset.lyricIndex = index;
+        element.textContent = line.text;
+        line.element = element;
+        fragment.appendChild(element);
+      });
+
+      container.replaceChildren(fragment);
+      document.getElementById("spotify-lyrics").classList.toggle("is-visible", lines.length > 0);
+    }
+
+    async function loadLyrics(trackKey, data) {
+      hideLyrics();
+
+      try {
+        const parameters = new URLSearchParams({
+          track_name: data.title,
+          artist_name: data.artist,
+          duration: String(Math.round(data.durationMs / 1000))
+        });
+        const response = await fetch(`https://lrclib.net/api/get?${parameters}`, {
+          headers: {
+            "X-User-Agent": "LuizPassaroniPortfolio/1.0 (https://luizpassaroni.com/)"
+          }
+        });
+        if (!response.ok || lyricsTrackKey !== trackKey) return;
+
+        const lyrics = await response.json();
+        const parsed = parseSyncedLyrics(lyrics.syncedLyrics || "");
+        if (!parsed.length) return;
+
+        syncedLyrics = parsed;
+        renderLyrics(syncedLyrics);
+        updateLyrics(spotifyProgressMs);
+      } catch {
+        // Sem letra, o bloco permanece oculto.
+      }
+    }
+
+    function updateLyrics(currentMs) {
+      if (!syncedLyrics.length) return;
+
+      let nextIndex = -1;
+      for (let index = 0; index < syncedLyrics.length; index += 1) {
+        if (syncedLyrics[index].startMs <= currentMs) nextIndex = index;
+        else break;
+      }
+
+      if (nextIndex === activeLyricIndex) return;
+      if (activeLyricIndex >= 0) syncedLyrics[activeLyricIndex].element.classList.remove("is-active");
+
+      activeLyricIndex = nextIndex;
+      if (activeLyricIndex >= 0) {
+        const activeLine = syncedLyrics[activeLyricIndex].element;
+        activeLine.classList.add("is-active");
+        activeLine.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    }
 
     // Função utilitária para converter milissegundos em M:SS
     function formatTime(ms) {
@@ -651,6 +782,7 @@
       document.getElementById("spotify-time-current").innerText = formatTime(currentMs);
       const percentage = (currentMs / spotifyDurationMs) * 100;
       document.getElementById("spotify-progress-bar-fill").style.width = `${percentage}%`;
+      updateLyrics(currentMs);
     }
 
     async function fetchSpotify() {
@@ -673,6 +805,12 @@
           spotifyDurationMs = data.durationMs;
           spotifyFetchTimestamp = data.timestamp || Date.now();
           isSpotifyPlaying = true;
+
+          const trackKey = [data.title, data.artist, data.durationMs].join("|");
+          if (lyricsTrackKey !== trackKey) {
+            lyricsTrackKey = trackKey;
+            loadLyrics(trackKey, data);
+          }
           
           // Define o texto do tempo total
           document.getElementById("spotify-time-total").innerText = formatTime(spotifyDurationMs);
@@ -684,6 +822,8 @@
         } else {
           document.getElementById("spotify-widget").classList.remove("is-visible");
           isSpotifyPlaying = false;
+          lyricsTrackKey = null;
+          hideLyrics();
           
           // Para a barra se não houver música
           if (progressInterval) {
