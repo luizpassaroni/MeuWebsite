@@ -55,13 +55,14 @@
   <a class="skip-link" href="#links" data-i18n="skip">Pular para os links</a>
 
   <main class="page-shell">
-    <div class="language-control">
-      <label class="sr-only" for="langSelect" data-i18n="language_label">Idioma</label>
-      <select id="langSelect" onchange="switchLanguage(this.value)" aria-label="Idioma">
-        <option value="auto" data-i18n="selector_auto">🌐 Automático</option>
-        <option value="pt" data-i18n="selector_pt">🇧🇷 Português</option>
-        <option value="en" data-i18n="selector_en">🇺🇸 English</option>
-      </select>
+    <div class="ios-lang-wrapper">
+      <div class="ios-lang-container">
+        <svg class="lang-icon-prefix" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.806m10.022 5.806c-.832-2.314-2.122-4.522-3.827-5.806m1.102 11.5l2.29-6m2.29 6l-2.29-6m-6.404 0H9m-6.404 0H3m4.847 0a12.016 12.016 0 003.111-5H5.889a12.016 12.016 0 003.111 5z"/></svg>
+        <select id="langSelect" onchange="switchLanguage(this.value)" class="ios-lang-selector" aria-label="Idioma">
+          <option value="pt" data-i18n="selector_pt">🇧🇷 Português</option>
+          <option value="en" data-i18n="selector_en">🇺🇸 English</option>
+        </select>
+      </div>
     </div>
 
     <header class="profile" aria-labelledby="profile-name">
@@ -159,7 +160,6 @@
       pt: {
         skip: "Pular para os links",
         language_label: "Idioma",
-        selector_auto: "🌐 Automático",
         selector_pt: "🇧🇷 Português",
         selector_en: "🇺🇸 English",
         role: "Desenvolvedor Apple @ Globo",
@@ -175,7 +175,6 @@
       en: {
         skip: "Skip to links",
         language_label: "Language",
-        selector_auto: "🌐 Automatic",
         selector_pt: "🇧🇷 Portuguese",
         selector_en: "🇺🇸 English",
         role: "Apple Developer @ Globo",
@@ -206,24 +205,17 @@
       document.getElementById("langSelect").setAttribute("aria-label", translations[lang].language_label);
     }
 
-    function switchLanguage(preference) {
-      const choice = preference === "pt" || preference === "en" ? preference : "auto";
-      const lang = choice === "auto" ? getDeviceLanguage() : choice;
-      applyLanguage(lang);
+    function switchLanguage(lang) {
+      const choice = lang === "pt" ? "pt" : "en";
+      applyLanguage(choice);
       document.getElementById("langSelect").value = choice;
       localStorage.setItem("preferredLang", choice);
     }
 
     document.addEventListener("DOMContentLoaded", function () {
       const saved = localStorage.getItem("preferredLang");
-      const preference = saved === "pt" || saved === "en" ? saved : "auto";
-      switchLanguage(preference);
-    });
-
-    window.addEventListener("languagechange", function () {
-      if (document.getElementById("langSelect").value === "auto") {
-        switchLanguage("auto");
-      }
+      const language = saved === "pt" || saved === "en" ? saved : getDeviceLanguage();
+      switchLanguage(language);
     });
   </script>
 </body>

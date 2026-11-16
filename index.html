@@ -299,7 +299,6 @@
         <div class="ios-lang-container">
           <svg class="lang-icon-prefix" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.806m10.022 5.806c-.832-2.314-2.122-4.522-3.827-5.806m1.102 11.5l2.29-6m2.29 6l-2.29-6m-6.404 0H9m-6.404 0H3m4.847 0a12.016 12.016 0 003.111-5H5.889a12.016 12.016 0 003.111 5z"/></svg>
           <select id="langSelect" onchange="switchLanguage(this.value)" class="ios-lang-selector" aria-label="Idioma">
-            <option value="auto" data-i18n="selector_auto">🌐 Automático (dispositivo)</option>
             <option value="pt" data-i18n="selector_pt">🇧🇷 Português</option>
             <option value="en" data-i18n="selector_en">🇺🇸 English</option>
           </select>
@@ -506,7 +505,7 @@
     const translations = {
       pt: {
         role: "Desenvolvedor Apple & Estudante de CC",
-        selector_auto: "🌐 Automático (dispositivo)", selector_pt: "🇧🇷 Português", selector_en: "🇺🇸 English",
+        selector_pt: "🇧🇷 Português", selector_en: "🇺🇸 English",
         listening_now: "O que estou ouvindo agora", lyrics_synced: "Letras sincronizadas",
         about: "Desenvolvedor entusiasta com foco em mobile, especialmente no ecossistema Apple. Buscando explorar novas tecnologias e criar aplicações de alto impacto visual e funcional.",
         main_lang: "Linguagem principal", certs_label: "Certificados", tech_title: "Tecnologias", exp_title: "Experiência Profissional",
@@ -520,7 +519,7 @@
       },
       en: {
         role: "Apple Developer & CS Student",
-        selector_auto: "🌐 Automatic (device)", selector_pt: "🇧🇷 Portuguese", selector_en: "🇺🇸 English",
+        selector_pt: "🇧🇷 Portuguese", selector_en: "🇺🇸 English",
         listening_now: "What I'm Listening To Now", lyrics_synced: "Synced lyrics",
         about: "Enthusiastic developer focused on mobile, especially the Apple ecosystem. Seeking to explore new technologies and create applications with high visual and functional impact.",
         main_lang: "Primary Language", certs_label: "Certifications", tech_title: "Technologies", exp_title: "Professional Experience",
@@ -550,24 +549,17 @@
       });
     }
 
-    function switchLanguage(preference) {
-      const choice = preference === "pt" || preference === "en" ? preference : "auto";
-      const lang = choice === "auto" ? getDeviceLanguage() : choice;
-      applyLanguage(lang);
+    function switchLanguage(lang) {
+      const choice = lang === "pt" ? "pt" : "en";
+      applyLanguage(choice);
       document.getElementById("langSelect").value = choice;
       localStorage.setItem("preferredLang", choice);
     }
 
     document.addEventListener("DOMContentLoaded", function () {
       const saved = localStorage.getItem("preferredLang");
-      const preference = saved === "pt" || saved === "en" ? saved : "auto";
-      switchLanguage(preference);
-    });
-
-    window.addEventListener("languagechange", function () {
-      if (document.getElementById("langSelect").value === "auto") {
-        switchLanguage("auto");
-      }
+      const language = saved === "pt" || saved === "en" ? saved : getDeviceLanguage();
+      switchLanguage(language);
     });
   </script>
 

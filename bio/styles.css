@@ -92,41 +92,60 @@ a {
 }
 
 
-.language-control {
+.ios-lang-wrapper {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 12px;
+  position: relative;
+  z-index: 10;
 }
 
-.language-control select {
+.ios-lang-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.lang-icon-prefix {
+  position: absolute;
+  left: 12px;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  color: var(--ios-blue);
+}
+
+.ios-lang-selector {
+  appearance: none;
   min-height: 42px;
-  padding: 8px 34px 8px 12px;
+  padding: 10px 35px 10px 38px;
   border: 1px solid var(--ios-separator);
-  border-radius: var(--radius-md);
-  background-color: var(--ios-surface-solid);
+  border-radius: 14px;
+  background-color: var(--ios-surface);
   color: var(--ios-text);
   font: inherit;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  color-scheme: light dark;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  backdrop-filter: blur(25px) saturate(180%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238E8E93'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
 }
 
-.language-control select:focus-visible {
+.ios-lang-selector:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--ios-blue) 74%, transparent);
   outline-offset: 3px;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+@media (prefers-color-scheme: dark) {
+  .ios-lang-selector option {
+    background: #1c1c1e;
+    color: #ffffff;
+  }
 }
 
 .profile {
