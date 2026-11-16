@@ -27,6 +27,27 @@
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="preload" href="../perfil-352.jpg" as="image" type="image/jpeg">
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .ios-lang-wrapper { display: flex; justify-content: flex-end; margin-bottom: 12px; position: relative; z-index: 10; }
+    .ios-lang-container { position: relative; display: flex; align-items: center; }
+    .lang-icon-prefix { position: absolute; left: 12px; width: 18px; height: 18px; pointer-events: none; color: var(--ios-blue); }
+    .ios-lang-selector {
+      appearance: none; min-height: 42px; padding: 10px 35px 10px 38px;
+      border: 1px solid var(--ios-separator); border-radius: 14px;
+      background-color: var(--ios-surface); color: var(--ios-text);
+      font: inherit; font-size: 15px; font-weight: 600; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      backdrop-filter: blur(25px) saturate(180%);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238E8E93'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center; background-size: 14px;
+    }
+    .ios-lang-selector:focus-visible { outline: 3px solid color-mix(in srgb, var(--ios-blue) 74%, transparent); outline-offset: 3px; }
+    @media (prefers-color-scheme: dark) {
+      .ios-lang-selector option { background: #1c1c1e; color: #ffffff; }
+    }
+  </style>
   <title>Luiz Passaroni — Links</title>
 
   <script type="application/ld+json">
@@ -57,7 +78,7 @@
   <main class="page-shell">
     <div class="ios-lang-wrapper">
       <div class="ios-lang-container">
-        <svg class="lang-icon-prefix" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.806m10.022 5.806c-.832-2.314-2.122-4.522-3.827-5.806m1.102 11.5l2.29-6m2.29 6l-2.29-6m-6.404 0H9m-6.404 0H3m4.847 0a12.016 12.016 0 003.111-5H5.889a12.016 12.016 0 003.111 5z"/></svg>
+        <svg class="lang-icon-prefix" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.806m10.022 5.806c-.832-2.314-2.122-4.522-3.827-5.806m1.102 11.5l2.29-6m2.29 6l-2.29-6m-6.404 0H9m-6.404 0H3m4.847 0a12.016 12.016 0 003.111-5H5.889a12.016 12.016 0 003.111 5z"/></svg>
         <select id="langSelect" onchange="switchLanguage(this.value)" class="ios-lang-selector" aria-label="Idioma">
           <option value="pt" data-i18n="selector_pt">🇧🇷 Português</option>
           <option value="en" data-i18n="selector_en">🇺🇸 English</option>
