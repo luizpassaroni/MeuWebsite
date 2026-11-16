@@ -1,228 +1,154 @@
-<!DOCTYPE html>
-<html lang="pt">
+<!doctype html>
+<html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Portfólio e redes sociais de Luiz Passaroni, desenvolvedor iOS na Globo.">
+  <meta name="robots" content="index, follow">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Luiz Passaroni">
+  <meta property="og:title" content="Luiz Passaroni — Links">
+  <meta property="og:description" content="Desenvolvedor iOS na Globo. Portfólio e redes sociais.">
+  <meta property="og:url" content="https://luizpassaroni.com/bio/">
+  <meta property="og:image" content="https://luizpassaroni.com/perfil-352.jpg">
+  <meta property="og:image:alt" content="Ilustração de Luiz Passaroni trabalhando em um MacBook">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Luiz Passaroni — Links">
+  <meta name="twitter:description" content="Desenvolvedor iOS na Globo. Portfólio e redes sociais.">
+  <meta name="twitter:image" content="https://luizpassaroni.com/perfil-352.jpg">
+
+  <link rel="canonical" href="https://luizpassaroni.com/bio/">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="preload" href="../perfil-352.jpg" as="image" type="image/jpeg">
+  <link rel="stylesheet" href="styles.css">
   <title>Luiz Passaroni — Links</title>
-  
-  <link rel="icon" type="image/png" href="https://luizpassaroni.com/favicon.png">
 
-  <style>
-    /* Variáveis para Modo Claro (Padrão) */
-    :root {
-      --bg-color: #ffffff;
-      --card-bg: #F2F2F7;
-      --accent-color: #007AFF;
-      --text-main: #000000;
-      --text-sub: #8E8E93;
-      --border-color: #E5E5EA;
-      --card-hover: #E5E5EA;
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Luiz Passaroni",
+      "jobTitle": "iOS Developer",
+      "worksFor": { "@type": "Organization", "name": "Globo" },
+      "url": "https://luizpassaroni.com/",
+      "image": "https://luizpassaroni.com/perfil-352.jpg",
+      "sameAs": [
+        "https://linkedin.com/in/luizpassaroni",
+        "https://github.com/luizpassaroni",
+        "https://www.instagram.com/luizpassaroni/",
+        "https://www.threads.net/@luizpassaroni",
+        "https://bsky.app/profile/luizpassaroni.com",
+        "https://www.tiktok.com/@luizpassaroni",
+        "https://x.com/luizpassaroni",
+        "https://www.facebook.com/luizpassaroni"
+      ]
     }
-
-    /* Variáveis para Modo Escuro */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-color: #000000;
-        --card-bg: #1C1C1E;
-        --accent-color: #0A84FF;
-        --text-main: #FFFFFF;
-        --text-sub: #8E8E93;
-        --border-color: #38383A;
-        --card-hover: #2C2C2E;
-      }
-    }
-
-    body {
-      margin: 0;
-      padding: 40px 20px;
-      background-color: var(--bg-color);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: var(--text-main);
-      transition: background-color 0.3s ease;
-    }
-
-    .profile-header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .profile-img {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid var(--border-color);
-      margin-bottom: 16px;
-    }
-
-    h1 {
-      font-size: 20px;
-      font-weight: 700;
-      margin: 0 0 4px;
-      letter-spacing: -0.5px;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: var(--text-sub);
-      margin: 0;
-    }
-
-    .links-container {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .link-card {
-      display: flex;
-      align-items: center;
-      padding: 14px 16px;
-      background-color: var(--card-bg);
-      border-radius: 16px;
-      text-decoration: none;
-      color: var(--text-main);
-      transition: transform 0.2s ease, background-color 0.2s ease;
-      border: 1px solid transparent;
-    }
-
-    .link-card:hover {
-      background-color: var(--card-hover);
-      transform: scale(1.02);
-    }
-
-    .icon-wrapper {
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 12px;
-    }
-
-    .icon-wrapper img {
-      width: 24px;
-      height: 24px;
-      border-radius: 5px;
-      display: block;
-    }
-
-    /* Correção de contraste para o GitHub */
-    .github-fix {
-      background-color: #ffffff;
-      border-radius: 50% !important;
-      padding: 2px;
-      width: 22px !important;
-      height: 22px !important;
-    }
-
-    .link-text {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-    }
-
-    footer {
-      margin-top: 48px;
-      padding-bottom: 40px;
-      text-align: center;
-    }
-
-    .website-link {
-      color: var(--accent-color);
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 600;
-      padding: 12px 24px;
-      border-radius: 14px;
-      background-color: var(--card-bg);
-      display: inline-block;
-      transition: background-color 0.2s ease;
-    }
-
-    .website-link:hover {
-      background-color: var(--card-hover);
-    }
-  </style>
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#links">Pular para os links</a>
 
-  <header class="profile-header">
-    <img src="https://i.postimg.cc/ZnjHGkBX/perfil.png" alt="Luiz Passaroni" class="profile-img">
-    <h1>Luiz Passaroni</h1>
-    <p class="subtitle">iOS Developer · Globo</p>
-  </header>
-
-  <main class="links-container">
-    
-    <a href="https://linkedin.com/in/luizpassaroni" class="link-card" target="_blank">
-      <div class="icon-wrapper">
-        <img src="https://static.licdn.com/sc/h/akt4ae504epesldzj74dzred8" alt="LinkedIn">
+  <main class="page-shell">
+    <header class="profile" aria-labelledby="profile-name">
+      <div class="avatar-wrap">
+        <img
+          class="avatar"
+          src="../perfil-352.jpg"
+          width="352"
+          height="352"
+          alt="Ilustração de Luiz Passaroni trabalhando em um MacBook"
+          fetchpriority="high"
+          decoding="async"
+        >
+        <span class="status-dot" aria-hidden="true"></span>
       </div>
-      <span class="link-text">LinkedIn</span>
-    </a>
-
-    <a href="https://github.com/luizpassaroni" class="link-card" target="_blank">
-      <div class="icon-wrapper">
-        <img src="https://github.githubassets.com/favicons/favicon.png" alt="GitHub" class="github-fix">
+      <div class="profile-copy">
+        <h1 id="profile-name">Luiz Passaroni</h1>
+        <p class="role">iOS Developer @ Globo</p>
+        <p class="intro">Criando experiências digitais com Swift e SwiftUI.</p>
+        <ul class="skill-tags" aria-label="Tecnologias principais">
+          <li>Swift</li>
+          <li>SwiftUI</li>
+          <li>iOS</li>
+        </ul>
       </div>
-      <span class="link-text">GitHub</span>
-    </a>
+    </header>
 
-    <a href="https://www.instagram.com/luizpassaroni/" class="link-card" target="_blank">
-      <div class="icon-wrapper">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=instagram.com" alt="Instagram">
-      </div>
-      <span class="link-text">Instagram</span>
-    </a>
+    <div id="links" class="link-sections">
+      <section class="link-section" aria-labelledby="professional-title">
+        <h2 id="professional-title">Profissional</h2>
+        <div class="professional-card">
+          <a class="link-card link-card--featured" href="https://luizpassaroni.com/">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.92 6h-3.03a15.7 15.7 0 0 0-1.4-3.17A8.03 8.03 0 0 1 18.92 8ZM12 4c.83 1 1.53 2.35 1.93 4h-3.86C10.47 6.35 11.17 5 12 4ZM4.26 14a8.05 8.05 0 0 1 0-4h3.4a16.5 16.5 0 0 0 0 4h-3.4Zm.82 2h3.03c.32 1.16.8 2.23 1.4 3.17A8.03 8.03 0 0 1 5.08 16Zm3.03-8H5.08a8.03 8.03 0 0 1 4.43-3.17A15.7 15.7 0 0 0 8.11 8ZM12 20c-.83-1-1.53-2.35-1.93-4h3.86C13.53 17.65 12.83 19 12 20Zm2.34-6H9.66a14.5 14.5 0 0 1 0-4h4.68a14.5 14.5 0 0 1 0 4Zm.15 5.17c.6-.94 1.08-2.01 1.4-3.17h3.03a8.03 8.03 0 0 1-4.43 3.17ZM16.34 14a16.5 16.5 0 0 0 0-4h3.4a8.05 8.05 0 0 1 0 4h-3.4Z"/></svg>
+            </span>
+            <span class="link-content">
+              <strong>Meu portfólio</strong>
+              <span>Projetos, experiência e formação</span>
+            </span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
 
-    <a href="https://www.threads.net/@luizpassaroni" class="link-card" target="_blank">
-      <div class="icon-wrapper">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=threads.net" alt="Threads">
-      </div>
-      <span class="link-text">Threads</span>
-    </a>
+          <a class="link-card" href="https://linkedin.com/in/luizpassaroni" target="_blank" rel="noopener noreferrer">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img"><path d="M5.37 3.5A2.19 2.19 0 1 1 5.36 7.9a2.19 2.19 0 0 1 .01-4.39ZM3.48 9.63h3.77V20.5H3.48V9.63Zm5.98 0h3.61v1.49h.05c.5-.95 1.73-1.96 3.56-1.96 3.81 0 4.51 2.51 4.51 5.77v5.57h-3.76v-4.94c0-1.18-.02-2.69-1.64-2.69-1.65 0-1.9 1.28-1.9 2.6v5.03H9.46V9.63Z"/></svg>
+            </span>
+            <span class="link-content"><strong>LinkedIn</strong><span>Experiência profissional</span></span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
 
-    <a href="https://bsky.app/profile/luizpassaroni.com" class="link-card" target="_blank">
-      <div class="icon-wrapper">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=bsky.app" alt="BlueSky">
-      </div>
-      <span class="link-text">BlueSky</span>
-    </a>
+          <a class="link-card" href="https://github.com/luizpassaroni" target="_blank" rel="noopener noreferrer">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img"><path fill-rule="evenodd" d="M12 2C6.48 2 2 6.59 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.05-.02-1.91-2.78.62-3.37-1.21-3.37-1.21-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.66.35-1.12.64-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0 1 12 7.13a9.3 9.3 0 0 1 2.5.35c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49A10.24 10.24 0 0 0 22 12.25C22 6.59 17.52 2 12 2Z" clip-rule="evenodd"/></svg>
+            </span>
+            <span class="link-content"><strong>GitHub</strong><span>Código e projetos open source</span></span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
 
-    <a href="https://www.tiktok.com/@luizpassaroni" class="link-card" target="_blank">
-      <div class="icon-wrapper">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=tiktok.com" alt="TikTok">
-      </div>
-      <span class="link-text">TikTok</span>
-    </a>
+      <section class="link-section" aria-labelledby="social-title">
+        <h2 id="social-title">Redes sociais</h2>
+        <div class="link-grid">
+          <a class="social-card" href="https://www.instagram.com/luizpassaroni/" target="_blank" rel="noopener noreferrer">
+            <span class="social-icon instagram" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.7 2h8.6A5.7 5.7 0 0 1 22 7.7v8.6a5.7 5.7 0 0 1-5.7 5.7H7.7A5.7 5.7 0 0 1 2 16.3V7.7A5.7 5.7 0 0 1 7.7 2Zm-.2 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9ZM17 5.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg></span>
+            <span>Instagram</span><span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="social-card" href="https://www.threads.net/@luizpassaroni" target="_blank" rel="noopener noreferrer">
+            <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.2 2C7 2 3.4 5.7 3.4 11.1c0 5.7 3.4 10.9 9.1 10.9 4 0 7.5-2.4 7.5-6.5 0-2.9-1.6-4.8-4.3-5.5-.3-2.2-1.7-3.4-3.9-3.4-2.1 0-3.7 1.2-4.3 3.1l2.1.6c.3-1 1.1-1.7 2.2-1.7 1 0 1.6.5 1.8 1.3-3.9.3-6 2-6 4.6 0 2.2 1.7 3.9 4.2 3.9 2.4 0 4-1.6 4.1-4.1v-2c1.3.6 1.9 1.6 1.9 3.2 0 2.8-2.4 4.4-5.3 4.4-4.3 0-6.9-4-6.9-8.8C5.6 7 8.1 4 12.2 4c3.3 0 5.4 1.8 6.1 5l2.1-.5C19.6 4.4 16.5 2 12.2 2Zm1.6 10.1v2c0 1.5-.8 2.3-2.1 2.3-1.2 0-2-.7-2-1.8 0-1.5 1.4-2.3 4.1-2.5Z"/></svg></span>
+            <span>Threads</span><span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="social-card" href="https://bsky.app/profile/luizpassaroni.com" target="_blank" rel="noopener noreferrer">
+            <span class="social-icon bluesky" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 10.8C11.1 9 8.7 5.7 6.5 4.1 4.4 2.6 3.6 2.8 3.1 3c-.6.3-.7 1.4-.7 2 0 .6.3 5 1 5.7 2.3 3 5.2 2.4 7 2.1-3.1.5-5.9 1.8-2.3 5.8 3.9 4 5.3-.9 5.9-3.3.6 2.4 1.5 7.1 5.8 3.3 3.2-3 .9-5.3-2.2-5.8 1.8.3 4.7.9 7-2.1.7-.8 1-5.1 1-5.7 0-.6-.1-1.7-.7-2-.5-.2-1.3-.4-3.4 1.1C15.3 5.7 12.9 9 12 10.8Z"/></svg></span>
+            <span>Bluesky</span><span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="social-card" href="https://www.tiktok.com/@luizpassaroni" target="_blank" rel="noopener noreferrer">
+            <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 2h3.2c.2 1.9 1.3 3.1 3.3 3.3v3.2c-1.3 0-2.5-.4-3.5-1.1v7.1a7.1 7.1 0 1 1-7.1-7.1c.4 0 .8 0 1.1.1v3.3a4 4 0 1 0 3 3.8V2Z"/></svg></span>
+            <span>TikTok</span><span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="social-card" href="https://x.com/luizpassaroni" target="_blank" rel="noopener noreferrer">
+            <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18.9 2h3.7l-8.1 9.2L24 22h-7.4l-5.8-7.6L4.1 22H.4l8.7-10L0 2h7.6l5.2 6.9L18.9 2Zm-1.3 18.1h2L6.5 3.8H4.4l13.2 16.3Z"/></svg></span>
+            <span>𝕏</span><span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="social-card" href="https://www.facebook.com/luizpassaroni" target="_blank" rel="noopener noreferrer">
+            <span class="social-icon facebook" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1C0 18.1 4.4 23 10.1 24v-8.4h-3v-3.5h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-1.9.9-1.9 1.9v2.3h3.3l-.5 3.5h-2.8V24c5.7-.9 10.1-5.9 10.1-11.9Z"/></svg></span>
+            <span>Facebook</span><span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+    </div>
 
-    <a href="https://x.com/luizpassaroni" class="link-card" target="_blank">
-      <div class="icon-wrapper">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=x.com" alt="X">
-      </div>
-      <span class="link-text">𝕏</span>
-    </a>
-
-    <a href="https://www.facebook.com/luizpassaroni" class="link-card" target="_blank">
-      <div class="icon-wrapper">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=facebook.com" alt="Facebook">
-      </div>
-      <span class="link-text">Facebook</span>
-    </a>
-
+    <footer>
+      <span>Feito com atenção aos detalhes</span>
+      <span aria-hidden="true">·</span>
+      <a href="https://luizpassaroni.com/">luizpassaroni.com</a>
+    </footer>
   </main>
-
-  <footer>
-    <a href="https://luizpassaroni.com/" class="website-link">
-        Visite luizpassaroni.com
-    </a>
-  </footer>
-
 </body>
 </html>
