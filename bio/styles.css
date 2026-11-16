@@ -260,8 +260,11 @@ h1 {
 
 .icon-box svg,
 .social-icon svg {
+  display: block;
   width: 23px;
   height: 23px;
+  flex: 0 0 23px;
+  overflow: visible;
   fill: currentColor;
 }
 
