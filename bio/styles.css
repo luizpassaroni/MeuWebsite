@@ -91,6 +91,44 @@ a {
   padding-bottom: max(30px, calc(env(safe-area-inset-bottom) + 20px));
 }
 
+
+.language-control {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.language-control select {
+  min-height: 42px;
+  padding: 8px 34px 8px 12px;
+  border: 1px solid var(--ios-separator);
+  border-radius: var(--radius-md);
+  background-color: var(--ios-surface-solid);
+  color: var(--ios-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color-scheme: light dark;
+}
+
+.language-control select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--ios-blue) 74%, transparent);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .profile {
   display: flex;
   flex-direction: column;
